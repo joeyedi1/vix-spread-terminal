@@ -17,8 +17,121 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- 2. CONSTANTS ---
-# Define all spread contracts
+# --- 2. TRANSLATIONS ---
+TRANSLATIONS = {
+    "en": {
+        # Header
+        "page_title": "VIX Spread Terminal",
+        "header_subtitle": "VIX Bullish Call Spread Monitor",
+        "header_title": "Multi-Expiry Terminal",
+        "live_data": "LIVE DATA",
+        
+        # Sidebar
+        "configuration": "Configuration",
+        "language": "Language",
+        "active_spreads": "Active Spreads",
+        "select_expiries": "Select expiries to monitor",
+        "data_settings": "Data Settings",
+        "historical_lookback": "Historical Lookback",
+        "days": "days",
+        "refresh_interval": "Refresh Interval",
+        "auto_refresh": "Auto Refresh",
+        "auto_log": "Auto-log daily to Excel",
+        "daily_log": "Daily Log",
+        "days_logged": "days logged",
+        "no_log_file": "No log file yet",
+        "refresh": "🔄 Refresh",
+        "export": "📥 Export",
+        "reset_log": "🗑️ Reset & Reload Log",
+        "download_log": "Download Log",
+        
+        # Metrics
+        "long_leg": "Long Leg (C20)",
+        "short_leg": "Short Leg (C30)",
+        "net_spread": "Net Spread",
+        "volume": "Vol",
+        
+        # Chart
+        "spread_title": "Spread",
+        "individual_legs": "Individual Legs",
+        "volume_title": "Volume",
+        "mean": "Mean",
+        
+        # Log viewer
+        "view_daily_log": "📁 View Daily Log History",
+        "no_log_exists": "No daily log file exists yet. Enable 'Auto-log daily to Excel' to start recording.",
+        
+        # Errors
+        "select_spread_warning": "Please select at least one spread expiry in the sidebar.",
+        "connection_error": "Connection Error",
+        "error_details": "Error Details",
+        "troubleshooting": "Troubleshooting",
+        "ensure_bloomberg": "Ensure Bloomberg Terminal is running",
+        "check_api": "Check that the API is enabled (WAPI<GO>)",
+        "verify_connection": "Verify localhost:8194 connection",
+        "initializing_log": "Initializing log with historical data from 2026...",
+    },
+    "zh": {
+        # Header
+        "page_title": "VIX价差终端",
+        "header_subtitle": "VIX看涨期权价差监控",
+        "header_title": "多到期日终端",
+        "live_data": "实时数据",
+        
+        # Sidebar
+        "configuration": "配置",
+        "language": "语言",
+        "active_spreads": "活跃价差",
+        "select_expiries": "选择要监控的到期日",
+        "data_settings": "数据设置",
+        "historical_lookback": "历史回溯",
+        "days": "天",
+        "refresh_interval": "刷新间隔",
+        "auto_refresh": "自动刷新",
+        "auto_log": "自动记录到Excel",
+        "daily_log": "每日日志",
+        "days_logged": "天已记录",
+        "no_log_file": "暂无日志文件",
+        "refresh": "🔄 刷新",
+        "export": "📥 导出",
+        "reset_log": "🗑️ 重置并重新加载",
+        "download_log": "下载日志",
+        
+        # Metrics
+        "long_leg": "多头 (C20)",
+        "short_leg": "空头 (C30)",
+        "net_spread": "净价差",
+        "volume": "成交量",
+        
+        # Chart
+        "spread_title": "价差",
+        "individual_legs": "单腿价格",
+        "volume_title": "成交量",
+        "mean": "均值",
+        
+        # Log viewer
+        "view_daily_log": "📁 查看每日日志历史",
+        "no_log_exists": "暂无日志文件。启用'自动记录到Excel'开始记录。",
+        
+        # Errors
+        "select_spread_warning": "请在侧边栏中选择至少一个价差到期日。",
+        "connection_error": "连接错误",
+        "error_details": "错误详情",
+        "troubleshooting": "故障排除",
+        "ensure_bloomberg": "确保彭博终端正在运行",
+        "check_api": "检查API是否已启用 (WAPI<GO>)",
+        "verify_connection": "验证 localhost:8194 连接",
+        "initializing_log": "正在从2026年初始化历史数据日志...",
+    }
+}
+
+# Spread names in both languages
+SPREADS_CONFIG_NAMES = {
+    "en": {"Feb 2026": "Feb 2026", "Mar 2026": "Mar 2026"},
+    "zh": {"Feb 2026": "2026年2月", "Mar 2026": "2026年3月"}
+}
+
+# --- 3. CONSTANTS ---
 SPREADS_CONFIG = {
     "Feb 2026": {
         "expiry": "02/18/26",
@@ -32,25 +145,36 @@ SPREADS_CONFIG = {
     },
 }
 
-# Daily log file path
 DAILY_LOG_PATH = Path("vix_spread_daily_log.xlsx")
 
-# --- 3. PROFESSIONAL DARK THEME ---
+# --- 4. SESSION STATE FOR LANGUAGE ---
+if 'language' not in st.session_state:
+    st.session_state.language = 'zh'  # Default to Chinese
+if 'prev_data' not in st.session_state:
+    st.session_state.prev_data = {}
+if 'hist_data' not in st.session_state:
+    st.session_state.hist_data = {}
+if 'last_log_date' not in st.session_state:
+    st.session_state.last_log_date = None
+if 'log_initialized' not in st.session_state:
+    st.session_state.log_initialized = False
+if 'reset_log' not in st.session_state:
+    st.session_state.reset_log = False
+
+# Helper function to get translation
+def t(key):
+    return TRANSLATIONS[st.session_state.language].get(key, key)
+
+# --- 5. ADAPTIVE CSS (works with Streamlit's theme) ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
     
-    .stApp { 
-        background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
-    }
-    
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
+    /* Custom dashboard elements that adapt to any theme */
     
     .dashboard-header {
-        background: linear-gradient(90deg, rgba(38,166,154,0.1) 0%, rgba(15,20,25,0) 50%);
-        border-bottom: 1px solid rgba(38,166,154,0.3);
+        background: linear-gradient(90deg, rgba(38,166,154,0.12) 0%, transparent 50%);
+        border-bottom: 1px solid rgba(38,166,154,0.25);
         padding: 20px 30px;
         margin: -1rem -1rem 2rem -1rem;
         display: flex;
@@ -58,14 +182,13 @@ st.markdown("""
         align-items: center;
     }
     .header-title {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: 'Plus Jakarta Sans', 'Noto Sans SC', sans-serif;
         font-size: 28px;
         font-weight: 700;
-        color: #ffffff;
         letter-spacing: -0.5px;
     }
     .header-subtitle {
-        font-family: 'JetBrains Mono', monospace;
+        font-family: 'JetBrains Mono', 'Noto Sans SC', monospace;
         font-size: 12px;
         color: #26a69a;
         letter-spacing: 2px;
@@ -75,11 +198,11 @@ st.markdown("""
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(38,166,154,0.15);
-        border: 1px solid rgba(38,166,154,0.4);
+        background: rgba(38,166,154,0.12);
+        border: 1px solid rgba(38,166,154,0.35);
         padding: 8px 16px;
         border-radius: 20px;
-        font-family: 'JetBrains Mono', monospace;
+        font-family: 'JetBrains Mono', 'Noto Sans SC', monospace;
         font-size: 11px;
         color: #26a69a;
     }
@@ -96,8 +219,6 @@ st.markdown("""
     }
     
     .metric-card {
-        background: linear-gradient(145deg, #1e2530 0%, #161b22 100%);
-        border: 1px solid #2d3748;
         border-radius: 12px;
         padding: 24px;
         position: relative;
@@ -105,39 +226,22 @@ st.markdown("""
         transition: all 0.3s ease;
     }
     .metric-card:hover {
-        border-color: #3d4a5c;
         transform: translateY(-2px);
-    }
-    .metric-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, transparent, #3d4a5c, transparent);
-    }
-    .metric-card.positive::before {
-        background: linear-gradient(90deg, transparent, #26a69a, transparent);
-    }
-    .metric-card.negative::before {
-        background: linear-gradient(90deg, transparent, #ef5350, transparent);
     }
     
     .metric-label {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: 'Plus Jakarta Sans', 'Noto Sans SC', sans-serif;
         font-size: 11px;
         font-weight: 600;
-        color: #6b7a90;
         letter-spacing: 1.5px;
         text-transform: uppercase;
         margin-bottom: 8px;
+        opacity: 0.7;
     }
     .metric-value {
         font-family: 'JetBrains Mono', monospace;
         font-size: 36px;
         font-weight: 700;
-        color: #ffffff;
         line-height: 1;
     }
     .metric-delta {
@@ -153,88 +257,42 @@ st.markdown("""
     }
     .delta-positive {
         color: #26a69a;
-        background: rgba(38,166,154,0.1);
+        background: rgba(38,166,154,0.15);
     }
     .delta-negative {
         color: #ef5350;
-        background: rgba(239,83,80,0.1);
+        background: rgba(239,83,80,0.15);
     }
     
     .volume-text {
-        font-family: 'JetBrains Mono', monospace;
+        font-family: 'JetBrains Mono', 'Noto Sans SC', monospace;
         font-size: 12px;
-        color: #6b7a90;
         margin-top: 8px;
-    }
-    
-    .spread-card {
-        background: linear-gradient(145deg, #1e2530 0%, #161b22 100%);
-        border: 1px solid #2d3748;
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 16px;
-    }
-    .spread-header {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        color: #26a69a;
-        margin-bottom: 12px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #2d3748;
+        opacity: 0.7;
     }
     
     .log-status {
-        font-family: 'JetBrains Mono', monospace;
+        font-family: 'JetBrains Mono', 'Noto Sans SC', monospace;
         font-size: 11px;
         padding: 8px 12px;
         border-radius: 6px;
         margin-top: 10px;
     }
     .log-success {
-        background: rgba(38,166,154,0.1);
+        background: rgba(38,166,154,0.12);
         color: #26a69a;
-        border: 1px solid rgba(38,166,154,0.3);
+        border: 1px solid rgba(38,166,154,0.25);
     }
     .log-info {
-        background: rgba(66,165,245,0.1);
+        background: rgba(66,165,245,0.12);
         color: #42a5f5;
-        border: 1px solid rgba(66,165,245,0.3);
-    }
-    
-    hr {
-        border-color: #2d3748 !important;
-        margin: 24px 0 !important;
-    }
-    
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #161b22 0%, #0f1419 100%);
-        border-right: 1px solid #2d3748;
-    }
-    
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: #1e2530; }
-    ::-webkit-scrollbar-thumb { background: #3d4a5c; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #4d5a6c; }
-    
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        background-color: #1e2530;
-        border-radius: 8px;
-        color: #aeb9cc;
-        padding: 10px 20px;
-    }
-    .stTabs [aria-selected="true"] {
-        background-color: #26a69a !important;
-        color: #ffffff !important;
+        border: 1px solid rgba(66,165,245,0.25);
     }
 </style>
 """, unsafe_allow_html=True)
 
 
-# --- 4. BLOOMBERG ENGINE ---
+# --- 6. BLOOMBERG ENGINE ---
 class BloombergEngine:
     """Bloomberg API wrapper with volume support."""
     
@@ -261,12 +319,10 @@ class BloombergEngine:
         for ticker in tickers:
             request.append("securities", ticker)
         
-        # Price fields
         request.append("fields", "PX_LAST")
         request.append("fields", "PX_OPEN")
         request.append("fields", "PX_HIGH")
         request.append("fields", "PX_LOW")
-        # Volume fields
         request.append("fields", "VOLUME")
         request.append("fields", "PX_VOLUME")
         request.append("fields", "OPEN_INT")
@@ -290,7 +346,6 @@ class BloombergEngine:
                             if item.hasElement("fieldData"):
                                 fd = item.getElement("fieldData")
                                 
-                                # Get volume - try multiple field names
                                 volume = None
                                 for vol_field in ["VOLUME", "PX_VOLUME"]:
                                     if fd.hasElement(vol_field):
@@ -373,27 +428,21 @@ class BloombergEngine:
             self.session.stop()
 
 
-# --- 5. DAILY LOGGING FUNCTIONS ---
+# --- 7. LOGGING FUNCTIONS ---
 def initialize_log_with_history(engine, spreads_config: dict, log_path: Path) -> bool:
-    """
-    Initialize the Excel log with historical data from 2026-01-01 to today.
-    Only runs if log file doesn't exist or is empty.
-    """
-    start_date = "20260101"  # Start of 2026
+    """Initialize the Excel log with historical data from 2026-01-01 to today."""
+    start_date = "20260101"
     
     try:
-        # Collect all tickers
         all_tickers = []
         for spread_name, config in spreads_config.items():
             all_tickers.extend([config["long"], config["short"]])
         
-        # Fetch historical data
         raw_hist = engine.get_history(all_tickers, start_date)
         
         if raw_hist.empty:
             return False
         
-        # Process data by date
         dates = raw_hist["Date"].unique()
         rows = []
         
@@ -401,7 +450,7 @@ def initialize_log_with_history(engine, spreads_config: dict, log_path: Path) ->
             date_data = raw_hist[raw_hist["Date"] == date]
             row = {
                 "Date": date.strftime("%Y-%m-%d"),
-                "Timestamp": f"{date.strftime('%Y-%m-%d')} 16:00:00"  # End of trading day
+                "Timestamp": f"{date.strftime('%Y-%m-%d')} 16:00:00"
             }
             
             for spread_name, config in spreads_config.items():
@@ -434,14 +483,10 @@ def initialize_log_with_history(engine, spreads_config: dict, log_path: Path) ->
 
 
 def log_daily_data(spreads_data: dict, log_path: Path) -> bool:
-    """
-    Log today's spread data to Excel file.
-    Creates new file if doesn't exist, appends if it does.
-    """
+    """Log today's spread data to Excel file."""
     today = datetime.date.today()
     today_str = today.strftime("%Y-%m-%d")
     
-    # Prepare row data
     row_data = {"Date": today_str, "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
     
     for spread_name, data in spreads_data.items():
@@ -458,9 +503,7 @@ def log_daily_data(spreads_data: dict, log_path: Path) -> bool:
     try:
         if log_path.exists():
             existing_df = pd.read_excel(log_path, engine='openpyxl')
-            # Check if today already logged
             if today_str in existing_df["Date"].values:
-                # Update today's row
                 existing_df = existing_df[existing_df["Date"] != today_str]
             combined_df = pd.concat([existing_df, new_row], ignore_index=True)
         else:
@@ -490,8 +533,8 @@ def get_log_summary(log_path: Path) -> dict:
         return {"exists": False, "rows": 0, "first_date": None, "last_date": None}
 
 
-# --- 6. HELPER FUNCTIONS ---
-def create_spread_chart(df: pd.DataFrame, spread_name: str) -> go.Figure:
+# --- 8. CHART FUNCTION ---
+def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str) -> go.Figure:
     """Create spread chart with volume subplot."""
     
     if not isinstance(df.index, pd.DatetimeIndex):
@@ -499,13 +542,21 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str) -> go.Figure:
     
     has_volume = "Volume" in df.columns and df["Volume"].notna().any()
     
+    # Get translated labels
+    spread_label = TRANSLATIONS[lang]["spread_title"]
+    legs_label = TRANSLATIONS[lang]["individual_legs"]
+    volume_label = TRANSLATIONS[lang]["volume_title"]
+    mean_label = TRANSLATIONS[lang]["mean"]
+    
+    display_name = SPREADS_CONFIG_NAMES[lang].get(spread_name, spread_name)
+    
     if has_volume:
         fig = make_subplots(
             rows=3, cols=1,
             row_heights=[0.5, 0.25, 0.25],
             shared_xaxes=True,
             vertical_spacing=0.08,
-            subplot_titles=(f"{spread_name} Spread", "Individual Legs", "Volume")
+            subplot_titles=(f"{display_name} {spread_label}", legs_label, volume_label)
         )
     else:
         fig = make_subplots(
@@ -513,26 +564,26 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str) -> go.Figure:
             row_heights=[0.6, 0.4],
             shared_xaxes=True,
             vertical_spacing=0.1,
-            subplot_titles=(f"{spread_name} Spread", "Individual Legs")
+            subplot_titles=(f"{display_name} {spread_label}", legs_label)
         )
     
     # Spread line
     fig.add_trace(
         go.Scatter(
             x=df.index, y=df["Spread"],
-            mode='lines', name='Spread',
+            mode='lines', name=spread_label,
             line=dict(color='#26a69a', width=2.5),
             fill='tozeroy',
             fillcolor='rgba(38,166,154,0.15)',
-            hovertemplate='<b>Spread</b>: %{y:.2f}<extra></extra>'
+            hovertemplate=f'<b>{spread_label}</b>: %{{y:.2f}}<extra></extra>'
         ),
         row=1, col=1
     )
     
     # Mean line
     mean_spread = df["Spread"].mean()
-    fig.add_hline(y=mean_spread, line_dash="dash", line_color="#6b7a90",
-                  annotation_text=f"Mean: {mean_spread:.2f}", row=1, col=1)
+    fig.add_hline(y=mean_spread, line_dash="dash", line_color="#9e9e9e",
+                  annotation_text=f"{mean_label}: {mean_spread:.2f}", row=1, col=1)
     
     # Individual legs
     if "Long" in df.columns:
@@ -551,16 +602,17 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str) -> go.Figure:
     # Volume bars
     if has_volume:
         fig.add_trace(
-            go.Bar(x=df.index, y=df["Volume"], name='Volume',
+            go.Bar(x=df.index, y=df["Volume"], name=volume_label,
                   marker_color='rgba(38,166,154,0.5)'),
             row=3, col=1
         )
     
+    # Use transparent backgrounds
     fig.update_layout(
         height=550 if has_volume else 450,
-        plot_bgcolor='rgb(30, 37, 48)',
-        paper_bgcolor='rgb(30, 37, 48)',
-        font=dict(family="monospace", color='#aeb9cc', size=11),
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        font=dict(family="JetBrains Mono, Noto Sans SC, monospace", size=11),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1,
                    bgcolor='rgba(0,0,0,0)'),
         margin=dict(l=60, r=30, t=80, b=50),
@@ -568,74 +620,81 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str) -> go.Figure:
         showlegend=True
     )
     
-    fig.update_xaxes(gridcolor='rgba(45,55,72,0.8)', showgrid=True)
-    fig.update_yaxes(gridcolor='rgba(45,55,72,0.8)', showgrid=True)
+    fig.update_xaxes(gridcolor='rgba(128,128,128,0.2)', showgrid=True, zeroline=False)
+    fig.update_yaxes(gridcolor='rgba(128,128,128,0.2)', showgrid=True, zeroline=False)
     
     return fig
 
 
-# --- 7. SESSION STATE ---
-if 'prev_data' not in st.session_state:
-    st.session_state.prev_data = {}
-if 'hist_data' not in st.session_state:
-    st.session_state.hist_data = {}
-if 'last_log_date' not in st.session_state:
-    st.session_state.last_log_date = None
-if 'log_initialized' not in st.session_state:
-    st.session_state.log_initialized = False
-if 'reset_log' not in st.session_state:
-    st.session_state.reset_log = False
-
-
-# --- 8. SIDEBAR ---
+# --- 9. SIDEBAR ---
 with st.sidebar:
-    st.markdown("## ⚙️ Configuration")
+    st.markdown(f"## ⚙️ {t('configuration')}")
     st.markdown("---")
     
-    st.markdown("### Active Spreads")
-    active_spreads = st.multiselect(
-        "Select expiries to monitor",
-        options=list(SPREADS_CONFIG.keys()),
-        default=list(SPREADS_CONFIG.keys()),
-        help="Choose which expiry months to track"
+    # Language toggle
+    st.markdown(f"**{t('language')}**")
+    if st.session_state.language == 'en':
+        if st.button("中文", key='lang_toggle'):
+            st.session_state.language = 'zh'
+            st.rerun()
+    else:
+        if st.button("English", key='lang_toggle'):
+            st.session_state.language = 'en'
+            st.rerun()
+    
+    st.markdown("---")
+    st.markdown(f"### {t('active_spreads')}")
+    
+    # Display spread options in current language
+    spread_options = list(SPREADS_CONFIG.keys())
+    spread_display = [SPREADS_CONFIG_NAMES[st.session_state.language][s] for s in spread_options]
+    
+    active_spreads_display = st.multiselect(
+        t('select_expiries'),
+        options=spread_display,
+        default=spread_display,
+        help=t('select_expiries')
     )
     
+    # Map back to internal names
+    display_to_internal = {v: k for k, v in SPREADS_CONFIG_NAMES[st.session_state.language].items()}
+    active_spreads = [display_to_internal[d] for d in active_spreads_display]
+    
     st.markdown("---")
-    st.markdown("### Data Settings")
+    st.markdown(f"### {t('data_settings')}")
     
     lookback_days = st.selectbox(
-        "Historical Lookback",
+        t('historical_lookback'),
         options=[30, 60, 90, 180, 365],
         index=2,
-        format_func=lambda x: f"{x} days"
+        format_func=lambda x: f"{x} {t('days')}"
     )
     
     refresh_interval = st.selectbox(
-        "Refresh Interval",
+        t('refresh_interval'),
         options=[30, 60, 120, 300],
         index=1,
         format_func=lambda x: f"{x}s" if x < 60 else f"{x//60} min"
     )
     
-    auto_refresh = st.checkbox("Auto Refresh", value=True)
-    auto_log = st.checkbox("Auto-log daily to Excel", value=True, 
-                          help="Automatically save today's data to Excel")
+    auto_refresh = st.checkbox(t('auto_refresh'), value=True)
+    auto_log = st.checkbox(t('auto_log'), value=True)
     
     st.markdown("---")
-    st.markdown("### Daily Log")
+    st.markdown(f"### {t('daily_log')}")
     
     log_summary = get_log_summary(DAILY_LOG_PATH)
     if log_summary["exists"]:
         st.markdown(f"""
         <div class="log-status log-success">
-            📁 {log_summary['rows']} days logged<br>
+            📁 {log_summary['rows']} {t('days_logged')}<br>
             {log_summary['first_date']} → {log_summary['last_date']}
         </div>
         """, unsafe_allow_html=True)
     else:
-        st.markdown("""
+        st.markdown(f"""
         <div class="log-status log-info">
-            📁 No log file yet
+            📁 {t('no_log_file')}
         </div>
         """, unsafe_allow_html=True)
     
@@ -643,46 +702,45 @@ with st.sidebar:
     
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("🔄 Refresh", width='stretch'):
+        if st.button(t('refresh'), width='stretch'):
             st.session_state.hist_data = {}
             st.rerun()
     with col2:
-        if st.button("📥 Export", width='stretch'):
+        if st.button(t('export'), width='stretch'):
             if DAILY_LOG_PATH.exists():
                 with open(DAILY_LOG_PATH, "rb") as f:
                     st.download_button(
-                        "Download Log",
+                        t('download_log'),
                         f.read(),
                         "vix_spread_daily_log.xlsx",
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         width='stretch'
                     )
     
-    # Reset log button
-    if st.button("🗑️ Reset & Reload Log from 2026", width='stretch'):
+    if st.button(t('reset_log'), width='stretch'):
         if DAILY_LOG_PATH.exists():
-            DAILY_LOG_PATH.unlink()  # Delete existing file
+            DAILY_LOG_PATH.unlink()
         st.session_state.log_initialized = False
         st.session_state.last_log_date = None
         st.rerun()
 
 
-# --- 9. MAIN DASHBOARD ---
-st.markdown("""
+# --- 10. MAIN DASHBOARD ---
+st.markdown(f"""
 <div class="dashboard-header">
     <div>
-        <div class="header-subtitle">VIX Bullish Call Spread Monitor</div>
-        <div class="header-title">Multi-Expiry Terminal</div>
+        <div class="header-subtitle">{t('header_subtitle')}</div>
+        <div class="header-title">{t('header_title')}</div>
     </div>
     <div class="live-badge">
         <div class="live-dot"></div>
-        LIVE DATA
+        {t('live_data')}
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 if not active_spreads:
-    st.warning("Please select at least one spread expiry in the sidebar.")
+    st.warning(t('select_spread_warning'))
     st.stop()
 
 try:
@@ -724,7 +782,7 @@ try:
     
     # Initialize log with historical data if it doesn't exist
     if auto_log and not DAILY_LOG_PATH.exists():
-        with st.spinner("Initializing log with historical data from 2026..."):
+        with st.spinner(t('initializing_log')):
             initialize_log_with_history(engine, SPREADS_CONFIG, DAILY_LOG_PATH)
     
     # Auto-log today's data if enabled
@@ -734,7 +792,8 @@ try:
             st.session_state.last_log_date = today
     
     # --- DISPLAY SPREADS ---
-    tabs = st.tabs(active_spreads)
+    tab_names = [SPREADS_CONFIG_NAMES[st.session_state.language][s] for s in active_spreads]
+    tabs = st.tabs(tab_names)
     
     for tab, spread_name in zip(tabs, active_spreads):
         with tab:
@@ -755,20 +814,18 @@ try:
                 sign = "+" if delta > 0 else ""
                 arrow = "▲" if delta > 0 else "▼" if delta < 0 else ""
                 
-                # Build HTML string
                 html_parts = [
                     '<div class="metric-card">',
                     f'<div class="metric-label">{label}</div>',
                     f'<div class="metric-value">{value:.2f}</div>',
                 ]
                 
-                # Add delta only if non-zero
                 if abs(delta) >= 0.001:
                     html_parts.append(f'<div class="metric-delta delta-{delta_class}">{arrow} {sign}{delta:.2f}</div>')
                 
-                # Add volume
                 if volume is not None:
-                    html_parts.append(f'<div class="volume-text">Vol: {int(volume):,}</div>')
+                    vol_label = t('volume')
+                    html_parts.append(f'<div class="volume-text">{vol_label}: {int(volume):,}</div>')
                 elif show_volume_space:
                     html_parts.append('<div class="volume-text">&nbsp;</div>')
                 
@@ -776,9 +833,9 @@ try:
                 
                 col.markdown("".join(html_parts), unsafe_allow_html=True)
             
-            render_metric(c1, "Long Leg (C20)", data["long_price"], delta_long, data["long_volume"])
-            render_metric(c2, "Short Leg (C30)", data["short_price"], delta_short, data["short_volume"])
-            render_metric(c3, "Net Spread", data["spread"], delta_spread)
+            render_metric(c1, t('long_leg'), data["long_price"], delta_long, data["long_volume"])
+            render_metric(c2, t('short_leg'), data["short_price"], delta_short, data["short_volume"])
+            render_metric(c3, t('net_spread'), data["spread"], delta_spread)
             
             # Load historical data
             if spread_name not in st.session_state.hist_data:
@@ -786,12 +843,10 @@ try:
                 raw_hist = engine.get_history([config["long"], config["short"]], start_date)
                 
                 if not raw_hist.empty:
-                    # Pivot for prices
                     price_pivot = raw_hist.pivot(index="Date", columns="Ticker", values="Price").ffill().bfill()
                     rename_map = {config["long"]: "Long", config["short"]: "Short"}
                     price_pivot = price_pivot.rename(columns=rename_map)
                     
-                    # Pivot for volume
                     if "Volume" in raw_hist.columns:
                         vol_pivot = raw_hist.pivot(index="Date", columns="Ticker", values="Volume").ffill()
                         vol_pivot = vol_pivot.rename(columns=rename_map)
@@ -805,8 +860,8 @@ try:
             hist_df = st.session_state.hist_data.get(spread_name, pd.DataFrame())
             st.markdown("---")
             if not hist_df.empty:
-                fig = create_spread_chart(hist_df, spread_name)
-                st.plotly_chart(fig, width='stretch')
+                fig = create_spread_chart(hist_df, spread_name, st.session_state.language)
+                st.plotly_chart(fig, width='stretch', theme="streamlit")
     
     # Update previous data
     st.session_state.prev_data = {name: {
@@ -817,27 +872,26 @@ try:
     
     # --- DAILY LOG VIEWER ---
     st.markdown("---")
-    with st.expander("📁 View Daily Log History", expanded=False):
+    with st.expander(t('view_daily_log'), expanded=False):
         if DAILY_LOG_PATH.exists():
             log_df = pd.read_excel(DAILY_LOG_PATH, engine='openpyxl')
             log_df = log_df.sort_values("Date", ascending=False)
             st.dataframe(log_df, width='stretch', height=400)
         else:
-            st.info("No daily log file exists yet. Enable 'Auto-log daily to Excel' to start recording.")
+            st.info(t('no_log_exists'))
     
     engine.close()
 
 except Exception as e:
     st.error(f"""
-    ### Connection Error
-    Unable to connect to Bloomberg Terminal.
+    ### {t('connection_error')}
     
-    **Error Details:** `{str(e)}`
+    **{t('error_details')}:** `{str(e)}`
     
-    **Troubleshooting:**
-    1. Ensure Bloomberg Terminal is running
-    2. Check that the API is enabled (WAPI<GO>)
-    3. Verify localhost:8194 connection
+    **{t('troubleshooting')}:**
+    1. {t('ensure_bloomberg')}
+    2. {t('check_api')}
+    3. {t('verify_connection')}
     """)
 
 # Auto refresh
