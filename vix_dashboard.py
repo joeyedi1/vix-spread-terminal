@@ -224,9 +224,14 @@ st.markdown("""
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
+        border: 1px solid rgba(128, 128, 128, 0.25);
+        background: rgba(128, 128, 128, 0.06);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
     .metric-card:hover {
         transform: translateY(-2px);
+        border-color: rgba(38, 166, 154, 0.4);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     }
     
     .metric-label {
