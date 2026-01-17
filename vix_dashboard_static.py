@@ -63,6 +63,11 @@ TRANSLATIONS = {
         "breakeven": "Breakeven",
         "chart_x": "VIX Spot Price at Expiration",
         "chart_y": "Profit / Loss",
+        "dist_title": "Price Distribution (90 Days)",
+        "freq": "Frequency",
+        "now": "Now",
+        "avg": "Avg",
+        "be_abbr": "BE",
     },
     "zh": {
         "page_title": "VIX价差终端",
@@ -103,6 +108,11 @@ TRANSLATIONS = {
         "breakeven": "保本点",
         "chart_x": "到期时 VIX 现货价格",
         "chart_y": "利润 / 损失",
+        "dist_title": "价格分布 (90天)",
+        "freq": "频率 (天数)",
+        "now": "现价",
+        "avg": "均值",
+        "be_abbr": "保本",
     }
 }
 
@@ -363,8 +373,44 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str):
     
     return fig
 
+# HISTOGRAM FUNCTION ---
+def create_distribution_chart(df, prefix, current_val, lang):
+    spread_data = df[f"{prefix}_Spread"].dropna()
+    mean_val = spread_data.mean()
+    
+    fig = go.Figure()
+    fig.add_trace(go.Histogram(
+        x=spread_data, name='History', nbinsx=25,
+        marker_color='rgba(128, 128, 128, 0.3)', marker_line_color='rgba(128, 128, 128, 0.5)', marker_line_width=1
+    ))
+    
+    # Current Price Line
+    fig.add_vline(x=current_val, line_width=3, line_color="#26a69a" if current_val < mean_val else "#ef5350")
+    
+    # Mean Line
+    fig.add_vline(x=mean_val, line_dash="dash", line_width=1, line_color="#ffa726")
+    avg_text = TRANSLATIONS[lang]["avg"]
+    fig.add_annotation(x=mean_val, y=1.02, yref="paper", text=f"{avg_text}: {mean_val:.2f}", showarrow=False, font=dict(color="#ffa726", size=10))
+
+    now_text = TRANSLATIONS[lang]["now"]
+    fig.add_annotation(x=current_val, y=0.9, yref="paper", text=f"{now_text}: {current_val:.2f}", showarrow=True, arrowhead=2, ax=0, ay=-20, font=dict(color="#ffffff", size=12), bgcolor="rgba(0,0,0,0.6)")
+
+    fig.update_layout(
+        # CHANGED: Removed title (we will add it in Streamlit for better alignment)
+        # CHANGED: Increased height from 300 to 380 to match right column
+        height=380, 
+        margin=dict(l=20, r=20, t=20, b=20), # Reduced top margin since title is gone
+        plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', 
+        font=dict(family="JetBrains Mono, monospace", size=11), 
+        xaxis_title=TRANSLATIONS[lang]["spread_title"], 
+        yaxis_title=TRANSLATIONS[lang]["freq"], 
+        showlegend=False, bargap=0.05
+    )
+    fig.update_xaxes(gridcolor='rgba(128,128,128,0.2)')
+    fig.update_yaxes(gridcolor='rgba(128,128,128,0.2)')
+    return fig
+
 # --- NEW: PAYOFF CALCULATOR CHART ---
-# [REPLACE YOUR create_payoff_chart FUNCTION WITH THIS]
 def create_payoff_chart(entry_price, lang):
     # Hardcoded strikes based on your tickers (C20 / C30)
     K1 = 20
@@ -408,8 +454,9 @@ def create_payoff_chart(entry_price, lang):
     t_y = TRANSLATIONS[lang]["chart_y"]
     
     # Annotations
+    be_text = TRANSLATIONS[lang]["be_abbr"]
     fig.add_vline(x=breakeven, line_dash="dash", line_color="#ffa726", 
-                  annotation_text=f"BE: {breakeven:.2f}", annotation_position="top left")
+                  annotation_text=f"{be_text}: {breakeven:.2f}", annotation_position="top left")
 
     fig.update_layout(
         # Use the translated variables here
@@ -583,7 +630,7 @@ for tab, spread_name in zip(tabs, active_spreads):
         st.markdown(f"""
         <div style="text-align: left; margin-top: 8px; margin-bottom: 2px;">
             <span class="volume-text">
-                {t('valuation_title')}: <b>{status}</b> (Z: {z_score:.1f} | {int(percentile)}%)
+                {t('valuation_title')}: <b>{status}</b> (Z-score: {z_score:.1f}σ | Percentile: {int(percentile)}%)
             </span>
         </div>
         """, unsafe_allow_html=True)
@@ -596,39 +643,48 @@ for tab, spread_name in zip(tabs, active_spreads):
         # --- FIX IS HERE: ADDED UNIQUE KEY ---
         st.plotly_chart(fig, width='stretch', theme="streamlit", key=f"main_chart_{prefix}")
 
-        # 5. PAYOFF CALCULATOR
-        with st.expander(f"🧮 {t('calc_title')}"):
-            calc_c1, calc_c2 = st.columns([1, 3])
+
+        # --- ANALYTICS SECTION ---
+        with st.expander(f"📊 {t('valuation_title')} & {t('calc_title')}"):
+            col_hist, col_calc = st.columns(2)
             
-            with calc_c1:
-                st.markdown(f"**{t('inputs')}**")
-                sim_entry = st.number_input(
-                    t('entry_price'), 
-                    min_value=0.0, 
-                    max_value=10.0, 
-                    value=float(cur_spread), 
-                    step=0.05,
-                    format="%.2f",
-                    key=f"sim_{prefix}"
-                )
+            # --- LEFT COLUMN: HISTOGRAM ---
+            with col_hist:
+                # [NEW] Add header here to match the right side alignment
+                st.markdown(f"**{t('dist_title')}**")
                 
+                hist_fig = create_distribution_chart(df_chart, prefix, cur_spread, st.session_state.language)
+                st.plotly_chart(hist_fig, use_container_width=True, key=f"hist_{prefix}")
+
+            # --- RIGHT COLUMN: CALCULATOR ---
+            with col_calc:
+                st.markdown(f"**{t('calc_title')}**")
+                
+                # Inputs
+                c_in1, c_in2 = st.columns([1, 1])
+                with c_in1:
+                    sim_entry = st.number_input(
+                        t('entry_price'), 
+                        min_value=0.0, max_value=10.0, 
+                        value=float(cur_spread), step=0.05, format="%.2f", 
+                        key=f"sim_{prefix}"
+                    )
+                
+                # Math
                 spread_width = 10.0
                 max_profit = spread_width - sim_entry
                 max_loss = sim_entry
                 rr_ratio = max_profit / max_loss if max_loss > 0 else 0
-                
-                st.markdown("---")
-                st.markdown(f"**{t('stats')}**")
-                st.caption(f"{t('max_profit')}: **{max_profit:.2f}**")
-                st.caption(f"{t('max_risk')}: **{max_loss:.2f}**")
-                st.caption(f"{t('rr_ratio')}: **1 : {rr_ratio:.1f}**")
-                st.caption(f"{t('breakeven')}: **{20 + sim_entry:.2f}**")
+                breakeven = 20 + sim_entry
 
-            with calc_c2:
-                # Pass language to chart
-                payoff_fig = create_payoff_chart(sim_entry, st.session_state.language)
+                # Stats display
+                st.caption(f"{t('max_profit')}: **{max_profit:.2f}** | {t('max_risk')}: **{max_loss:.2f}**")
+                st.caption(f"{t('rr_ratio')}: **1 : {rr_ratio:.1f}** | {t('breakeven')}: **{breakeven:.2f}**")
                 
-                st.plotly_chart(payoff_fig, use_container_width=True, key=f"payoff_chart_{prefix}")
+                # Payoff Chart
+                payoff_fig = create_payoff_chart(sim_entry, st.session_state.language)
+                payoff_fig.update_layout(height=220, margin=dict(t=30, b=20))
+                st.plotly_chart(payoff_fig, use_container_width=True, key=f"payoff_{prefix}")
 
 # --- DATA TABLE ---
 st.markdown("---")
