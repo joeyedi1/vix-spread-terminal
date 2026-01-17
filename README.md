@@ -136,11 +136,23 @@ START_DATE = "20250101"  # Format: YYYYMMDD
 - **Long Leg (C20)**: Current price, daily change, volume
 - **Short Leg (C30)**: Current price, daily change, volume
 - **Net Spread**: Current spread value and daily change
+- **Valuation Status**: Real-time pricing assessment (CHEAP/FAIR/RICH) based on statistical analysis
 
 ### Interactive Charts
 - **Spread Chart**: Net spread over time with mean reference
 - **Individual Legs**: Long and short leg prices on dual-axis chart
 - **Volume Chart**: Combined volume analysis for both legs
+
+### Statistical Analysis & Risk/Reward Tools
+- **Statistical Valuation**: Z-score and percentile-based pricing assessment
+  - Shows if spread is overvalued, fair, or undervalued
+  - Includes z-score (standard deviations from mean) and percentile metrics
+- **Price Distribution Chart**: 90-day historical price distribution with current position marked
+- **Payoff Calculator**: Interactive risk/reward analysis at expiration
+  - Customizable entry price input
+  - Calculates max profit, max risk, and R/R ratio
+  - Shows breakeven point
+  - Payoff diagram visualizing profit/loss across spot prices
 
 ### Data Table
 - Expandable view of raw CSV data
@@ -183,6 +195,9 @@ Switch between English and Chinese in the sidebar:
 - **Market Hours**: Data availability depends on Bloomberg Terminal access and market hours
 - **Data Latency**: Dashboard reads from CSV; re-run fetcher for latest data
 - **Static Mode**: Current version (`vix_dashboard_static.py`) reads from CSV; not direct live Bloomberg feed
+- **Valuation Metrics**: Z-score and percentile calculations based on historical spread data
+- **Payoff Analysis**: Risk/reward calculations assume European-style exercise at expiration
+- **Price Distribution**: 90-day lookback window used for distribution charting
 
 ## 🤝 Contributing
 
