@@ -49,6 +49,20 @@ TRANSLATIONS = {
         "view_daily_log": "📁 View Data Source",
         "no_file": "❌ 'vix_spread_data.csv' not found. Run 'vix_data_fetcher.py' first.",
         "select_spread_warning": "Please select at least one spread expiry in the sidebar.",
+        "cheap": "CHEAP",
+        "expensive": "RICH",
+        "fair": "FAIR",
+        "valuation_title": "Statistical Value",
+        "calc_title": "Calculator: Risk/Reward at Expiration",
+        "inputs": "Inputs",
+        "entry_price": "Entry Price (Debit)",
+        "stats": "Stats",
+        "max_profit": "Max Profit",
+        "max_risk": "Max Risk",
+        "rr_ratio": "R/R Ratio",
+        "breakeven": "Breakeven",
+        "chart_x": "VIX Spot Price at Expiration",
+        "chart_y": "Profit / Loss",
     },
     "zh": {
         "page_title": "VIX价差终端",
@@ -75,6 +89,20 @@ TRANSLATIONS = {
         "view_daily_log": "📁 查看源数据",
         "no_file": "❌ 未找到 'vix_spread_data.csv'。请先运行 'vix_data_fetcher.py'。",
         "select_spread_warning": "请在侧边栏中选择至少一个价差到期日。",
+        "cheap": "低估",
+        "expensive": "高估",
+        "fair": "合理",
+        "valuation_title": "统计估值",
+        "calc_title": "计算器：到期风险/回报",
+        "inputs": "输入参数",
+        "entry_price": "入场价格 (借方)",
+        "stats": "统计数据",
+        "max_profit": "最大利润",
+        "max_risk": "最大风险",
+        "rr_ratio": "盈亏比",
+        "breakeven": "保本点",
+        "chart_x": "到期时 VIX 现货价格",
+        "chart_y": "利润 / 损失",
     }
 }
 
@@ -86,6 +114,7 @@ def t(key):
     return TRANSLATIONS[st.session_state.language].get(key, key)
 
 # --- 5. ADAPTIVE CSS (Identical to original) ---
+# --- 5. ADAPTIVE CSS ---
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
@@ -139,6 +168,7 @@ st.markdown("""
         border: 1px solid rgba(128, 128, 128, 0.25);
         background: rgba(128, 128, 128, 0.06);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        height: 100%; /* Keeps cards aligned */
     }
     .metric-card:hover {
         transform: translateY(-2px);
@@ -181,6 +211,20 @@ st.markdown("""
         margin-top: 8px;
         opacity: 0.7;
     }
+
+    /* --- NEW CSS FOR VALUATION TAGS --- */
+    .val-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        margin-top: 12px;
+        display: inline-block;
+        font-weight: 600;
+    }
+    .val-cheap { background: rgba(38,166,154,0.2); color: #26a69a; border: 1px solid rgba(38,166,154,0.4); }
+    .val-expensive { background: rgba(239,83,80,0.2); color: #ef5350; border: 1px solid rgba(239,83,80,0.4); }
+    .val-fair { background: rgba(158,158,158,0.2); color: #bdbdbd; border: 1px solid rgba(158,158,158,0.4); }
 </style>
 """, unsafe_allow_html=True)
 
@@ -207,8 +251,24 @@ def load_data(csv_path):
         st.error(f"Error loading data: {e}")
         return None
 
+# --- NEW ANALYTICS HELPER ---
+def calculate_valuation(series: pd.Series, current_value: float):
+    """Calculates Z-Score and Percentile Rank for the current value."""
+    # Need at least 5 data points to make a meaningful calculation
+    if series.empty or len(series) < 5:
+        return 0.0, 50.0
+        
+    # Z-Score: (Value - Mean) / Standard Deviation
+    mean = series.mean()
+    std = series.std()
+    z_score = (current_value - mean) / std if std != 0 else 0
+    
+    # Percentile Rank: What % of historical data is below current price?
+    percentile = (series < current_value).mean() * 100
+    
+    return z_score, percentile
+
 # --- 7. CHART FUNCTION ---
-# [REPLACE THE create_spread_chart FUNCTION WITH THIS]
 def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str):
     prefix = spread_name.replace(" ", "_")
     
@@ -303,6 +363,75 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str):
     
     return fig
 
+# --- NEW: PAYOFF CALCULATOR CHART ---
+# [REPLACE YOUR create_payoff_chart FUNCTION WITH THIS]
+def create_payoff_chart(entry_price, lang):
+    # Hardcoded strikes based on your tickers (C20 / C30)
+    K1 = 20
+    K2 = 30
+    
+    # Generate Spot VIX range
+    spot_prices = list(range(10, 50, 1))
+    pnl = []
+    
+    for s in spot_prices:
+        val_long = max(s - K1, 0)
+        val_short = max(s - K2, 0)
+        spread_val = val_long - val_short
+        profit = spread_val - entry_price
+        pnl.append(profit)
+        
+    fig = go.Figure()
+    
+    # Add P&L Line
+    fig.add_trace(go.Scatter(
+        x=spot_prices, y=pnl,
+        mode='lines', name='P&L',
+        line=dict(color='#ffffff', width=2),
+        fill='tozeroy', 
+        fillcolor='rgba(255, 255, 255, 0.1)'
+    ))
+
+    # Add Zero Line
+    fig.add_hline(y=0, line_dash="solid", line_color="#9e9e9e", line_width=1)
+    
+    # Metrics for Title
+    max_profit = (K2 - K1) - entry_price
+    max_loss = -entry_price
+    breakeven = K1 + entry_price
+    
+    # --- TRANSLATION LOGIC ---
+    # We grab the translated words based on 'lang' (en or zh)
+    t_profit = TRANSLATIONS[lang]["max_profit"]
+    t_loss = TRANSLATIONS[lang]["max_risk"]
+    t_x = TRANSLATIONS[lang]["chart_x"]
+    t_y = TRANSLATIONS[lang]["chart_y"]
+    
+    # Annotations
+    fig.add_vline(x=breakeven, line_dash="dash", line_color="#ffa726", 
+                  annotation_text=f"BE: {breakeven:.2f}", annotation_position="top left")
+
+    fig.update_layout(
+        # Use the translated variables here
+        title=dict(text=f"{t_profit}: +{max_profit:.2f} | {t_loss}: {max_loss:.2f}", font=dict(size=14)),
+        height=300,
+        margin=dict(l=20, r=20, t=40, b=20),
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        xaxis_title=t_x, # Translated X-Axis
+        yaxis_title=t_y, # Translated Y-Axis
+        font=dict(family="JetBrains Mono, monospace", size=11),
+        hovermode="x unified"
+    )
+    
+    # Color areas
+    fig.add_shape(type="rect", x0=10, y0=0, x1=50, y1=15, 
+                  fillcolor="rgba(38,166,154,0.1)", layer="below", line_width=0)
+    fig.add_shape(type="rect", x0=10, y0=-15, x1=50, y1=0, 
+                  fillcolor="rgba(239,83,80,0.1)", layer="below", line_width=0)
+
+    return fig
+
 # --- 8. SIDEBAR ---
 with st.sidebar:
     st.markdown(f"## ⚙️ {t('configuration')}")
@@ -393,12 +522,12 @@ st.caption(f"{t('last_updated')}: {latest['Date'].strftime('%Y-%m-%d')}")
 tab_names = [SPREADS_CONFIG_NAMES[st.session_state.language][s] for s in active_spreads]
 tabs = st.tabs(tab_names)
 
+# [REPLACE THE ENTIRE MAIN LOOP WITH THIS]
 for tab, spread_name in zip(tabs, active_spreads):
     with tab:
         prefix = spread_name.replace(" ", "_")
         
-        # 1. METRICS
-        # Fetch values safely
+        # 1. PREPARE DATA
         def get_val(row, key, default=0.0):
             val = row.get(key, default)
             return 0.0 if pd.isna(val) else val
@@ -413,12 +542,15 @@ for tab, spread_name in zip(tabs, active_spreads):
         prev_short = get_val(prev, f"{prefix}_Short_Price")
         prev_spread = get_val(prev, f"{prefix}_Spread")
         
-        # Deltas
         d_long = cur_long - prev_long
         d_short = cur_short - prev_short
         d_spread = cur_spread - prev_spread
+        
+        # Calculate Valuation
+        spread_history = df_chart[f"{prefix}_Spread"].dropna()
+        z_score, percentile = calculate_valuation(spread_history, cur_spread)
 
-        # Render Columns
+        # 2. RENDER METRICS (3 COLUMNS)
         c1, c2, c3 = st.columns(3)
         
         def render_metric(col, label, val, delta, vol=None):
@@ -437,18 +569,66 @@ for tab, spread_name in zip(tabs, active_spreads):
             else:
                 html.append('<div class="volume-text">&nbsp;</div>')
             html.append('</div>')
-            
             col.markdown("".join(html), unsafe_allow_html=True)
             
         render_metric(c1, t('long_leg'), cur_long, d_long, cur_l_vol)
         render_metric(c2, t('short_leg'), cur_short, d_short, cur_s_vol)
         render_metric(c3, t('net_spread'), cur_spread, d_spread)
         
+        # 3. VALUATION LINE
+        if z_score <= -1.0: status = t('cheap')
+        elif z_score >= 1.0: status = t('expensive')
+        else: status = t('fair')
+            
+        st.markdown(f"""
+        <div style="text-align: left; margin-top: 8px; margin-bottom: 2px;">
+            <span class="volume-text">
+                {t('valuation_title')}: <b>{status}</b> (Z: {z_score:.1f} | {int(percentile)}%)
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
+        
         st.markdown("---")
         
-        # 2. CHART
+        # 4. CHART
         fig = create_spread_chart(df_chart, spread_name, st.session_state.language)
-        st.plotly_chart(fig, width='stretch', theme="streamlit")
+        
+        # --- FIX IS HERE: ADDED UNIQUE KEY ---
+        st.plotly_chart(fig, width='stretch', theme="streamlit", key=f"main_chart_{prefix}")
+
+        # 5. PAYOFF CALCULATOR
+        with st.expander(f"🧮 {t('calc_title')}"):
+            calc_c1, calc_c2 = st.columns([1, 3])
+            
+            with calc_c1:
+                st.markdown(f"**{t('inputs')}**")
+                sim_entry = st.number_input(
+                    t('entry_price'), 
+                    min_value=0.0, 
+                    max_value=10.0, 
+                    value=float(cur_spread), 
+                    step=0.05,
+                    format="%.2f",
+                    key=f"sim_{prefix}"
+                )
+                
+                spread_width = 10.0
+                max_profit = spread_width - sim_entry
+                max_loss = sim_entry
+                rr_ratio = max_profit / max_loss if max_loss > 0 else 0
+                
+                st.markdown("---")
+                st.markdown(f"**{t('stats')}**")
+                st.caption(f"{t('max_profit')}: **{max_profit:.2f}**")
+                st.caption(f"{t('max_risk')}: **{max_loss:.2f}**")
+                st.caption(f"{t('rr_ratio')}: **1 : {rr_ratio:.1f}**")
+                st.caption(f"{t('breakeven')}: **{20 + sim_entry:.2f}**")
+
+            with calc_c2:
+                # Pass language to chart
+                payoff_fig = create_payoff_chart(sim_entry, st.session_state.language)
+                
+                st.plotly_chart(payoff_fig, use_container_width=True, key=f"payoff_chart_{prefix}")
 
 # --- DATA TABLE ---
 st.markdown("---")
