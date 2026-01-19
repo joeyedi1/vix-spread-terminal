@@ -1,9 +1,11 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from pathlib import Path
 import time
+from datetime import datetime
 
 # --- 1. PAGE CONFIG ---
 st.set_page_config(
@@ -28,7 +30,7 @@ TRANSLATIONS = {
         "page_title": "VIX Spread Terminal",
         "header_subtitle": "VIX Bullish Call Spread Monitor",
         "header_title": "Multi-Expiry Terminal",
-        "live_data": "STATIC DATA",  # Changed badge text
+        "live_data": "STATIC DATA",
         "configuration": "Configuration",
         "language": "Language",
         "active_spreads": "Active Spreads",
@@ -36,16 +38,20 @@ TRANSLATIONS = {
         "data_settings": "Data Settings",
         "historical_lookback": "Historical Lookback",
         "days": "days",
-        "refresh": "🔄 Reload CSV",
+        "refresh": "Reload CSV",
         "last_updated": "Last Data Point",
         "long_leg": "Long Leg (C20)",
-        "short_leg": "Short Leg (C30)",
+        "short_leg": "Short Leg (C25)",
         "net_spread": "Net Spread",
         "volume": "Vol",
         "spread_title": "Spread",
         "individual_legs": "Individual Legs",
         "volume_title": "Volume",
         "mean": "Mean",
+        "feb_be_label": "Feb BE",
+        "mar_be_label": "Mar BE",
+        "long_leg_chart": "C20 (Long)",
+        "short_leg_chart": "C25 (Short)",
         "view_daily_log": "📁 View Data Source",
         "no_file": "❌ 'vix_spread_data.csv' not found. Run 'vix_data_fetcher.py' first.",
         "select_spread_warning": "Please select at least one spread expiry in the sidebar.",
@@ -63,11 +69,49 @@ TRANSLATIONS = {
         "breakeven": "Breakeven",
         "chart_x": "VIX Spot Price at Expiration",
         "chart_y": "Profit / Loss",
-        "dist_title": "Price Distribution (90 Days)",
+        "dist_title": "Price Distribution",
         "freq": "Frequency",
         "now": "Now",
         "avg": "Avg",
         "be_abbr": "BE",
+        # NEW: P&L Tracking translations
+        "pnl_title": "Trade Performance",
+        "entry_date": "Entry Date",
+        "entry_px": "Entry",
+        "current_px": "Current",
+        "pnl": "P&L",
+        "pnl_pct": "Return",
+        "days_held": "Days Held",
+        "dte": "DTE",
+        "trade_status": "Status",
+        "profit": "PROFIT",
+        "loss": "LOSS",
+        "flat": "FLAT",
+        "trading": "Trading",
+        "calendar": "Calendar",
+        # Sidebar translations
+        "market_context": "Market Context",
+        "vix_spot": "VIX Spot",
+        "key_dates": "Key Dates",
+        "trade_simulation": "Trade Simulation",
+        "trading_days_note": "Trading days shown (excl. weekends)",
+        "since_listing": "Since Listing",
+        "distance_to_be": "Distance to Breakeven",
+        "no_vix_data": "VIX data not available. Re-run fetcher.",
+        # Additional translations
+        "configuration": "Configuration",
+        "time_progress": "Time Progress",
+        "entry_label": "Entry",
+        "expiry_label": "Expiry",
+        "held_to_expiry": "held →",
+        "to_expiry": "to expiry",
+        "cal": "cal",
+        "feb_entry": "Feb Entry",
+        "mar_entry": "Mar Entry",
+        "current_pnl": "At current VIX",
+        "analytics": "Analytics",
+        "dist_tooltip": "Historical spread prices over selected period. Compare current price to mean for relative value.",
+        "calc_tooltip": "Simulates P&L at expiration based on entry price. Assumes holding to expiry.",
     },
     "zh": {
         "page_title": "VIX价差终端",
@@ -81,16 +125,20 @@ TRANSLATIONS = {
         "data_settings": "数据设置",
         "historical_lookback": "历史回溯",
         "days": "天",
-        "refresh": "🔄 重新加载CSV",
+        "refresh": "重新加载CSV",
         "last_updated": "最新数据",
         "long_leg": "多头 (C20)",
-        "short_leg": "空头 (C30)",
+        "short_leg": "空头 (C25)",
         "net_spread": "净价差",
         "volume": "成交量",
         "spread_title": "价差",
         "individual_legs": "单腿价格",
         "volume_title": "成交量",
         "mean": "均值",
+        "feb_be_label": "2月保本",
+        "mar_be_label": "3月保本",
+        "long_leg_chart": "C20 (多头)",
+        "short_leg_chart": "C25 (空头)",
         "view_daily_log": "📁 查看源数据",
         "no_file": "❌ 未找到 'vix_spread_data.csv'。请先运行 'vix_data_fetcher.py'。",
         "select_spread_warning": "请在侧边栏中选择至少一个价差到期日。",
@@ -108,22 +156,59 @@ TRANSLATIONS = {
         "breakeven": "保本点",
         "chart_x": "到期时 VIX 现货价格",
         "chart_y": "利润 / 损失",
-        "dist_title": "价格分布 (90天)",
+        "dist_title": "价格分布",
         "freq": "频率 (天数)",
         "now": "现价",
         "avg": "均值",
         "be_abbr": "保本",
+        # NEW: P&L Tracking translations
+        "pnl_title": "交易表现",
+        "entry_date": "入场日期",
+        "entry_px": "入场价",
+        "current_px": "现价",
+        "pnl": "盈亏",
+        "pnl_pct": "回报率",
+        "days_held": "持仓天数",
+        "dte": "剩余天数",
+        "trade_status": "状态",
+        "profit": "盈利",
+        "loss": "亏损",
+        "flat": "持平",
+        "trading": "交易日",
+        "calendar": "日历日",
+        # Sidebar translations
+        "market_context": "市场概况",
+        "vix_spot": "VIX 现货",
+        "key_dates": "关键日期",
+        "trade_simulation": "交易模拟",
+        "trading_days_note": "显示交易日（不含周末）",
+        "since_listing": "自上市以来",
+        "distance_to_be": "距离保本点",
+        "no_vix_data": "VIX数据不可用，请重新运行数据获取程序。",
+        # Additional translations
+        "configuration": "配置",
+        "time_progress": "时间进度",
+        "entry_label": "入场",
+        "expiry_label": "到期",
+        "held_to_expiry": "已持仓 →",
+        "to_expiry": "后到期",
+        "cal": "日历",
+        "feb_entry": "二月入场价",
+        "mar_entry": "三月入场价",
+        "current_pnl": "当前VIX",
+        "analytics": "分析",
+        "dist_tooltip": "所选期间的历史价差价格。将当前价格与均值比较以判断相对价值。",
+        "calc_tooltip": "根据入场价模拟到期盈亏。假设持有至到期。",
     }
 }
 
 # --- 4. SESSION STATE ---
 if 'language' not in st.session_state:
-    st.session_state.language = 'zh'
+    st.session_state.language = 'en'
 
 def t(key):
     return TRANSLATIONS[st.session_state.language].get(key, key)
 
-# --- 5. ADAPTIVE CSS (Identical to original) ---
 # --- 5. ADAPTIVE CSS ---
 st.markdown("""
 <style>
@@ -137,6 +222,8 @@ st.markdown("""
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
     }
     .header-title {
         font-family: 'Plus Jakarta Sans', 'Noto Sans SC', sans-serif;
@@ -178,7 +265,7 @@ st.markdown("""
         border: 1px solid rgba(128, 128, 128, 0.25);
         background: rgba(128, 128, 128, 0.06);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        height: 100%; /* Keeps cards aligned */
+        height: 100%;
     }
     .metric-card:hover {
         transform: translateY(-2px);
@@ -222,7 +309,6 @@ st.markdown("""
         opacity: 0.7;
     }
 
-    /* --- NEW CSS FOR VALUATION TAGS --- */
     .val-tag {
         font-family: 'JetBrains Mono', monospace;
         font-size: 11px;
@@ -235,6 +321,119 @@ st.markdown("""
     .val-cheap { background: rgba(38,166,154,0.2); color: #26a69a; border: 1px solid rgba(38,166,154,0.4); }
     .val-expensive { background: rgba(239,83,80,0.2); color: #ef5350; border: 1px solid rgba(239,83,80,0.4); }
     .val-fair { background: rgba(158,158,158,0.2); color: #bdbdbd; border: 1px solid rgba(158,158,158,0.4); }
+    
+    /* NEW: P&L Card Styles */
+    .pnl-card {
+        border-radius: 12px;
+        padding: 14px 20px;
+        margin: 10px 0;
+        border: 1px solid rgba(128, 128, 128, 0.25);
+        background: rgba(128, 128, 128, 0.06);
+    }
+    .pnl-card-profit {
+        border: 1px solid rgba(38, 166, 154, 0.4);
+        background: linear-gradient(135deg, rgba(38, 166, 154, 0.08) 0%, rgba(38, 166, 154, 0.02) 100%);
+    }
+    .pnl-card-loss {
+        border: 1px solid rgba(239, 83, 80, 0.4);
+        background: linear-gradient(135deg, rgba(239, 83, 80, 0.08) 0%, rgba(239, 83, 80, 0.02) 100%);
+    }
+    .pnl-header {
+        font-family: 'Plus Jakarta Sans', 'Noto Sans SC', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        opacity: 0.8;
+    }
+    .pnl-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 16px;
+    }
+    .pnl-item {
+        text-align: center;
+    }
+    .pnl-item-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.6;
+        margin-bottom: 4px;
+    }
+    .pnl-item-value {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 18px;
+        font-weight: 700;
+    }
+    .pnl-positive { color: #26a69a; }
+    .pnl-negative { color: #ef5350; }
+    .pnl-neutral { color: #9e9e9e; }
+    
+    /* Custom Tooltip Styles */
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+        cursor: help;
+    }
+    .tooltip-container .tooltip-text {
+        visibility: hidden;
+        opacity: 0;
+        width: 280px;
+        background: #4a4a4a;
+        color: #ffffff;
+        text-align: left;
+        border-radius: 8px;
+        padding: 14px 16px;
+        position: absolute;
+        z-index: 1000;
+        top: 140%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        line-height: 1.6;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        border: 1px solid #5a5a5a;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+    .tooltip-container .tooltip-text::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -6px;
+        border-width: 6px;
+        border-style: solid;
+        border-color: transparent transparent #4a4a4a transparent;
+    }
+    .tooltip-container:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+    }
+    .tooltip-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+    }
+    .tooltip-value {
+        font-weight: 600;
+        font-size: 13px;
+        color: #ffffff;
+    }
+    .tooltip-hint {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.6);
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -245,58 +444,76 @@ def load_data(csv_path):
         return None
     try:
         df = pd.read_csv(csv_path)
-        
-        # 1. Ensure Date is datetime
         df["Date"] = pd.to_datetime(df["Date"])
         df = df.sort_values("Date")
-        
-        # 2. FORCE NUMERIC CONVERSION [CRITICAL FIX]
-        # This converts any "text numbers" into real numbers for the chart
         cols_to_convert = [c for c in df.columns if c != "Date"]
         for col in cols_to_convert:
             df[col] = pd.to_numeric(df[col], errors='coerce')
-            
+        
+        # Clean data: Remove rows where spread data is 0 or missing (likely market holidays)
+        spread_cols = [col for col in df.columns if col.endswith("_Spread")]
+        for col in spread_cols:
+            # Replace 0 values with NaN (likely holidays/bad data)
+            df.loc[df[col] == 0, col] = pd.NA
+        
+        # Drop rows where ALL spreads are NaN/0
+        if spread_cols:
+            df = df.dropna(subset=spread_cols, how='all')
+        
         return df
     except Exception as e:
         st.error(f"Error loading data: {e}")
         return None
 
-# --- NEW ANALYTICS HELPER ---
+# --- NEW: P&L CALCULATION HELPER ---
+def calculate_pnl(entry_price: float, current_price: float, entry_date: str, current_date: str, expiry_date: str):
+    """Calculate P&L metrics for a trade."""
+    pnl = current_price - entry_price
+    pnl_pct = (pnl / entry_price) * 100 if entry_price > 0 else 0
+    
+    entry_dt = datetime.strptime(entry_date, "%Y-%m-%d")
+    current_dt = datetime.strptime(current_date, "%Y-%m-%d")
+    expiry_dt = datetime.strptime(expiry_date, "%Y-%m-%d")
+    
+    # Calendar days (includes weekends)
+    days_held_cal = (current_dt - entry_dt).days
+    dte_cal = (expiry_dt - current_dt).days
+    
+    # Trading days (excludes weekends)
+    days_held_trd = int(np.busday_count(entry_date, current_date))
+    dte_trd = int(np.busday_count(current_date, expiry_date))
+    
+    return {
+        "pnl": pnl,
+        "pnl_pct": pnl_pct,
+        "days_held_cal": days_held_cal,
+        "days_held_trd": days_held_trd,
+        "dte_cal": dte_cal,
+        "dte_trd": dte_trd,
+    }
+
+# --- ANALYTICS HELPER ---
 def calculate_valuation(series: pd.Series, current_value: float):
-    """Calculates Z-Score and Percentile Rank for the current value."""
-    # Need at least 5 data points to make a meaningful calculation
     if series.empty or len(series) < 5:
         return 0.0, 50.0
-        
-    # Z-Score: (Value - Mean) / Standard Deviation
     mean = series.mean()
     std = series.std()
     z_score = (current_value - mean) / std if std != 0 else 0
-    
-    # Percentile Rank: What % of historical data is below current price?
     percentile = (series < current_value).mean() * 100
-    
     return z_score, percentile
 
 # --- 7. CHART FUNCTION ---
-def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str):
+def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str, entry_price: float = None, entry_date: str = None):
     prefix = spread_name.replace(" ", "_")
     
-    # Check if columns exist
     if f"{prefix}_Spread" not in df.columns:
         return go.Figure()
 
-    # Prep Plot Data
     plot_df = pd.DataFrame(index=df["Date"])
-    
-    # --- FIX: ADD .values HERE ---
-    # We use .values to ignore index alignment issues
     plot_df["Spread"] = df[f"{prefix}_Spread"].values
     plot_df["Long"] = df[f"{prefix}_Long_Price"].values
     plot_df["Short"] = df[f"{prefix}_Short_Price"].values
     plot_df["Volume"] = df[f"{prefix}_Total_Volume"].values
-    
-    # Force ensure numeric (just in case)
     plot_df = plot_df.apply(pd.to_numeric, errors='coerce')
     
     has_volume = plot_df["Volume"].sum() > 0
@@ -305,9 +522,10 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str):
     legs_label = TRANSLATIONS[lang]["individual_legs"]
     volume_label = TRANSLATIONS[lang]["volume_title"]
     mean_label = TRANSLATIONS[lang]["mean"]
+    long_leg_label = TRANSLATIONS[lang]["long_leg_chart"]
+    short_leg_label = TRANSLATIONS[lang]["short_leg_chart"]
     display_name = SPREADS_CONFIG_NAMES[lang].get(spread_name, spread_name)
 
-    # Subplots
     if has_volume:
         fig = make_subplots(
             rows=3, cols=1,
@@ -334,19 +552,46 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str):
         hovertemplate=f'<b>{spread_label}</b>: %{{y:.2f}}<extra></extra>'
     ), row=1, col=1)
 
-    # Mean Line
+    # Mean Line - position on right
     mean_val = plot_df["Spread"].mean()
     fig.add_hline(y=mean_val, line_dash="dash", line_color="#9e9e9e",
-                 annotation_text=f"{mean_label}: {mean_val:.2f}", row=1, col=1)
+                 annotation_text=f"{mean_label}: {mean_val:.2f}",
+                 annotation_position="right",
+                 annotation_font=dict(size=10, color="#9e9e9e"),
+                 row=1, col=1)
+
+    # Entry Price Line (if provided)
+    if entry_price is not None:
+        entry_label = "Entry" if lang == "en" else "入场"
+        fig.add_hline(
+            y=entry_price, 
+            line_dash="dot", 
+            line_color="#ffa726",
+            annotation_text=f"{entry_label}: {entry_price:.2f}",
+            annotation_position="right",
+            annotation_font=dict(size=10, color="#ffa726"),
+            row=1, col=1
+        )
+    
+    # Entry Date Vertical Line (if provided)
+    if entry_date is not None:
+        entry_dt = pd.to_datetime(entry_date)
+        fig.add_vline(
+            x=entry_dt,
+            line_dash="dot",
+            line_color="#ffa726",
+            line_width=1,
+            row=1, col=1
+        )
 
     # 2. Legs Traces
     fig.add_trace(go.Scatter(
-        x=plot_df.index, y=plot_df["Long"], mode='lines', name='C20 (Long)',
+        x=plot_df.index, y=plot_df["Long"], mode='lines', name=long_leg_label,
         line=dict(color='#42a5f5', width=1.5)
     ), row=2, col=1)
     
     fig.add_trace(go.Scatter(
-        x=plot_df.index, y=plot_df["Short"], mode='lines', name='C30 (Short)',
+        x=plot_df.index, y=plot_df["Short"], mode='lines', name=short_leg_label,
         line=dict(color='#ab47bc', width=1.5)
     ), row=2, col=1)
 
@@ -357,23 +602,31 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str):
             marker_color='rgba(38,166,154,0.5)'
         ), row=3, col=1)
 
-    # Layout
     fig.update_layout(
         height=550 if has_volume else 450,
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         font=dict(family="JetBrains Mono, Noto Sans SC, monospace", size=11),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, bgcolor='rgba(0,0,0,0)'),
-        margin=dict(l=60, r=30, t=80, b=50),
+        margin=dict(l=60, r=100, t=80, b=50),
         hovermode='x unified',
         showlegend=True
     )
     fig.update_xaxes(gridcolor='rgba(128,128,128,0.2)', showgrid=True, zeroline=False)
     fig.update_yaxes(gridcolor='rgba(128,128,128,0.2)', showgrid=True, zeroline=False)
     
+    # Ensure y-axis labels are visible for all subplots
+    fig.update_yaxes(showticklabels=True, row=1, col=1)
+    fig.update_yaxes(showticklabels=True, row=2, col=1)
+    
+    # Fix volume y-axis scale if volume exists
+    if has_volume:
+        max_vol = plot_df["Volume"].max()
+        fig.update_yaxes(showticklabels=True, range=[0, max_vol * 1.1], row=3, col=1)
+    
     return fig
 
-# HISTOGRAM FUNCTION ---
+# --- HISTOGRAM FUNCTION ---
 def create_distribution_chart(df, prefix, current_val, lang):
     spread_data = df[f"{prefix}_Spread"].dropna()
     mean_val = spread_data.mean()
@@ -384,11 +637,9 @@ def create_distribution_chart(df, prefix, current_val, lang):
         marker_color='rgba(128, 128, 128, 0.3)', marker_line_color='rgba(128, 128, 128, 0.5)', marker_line_width=1
     ))
     
-    # Current Price Line
     fig.add_vline(x=current_val, line_width=3, line_color="#26a69a" if current_val < mean_val else "#ef5350")
-    
-    # Mean Line
     fig.add_vline(x=mean_val, line_dash="dash", line_width=1, line_color="#ffa726")
+    
     avg_text = TRANSLATIONS[lang]["avg"]
     fig.add_annotation(x=mean_val, y=1.02, yref="paper", text=f"{avg_text}: {mean_val:.2f}", showarrow=False, font=dict(color="#ffa726", size=10))
 
@@ -396,10 +647,8 @@ def create_distribution_chart(df, prefix, current_val, lang):
     fig.add_annotation(x=current_val, y=0.9, yref="paper", text=f"{now_text}: {current_val:.2f}", showarrow=True, arrowhead=2, ax=0, ay=-20, font=dict(color="#ffffff", size=12), bgcolor="rgba(0,0,0,0.6)")
 
     fig.update_layout(
-        # CHANGED: Removed title (we will add it in Streamlit for better alignment)
-        # CHANGED: Increased height from 300 to 380 to match right column
         height=380, 
-        margin=dict(l=20, r=20, t=20, b=20), # Reduced top margin since title is gone
+        margin=dict(l=20, r=20, t=20, b=20),
         plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', 
         font=dict(family="JetBrains Mono, monospace", size=11), 
         xaxis_title=TRANSLATIONS[lang]["spread_title"], 
@@ -410,13 +659,11 @@ def create_distribution_chart(df, prefix, current_val, lang):
     fig.update_yaxes(gridcolor='rgba(128,128,128,0.2)')
     return fig
 
-# --- NEW: PAYOFF CALCULATOR CHART ---
-def create_payoff_chart(entry_price, lang):
-    # Hardcoded strikes based on your tickers (C20 / C30)
+# --- PAYOFF CALCULATOR CHART ---
+def create_payoff_chart(entry_price, lang, current_vix=None):
     K1 = 20
-    K2 = 30
+    K2 = 25
     
-    # Generate Spot VIX range
     spot_prices = list(range(10, 50, 1))
     pnl = []
     
@@ -429,7 +676,6 @@ def create_payoff_chart(entry_price, lang):
         
     fig = go.Figure()
     
-    # Add P&L Line
     fig.add_trace(go.Scatter(
         x=spot_prices, y=pnl,
         mode='lines', name='P&L',
@@ -438,40 +684,36 @@ def create_payoff_chart(entry_price, lang):
         fillcolor='rgba(255, 255, 255, 0.1)'
     ))
 
-    # Add Zero Line
     fig.add_hline(y=0, line_dash="solid", line_color="#9e9e9e", line_width=1)
     
-    # Metrics for Title
-    max_profit = (K2 - K1) - entry_price
-    max_loss = -entry_price
     breakeven = K1 + entry_price
     
-    # --- TRANSLATION LOGIC ---
-    # We grab the translated words based on 'lang' (en or zh)
-    t_profit = TRANSLATIONS[lang]["max_profit"]
-    t_loss = TRANSLATIONS[lang]["max_risk"]
     t_x = TRANSLATIONS[lang]["chart_x"]
     t_y = TRANSLATIONS[lang]["chart_y"]
     
-    # Annotations
     be_text = TRANSLATIONS[lang]["be_abbr"]
     fig.add_vline(x=breakeven, line_dash="dash", line_color="#ffa726", 
-                  annotation_text=f"{be_text}: {breakeven:.2f}", annotation_position="top left")
+                  annotation_text=f"{be_text}: {breakeven:.2f}", annotation_position="top right",
+                  annotation_font=dict(color="#ffa726", size=10))
+    
+    # Add current VIX marker if provided
+    if current_vix is not None:
+        vix_label = "VIX" if lang == "en" else "VIX"
+        fig.add_vline(x=current_vix, line_dash="dot", line_color="#42a5f5", line_width=2,
+                      annotation_text=f"{vix_label}: {current_vix:.2f}", annotation_position="bottom left",
+                      annotation_font=dict(color="#42a5f5", size=10))
 
     fig.update_layout(
-        # Use the translated variables here
-        title=dict(text=f"{t_profit}: +{max_profit:.2f} | {t_loss}: {max_loss:.2f}", font=dict(size=14)),
         height=300,
-        margin=dict(l=20, r=20, t=40, b=20),
+        margin=dict(l=20, r=20, t=20, b=20),
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
-        xaxis_title=t_x, # Translated X-Axis
-        yaxis_title=t_y, # Translated Y-Axis
+        xaxis_title=t_x,
+        yaxis_title=t_y,
         font=dict(family="JetBrains Mono, monospace", size=11),
         hovermode="x unified"
     )
     
-    # Color areas
     fig.add_shape(type="rect", x0=10, y0=0, x1=50, y1=15, 
                   fillcolor="rgba(38,166,154,0.1)", layer="below", line_width=0)
     fig.add_shape(type="rect", x0=10, y0=-15, x1=50, y1=0, 
@@ -480,74 +722,203 @@ def create_payoff_chart(entry_price, lang):
     return fig
 
 # --- 8. SIDEBAR ---
+
+# Initialize session state for trade simulation
+if 'trade_entry_date' not in st.session_state:
+    st.session_state.trade_entry_date = datetime.strptime("2026-01-16", "%Y-%m-%d").date()
+if 'feb_entry_price' not in st.session_state:
+    st.session_state.feb_entry_price = 0.63
+if 'mar_entry_price' not in st.session_state:
+    st.session_state.mar_entry_price = 0.91
+
+# Get today's date for calculations
+today = datetime.now().date()
+
+# Load data early so we can use VIX spot in sidebar
+full_df = load_data(CSV_PATH)
+vix_spot_available = full_df is not None and "VIX_Spot" in full_df.columns
+if vix_spot_available:
+    latest_vix = full_df.iloc[-1]["VIX_Spot"]
+    prev_vix = full_df.iloc[-2]["VIX_Spot"] if len(full_df) > 1 else latest_vix
+    vix_change = latest_vix - prev_vix
+    vix_change_pct = (vix_change / prev_vix) * 100 if prev_vix > 0 else 0
+else:
+    latest_vix = 0.0
+    vix_change = 0.0
+    vix_change_pct = 0.0
+
 with st.sidebar:
-    st.markdown(f"## ⚙️ {t('configuration')}")
+    # --- LANGUAGE TOGGLE (top right feel) ---
+    col_title, col_lang = st.columns([3, 1])
+    with col_title:
+        st.markdown(f"## ⚙️ {t('configuration')}")
+    with col_lang:
+        if st.session_state.language == 'en':
+            if st.button("中文", key='lang_zh', width='stretch'):
+                st.session_state.language = 'zh'
+                st.rerun()
+        else:
+            if st.button("EN", key='lang_en', width='stretch'):
+                st.session_state.language = 'en'
+                st.rerun()
+    
     st.markdown("---")
     
-    # Language
-    st.markdown(f"**{t('language')}**")
-    if st.session_state.language == 'en':
-        if st.button("中文", key='lang_zh'):
-            st.session_state.language = 'zh'
-            st.rerun()
-    else:
-        if st.button("English", key='lang_en'):
-            st.session_state.language = 'en'
-            st.rerun()
+    # --- TRADE SIMULATION ---
+    st.markdown(f"### 💼 {t('trade_simulation')}")
     
-    st.markdown("---")
-    st.markdown(f"### {t('active_spreads')}")
-    
-    # Spread Selection
-    spread_display_names = [SPREADS_CONFIG_NAMES[st.session_state.language][s] for s in SPREAD_KEYS]
-    selected_display = st.multiselect(
-        t('select_expiries'),
-        options=spread_display_names,
-        default=spread_display_names
+    trade_entry_date = st.date_input(
+        t('entry_date'),
+        value=st.session_state.trade_entry_date,
+        min_value=datetime.strptime("2025-10-01", "%Y-%m-%d").date(),
+        max_value=today,
+        key="entry_date_input"
     )
-    # Map back to internal keys
-    display_map = {v: k for k, v in SPREADS_CONFIG_NAMES[st.session_state.language].items()}
-    active_spreads = [display_map[d] for d in selected_display]
+    st.session_state.trade_entry_date = trade_entry_date
+    
+    col_feb_entry, col_mar_entry = st.columns(2)
+    with col_feb_entry:
+        feb_entry = st.number_input(
+            t('feb_entry'),
+            min_value=0.0,
+            max_value=5.0,
+            value=st.session_state.feb_entry_price,
+            step=0.01,
+            format="%.2f",
+            key="feb_entry_input"
+        )
+        st.session_state.feb_entry_price = feb_entry
+    
+    with col_mar_entry:
+        mar_entry = st.number_input(
+            t('mar_entry'),
+            min_value=0.0,
+            max_value=5.0,
+            value=st.session_state.mar_entry_price,
+            step=0.01,
+            format="%.2f",
+            key="mar_entry_input"
+        )
+        st.session_state.mar_entry_price = mar_entry
     
     st.markdown("---")
-    st.markdown(f"### {t('data_settings')}")
+    
+    # --- DATA SETTINGS ---
+    st.markdown(f"### ⚙️ {t('data_settings')}")
     
     lookback_days = st.selectbox(
         t('historical_lookback'),
-        options=[30, 60, 90, 180, 365, 9999],
+        options=[30, 60, 90, 180, 9999],
         index=2,
-        format_func=lambda x: f"{x} {t('days')}" if x < 9999 else "All"
+        format_func=lambda x: f"{x} {t('days')}" if x < 9999 else t('since_listing')
     )
     
-    st.markdown("---")
+    st.markdown("")
     
-    # Simple Manual Refresh Button
     if st.button(t('refresh'), width='stretch'):
-        # Clear cache to force a re-read of the CSV file
         st.cache_data.clear()
         st.rerun()
 
+# Active spreads now defaults to both (no user selection needed)
+active_spreads = SPREAD_KEYS.copy()
+
+# Build dynamic TRADE_CONFIG from session state
+TRADE_CONFIG = {
+    "Feb 2026": {
+        "entry_date": st.session_state.trade_entry_date.strftime("%Y-%m-%d"),
+        "entry_price": st.session_state.feb_entry_price,
+        "expiry_date": "2026-02-18",
+    },
+    "Mar 2026": {
+        "entry_date": st.session_state.trade_entry_date.strftime("%Y-%m-%d"),
+        "entry_price": st.session_state.mar_entry_price,
+        "expiry_date": "2026-03-18",
+    },
+}
+
+# Calculate breakeven distances for header display
+feb_be = 20 + st.session_state.feb_entry_price
+mar_be = 20 + st.session_state.mar_entry_price
+feb_distance = ((feb_be - latest_vix) / latest_vix) * 100 if latest_vix > 0 else 0
+mar_distance = ((mar_be - latest_vix) / latest_vix) * 100 if latest_vix > 0 else 0
+
 # --- 9. MAIN DASHBOARD ---
-st.markdown(f"""
-<div class="dashboard-header">
-    <div>
-        <div class="header-subtitle">{t('header_subtitle')}</div>
-        <div class="header-title">{t('header_title')}</div>
+
+# Prepare VIX display for header
+if vix_spot_available:
+    vix_color = "#26a69a" if vix_change >= 0 else "#ef5350"
+    vix_arrow = "▲" if vix_change >= 0 else "▼"
+    vix_sign = "+" if vix_change >= 0 else ""
+    
+    # Tooltip text based on language
+    if st.session_state.language == 'en':
+        feb_tooltip_main = f"VIX needs to rise {feb_distance:.1f}% to reach breakeven" if feb_distance > 0 else f"VIX is {abs(feb_distance):.1f}% above breakeven"
+        feb_tooltip_hint = "🔴 Below breakeven - needs to rise" if feb_distance > 0 else "🟢 Above breakeven - in profit zone"
+        mar_tooltip_main = f"VIX needs to rise {mar_distance:.1f}% to reach breakeven" if mar_distance > 0 else f"VIX is {abs(mar_distance):.1f}% above breakeven"
+        mar_tooltip_hint = "🔴 Below breakeven - needs to rise" if mar_distance > 0 else "🟢 Above breakeven - in profit zone"
+        be_label = "Breakeven"
+    else:
+        feb_tooltip_main = f"VIX需上涨 {feb_distance:.1f}% 才能达到保本点" if feb_distance > 0 else f"VIX已高于保本点 {abs(feb_distance):.1f}%"
+        feb_tooltip_hint = "🔴 低于保本点 - 需上涨" if feb_distance > 0 else "🟢 高于保本点 - 盈利区间"
+        mar_tooltip_main = f"VIX需上涨 {mar_distance:.1f}% 才能达到保本点" if mar_distance > 0 else f"VIX已高于保本点 {abs(mar_distance):.1f}%"
+        mar_tooltip_hint = "🔴 低于保本点 - 需上涨" if mar_distance > 0 else "🟢 高于保本点 - 盈利区间"
+        be_label = "保本点"
+    
+    st.markdown(f"""
+    <div class="dashboard-header">
+        <div>
+            <div class="header-subtitle">{t('header_subtitle')}</div>
+            <div class="header-title">{t('header_title')}</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="font-family: 'JetBrains Mono', monospace;">
+                <span style="opacity: 0.7; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">VIX</span>
+                <span style="font-size: 24px; font-weight: 700; margin-left: 8px;">{latest_vix:.2f}</span>
+                <span style="font-size: 13px; color: {vix_color}; margin-left: 8px;">{vix_arrow} {vix_sign}{vix_change:.2f} ({vix_sign}{vix_change_pct:.1f}%)</span>
+            </div>
+            <div style="width: 1px; height: 30px; background: rgba(128,128,128,0.3);"></div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+                <span style="opacity: 0.6;">{t('feb_be_label')}:</span> 
+                <span class="tooltip-container">
+                    <span style="color: {'#ef5350' if feb_distance > 0 else '#26a69a'};">{feb_be:.2f} ({feb_distance:+.1f}%)</span>
+                    <span class="tooltip-text">
+                        <div class="tooltip-label">{be_label}: {feb_be:.2f}</div>
+                        <div class="tooltip-value">{feb_tooltip_main}</div>
+                        <div class="tooltip-hint">{feb_tooltip_hint}</div>
+                    </span>
+                </span>
+                <span style="margin-left: 12px; opacity: 0.6;">{t('mar_be_label')}:</span> 
+                <span class="tooltip-container">
+                    <span style="color: {'#ef5350' if mar_distance > 0 else '#26a69a'};">{mar_be:.2f} ({mar_distance:+.1f}%)</span>
+                    <span class="tooltip-text">
+                        <div class="tooltip-label">{be_label}: {mar_be:.2f}</div>
+                        <div class="tooltip-value">{mar_tooltip_main}</div>
+                        <div class="tooltip-hint">{mar_tooltip_hint}</div>
+                    </span>
+                </span>
+            </div>
+        </div>
+        <div class="live-badge">
+            <div class="live-dot"></div>
+            {t('live_data')}
+        </div>
     </div>
-    <div class="live-badge">
-        <div class="live-dot"></div>
-        {t('live_data')}
+    """, unsafe_allow_html=True)
+else:
+    st.markdown(f"""
+    <div class="dashboard-header">
+        <div>
+            <div class="header-subtitle">{t('header_subtitle')}</div>
+            <div class="header-title">{t('header_title')}</div>
+        </div>
+        <div class="live-badge">
+            <div class="live-dot"></div>
+            {t('live_data')}
+        </div>
     </div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-if not active_spreads:
-    st.warning(t('select_spread_warning'))
-    st.stop()
-
-# --- LOAD DATA ---
-full_df = load_data(CSV_PATH)
-
+# Data already loaded in sidebar (full_df)
 if full_df is None or full_df.empty:
     st.error(t('no_file'))
     st.stop()
@@ -562,14 +933,14 @@ else:
 # Get Last Row and Prev Row for Metrics
 latest = full_df.iloc[-1]
 prev = full_df.iloc[-2] if len(full_df) > 1 else latest
+current_date_str = latest['Date'].strftime('%Y-%m-%d')
 
-st.caption(f"{t('last_updated')}: {latest['Date'].strftime('%Y-%m-%d')}")
+st.caption(f"{t('last_updated')}: {current_date_str}")
 
 # --- TABS & METRICS ---
 tab_names = [SPREADS_CONFIG_NAMES[st.session_state.language][s] for s in active_spreads]
 tabs = st.tabs(tab_names)
 
-# [REPLACE THE ENTIRE MAIN LOOP WITH THIS]
 for tab, spread_name in zip(tabs, active_spreads):
     with tab:
         prefix = spread_name.replace(" ", "_")
@@ -626,68 +997,224 @@ for tab, spread_name in zip(tabs, active_spreads):
         if z_score <= -1.0: status = t('cheap')
         elif z_score >= 1.0: status = t('expensive')
         else: status = t('fair')
+        
+        # Tooltip explanation based on language
+        if st.session_state.language == 'en':
+            stat_tooltip_label = "How to read this"
+            stat_tooltip_line1 = "<b>Z-score:</b> Distance from average (in std deviations)"
+            stat_tooltip_line2 = "<b>Percentile:</b> % of historical prices that were lower"
+            stat_tooltip_line3 = "<b>CHEAP:</b> Z ≤ -1 | <b>FAIR:</b> -1 to 1 | <b>RICH:</b> Z ≥ 1"
+        else:
+            stat_tooltip_label = "如何解读"
+            stat_tooltip_line1 = "<b>Z分数:</b> 与均值的距离（以标准差计）"
+            stat_tooltip_line2 = "<b>百分位:</b> 历史上低于当前价格的比例"
+            stat_tooltip_line3 = "<b>低估:</b> Z ≤ -1 | <b>合理:</b> -1 到 1 | <b>高估:</b> Z ≥ 1"
             
         st.markdown(f"""
-        <div style="text-align: left; margin-top: 8px; margin-bottom: 2px;">
-            <span class="volume-text">
-                {t('valuation_title')}: <b>{status}</b> (Z-score: {z_score:.1f}σ | Percentile: {int(percentile)}%)
+        <div style="text-align: left; margin-top: 8px; margin-bottom: 16px;">
+            <span class="tooltip-container">
+                <span class="volume-text" style="cursor: help;">
+                    {t('valuation_title')}: <b>{status}</b> (Z-score: {z_score:.1f}σ | Percentile: {int(percentile)}%) ⓘ
+                </span>
+                <span class="tooltip-text" style="width: 280px;">
+                    <div class="tooltip-label">{stat_tooltip_label}</div>
+                    <div style="font-size: 11px; line-height: 1.8;">{stat_tooltip_line1}</div>
+                    <div style="font-size: 11px; line-height: 1.8;">{stat_tooltip_line2}</div>
+                    <div class="tooltip-hint">{stat_tooltip_line3}</div>
+                </span>
             </span>
         </div>
         """, unsafe_allow_html=True)
         
+        # --- NEW: P&L TRACKING SECTION ---
+        trade_conf = TRADE_CONFIG.get(spread_name)
+        if trade_conf:
+            pnl_data = calculate_pnl(
+                entry_price=trade_conf["entry_price"],
+                current_price=cur_spread,
+                entry_date=trade_conf["entry_date"],
+                current_date=current_date_str,
+                expiry_date=trade_conf["expiry_date"]
+            )
+            
+            # Determine colors
+            if pnl_data["pnl"] > 0.01:
+                card_class = "pnl-card pnl-card-profit"
+                pnl_color = "#26a69a"
+            elif pnl_data["pnl"] < -0.01:
+                card_class = "pnl-card pnl-card-loss"
+                pnl_color = "#ef5350"
+            else:
+                card_class = "pnl-card"
+                pnl_color = "#9e9e9e"
+            
+            pnl_sign = "+" if pnl_data["pnl"] >= 0 else ""
+            pct_sign = "+" if pnl_data["pnl_pct"] >= 0 else ""
+            
+            # Calculate progress
+            total_days = pnl_data['days_held_cal'] + pnl_data['dte_cal']
+            progress_pct = (pnl_data['days_held_cal'] / total_days * 100) if total_days > 0 else 0
+            
+            # Header
+            st.markdown(f"""
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; border: 1px solid rgba(128,128,128,0.25); border-radius: 8px; background: rgba(128,128,128,0.06); margin-bottom: 8px;">
+                <span style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; opacity: 0.8;">📊 {t('pnl_title')}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.6;">{pnl_data['days_held_trd']}d {t('held_to_expiry')} {pnl_data['dte_trd']}d {t('to_expiry')}</span>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Use Streamlit columns for layout
+            col_entry, col_pnl, col_time = st.columns([1, 1.2, 1])
+            
+            with col_entry:
+                st.markdown(f"""
+                <div style="padding: 0 8px;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(128,128,128,0.2);">
+                        <span style="font-size: 11px; opacity: 0.6; text-transform: uppercase;">{t('entry_date')}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">{trade_conf['entry_date']}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(128,128,128,0.2);">
+                        <span style="font-size: 11px; opacity: 0.6; text-transform: uppercase;">{t('entry_px')}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">{trade_conf['entry_price']:.2f}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                        <span style="font-size: 11px; opacity: 0.6; text-transform: uppercase;">{t('current_px')}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">{cur_spread:.2f}</span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col_pnl:
+                st.markdown(f"""
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(128,128,128,0.1); border-radius: 8px; padding: 16px; height: 100%; min-height: 100px;">
+                    <div style="font-size: 11px; opacity: 0.6; text-transform: uppercase; margin-bottom: 6px;">{t('pnl')}</div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; color: {pnl_color};">{pnl_sign}{pnl_data['pnl']:.2f}</div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 16px; color: {pnl_color}; margin-top: 4px;">{pct_sign}{pnl_data['pnl_pct']:.1f}%</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col_time:
+                st.markdown(f"""
+                <div style="padding: 0 8px;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(128,128,128,0.2);">
+                        <span style="font-size: 11px; opacity: 0.6; text-transform: uppercase;">{t('days_held')}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">{pnl_data['days_held_trd']}d <span style="opacity:0.5;">({pnl_data['days_held_cal']} {t('cal')})</span></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(128,128,128,0.2);">
+                        <span style="font-size: 11px; opacity: 0.6; text-transform: uppercase;">{t('dte')}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">{pnl_data['dte_trd']}d <span style="opacity:0.5;">({pnl_data['dte_cal']} {t('cal')})</span></span>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div style="font-size: 10px; opacity: 0.5; margin-bottom: 6px;">{t('time_progress')}</div>
+                        <div style="background: rgba(128,128,128,0.2); border-radius: 4px; height: 6px; overflow: hidden;">
+                            <div style="background: {pnl_color}; height: 100%; width: {progress_pct:.1f}%; border-radius: 4px;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 9px; opacity: 0.4; margin-top: 4px;">
+                            <span>{t('entry_label')}</span>
+                            <span>{t('expiry_label')}</span>
+                        </div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+        
         st.markdown("---")
         
-        # 4. CHART
-        fig = create_spread_chart(df_chart, spread_name, st.session_state.language)
-        
-        # --- FIX IS HERE: ADDED UNIQUE KEY ---
-        st.plotly_chart(fig, width='stretch', theme="streamlit", key=f"main_chart_{prefix}")
-
+        # 4. CHART (with entry markers)
+        chart_entry_price = trade_conf["entry_price"] if trade_conf else None
+        chart_entry_date = trade_conf["entry_date"] if trade_conf else None
+        fig = create_spread_chart(df_chart, spread_name, st.session_state.language, chart_entry_price, chart_entry_date)
+        st.plotly_chart(fig, width='stretch', key=f"main_chart_{prefix}")
 
         # --- ANALYTICS SECTION ---
-        with st.expander(f"📊 {t('valuation_title')} & {t('calc_title')}"):
+        with st.expander(f"📊 {t('analytics')}", expanded=True):
             col_hist, col_calc = st.columns(2)
             
-            # --- LEFT COLUMN: HISTOGRAM ---
             with col_hist:
-                # [NEW] Add header here to match the right side alignment
-                st.markdown(f"**{t('dist_title')}**")
-                
+                lookback_label = f"{lookback_days} {t('days')}" if lookback_days < 9999 else t('since_listing')
+                st.markdown(f"""
+                                <span class="tooltip-container">
+                                    <span style="font-weight: 600; cursor: help;">{t('dist_title')} ({lookback_label}) ⓘ</span>
+                                    <span class="tooltip-text" style="width: 260px;">
+                                        <div class="tooltip-label">{t('dist_title')}</div>
+                                        <div style="font-size: 11px; line-height: 1.6;">{t('dist_tooltip')}</div>
+                                    </span>
+                                </span>
+                                """, unsafe_allow_html=True)
                 hist_fig = create_distribution_chart(df_chart, prefix, cur_spread, st.session_state.language)
-                st.plotly_chart(hist_fig, use_container_width=True, key=f"hist_{prefix}")
+                st.plotly_chart(hist_fig, width='stretch', key=f"hist_{prefix}")
 
-            # --- RIGHT COLUMN: CALCULATOR ---
             with col_calc:
-                st.markdown(f"**{t('calc_title')}**")
+                st.markdown(f"""
+                                <span class="tooltip-container">
+                                    <span style="font-weight: 600; cursor: help;">{t('calc_title')} ⓘ</span>
+                                    <span class="tooltip-text" style="width: 260px;">
+                                        <div class="tooltip-label">{t('calc_title')}</div>
+                                        <div style="font-size: 11px; line-height: 1.6;">{t('calc_tooltip')}</div>
+                                    </span>
+                                </span>
+                                """, unsafe_allow_html=True)
                 
-                # Inputs
-                c_in1, c_in2 = st.columns([1, 1])
-                with c_in1:
-                    sim_entry = st.number_input(
-                        t('entry_price'), 
-                        min_value=0.0, max_value=10.0, 
-                        value=float(cur_spread), step=0.05, format="%.2f", 
-                        key=f"sim_{prefix}"
-                    )
+                # Default to actual entry price if available, otherwise current spread
+                default_entry = trade_conf["entry_price"] if trade_conf else float(cur_spread)
                 
-                # Math
-                spread_width = 10.0
+                # Initialize session state for this spread's sim entry if not exists
+                sim_key = f"sim_{prefix}"
+                
+                if sim_key not in st.session_state:
+                    st.session_state[sim_key] = default_entry
+                
+                sim_entry = st.number_input(
+                    t('entry_price'), 
+                    min_value=0.0, max_value=10.0, 
+                    value=st.session_state[sim_key], step=0.05, format="%.2f", 
+                    key=f"sim_input_{prefix}"
+                )
+                st.session_state[sim_key] = sim_entry
+                
+                spread_width = 5.0
                 max_profit = spread_width - sim_entry
                 max_loss = sim_entry
                 rr_ratio = max_profit / max_loss if max_loss > 0 else 0
                 breakeven = 20 + sim_entry
-
-                # Stats display
-                st.caption(f"{t('max_profit')}: **{max_profit:.2f}** | {t('max_risk')}: **{max_loss:.2f}**")
-                st.caption(f"{t('rr_ratio')}: **1 : {rr_ratio:.1f}** | {t('breakeven')}: **{breakeven:.2f}**")
                 
-                # Payoff Chart
-                payoff_fig = create_payoff_chart(sim_entry, st.session_state.language)
-                payoff_fig.update_layout(height=220, margin=dict(t=30, b=20))
-                st.plotly_chart(payoff_fig, use_container_width=True, key=f"payoff_{prefix}")
+                # Calculate P&L at current VIX
+                current_vix_val = latest_vix if vix_spot_available else None
+                if current_vix_val:
+                    if current_vix_val <= 20:
+                        pnl_at_vix = -sim_entry  # Max loss
+                    elif current_vix_val >= 25:
+                        pnl_at_vix = spread_width - sim_entry  # Max profit
+                    else:
+                        pnl_at_vix = (current_vix_val - 20) - sim_entry
+                    pnl_color = "#26a69a" if pnl_at_vix >= 0 else "#ef5350"
+                    pnl_sign = "+" if pnl_at_vix >= 0 else ""
+
+                # Combined stats display with color coding
+                st.markdown(f"""
+                <div style="font-size: 13px; margin: 8px 0; line-height: 1.6;">
+                    <span style="color: #26a69a;">{t('max_profit')}: <b>+{max_profit:.2f}</b></span>
+                    <span style="opacity: 0.4; margin: 0 8px;">|</span>
+                    <span style="color: #ef5350;">{t('max_risk')}: <b>-{max_loss:.2f}</b></span>
+                    <span style="opacity: 0.4; margin: 0 8px;">|</span>
+                    <span>R/R: <b>1:{rr_ratio:.1f}</b></span>
+                    <span style="opacity: 0.4; margin: 0 8px;">|</span>
+                    <span style="color: #ffa726;">BE: <b>{breakeven:.2f}</b></span>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # Show P&L at current VIX
+                if current_vix_val:
+                    st.markdown(f"""
+                    <div style="font-size: 12px; margin: 4px 0 8px 0; opacity: 0.8;">
+                        {t('current_pnl')} ({current_vix_val:.2f}): <span style="color: {pnl_color}; font-weight: 600;">{pnl_sign}{pnl_at_vix:.2f}</span>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                payoff_fig = create_payoff_chart(sim_entry, st.session_state.language, current_vix_val)
+                payoff_fig.update_layout(height=220, margin=dict(t=10, b=20))
+                st.plotly_chart(payoff_fig, width='stretch', key=f"payoff_{prefix}")
 
 # --- DATA TABLE ---
 st.markdown("---")
 with st.expander(t('view_daily_log'), expanded=False):
     st.dataframe(full_df.sort_values("Date", ascending=False), width='stretch')
-
