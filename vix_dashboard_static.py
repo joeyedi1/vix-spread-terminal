@@ -4,7 +4,6 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from pathlib import Path
-import time
 from datetime import datetime
 
 # --- 1. PAGE CONFIG ---
@@ -74,7 +73,6 @@ TRANSLATIONS = {
         "now": "Now",
         "avg": "Avg",
         "be_abbr": "BE",
-        # NEW: P&L Tracking translations
         "pnl_title": "Trade Performance",
         "entry_date": "Entry Date",
         "entry_px": "Entry",
@@ -89,7 +87,6 @@ TRANSLATIONS = {
         "flat": "FLAT",
         "trading": "Trading",
         "calendar": "Calendar",
-        # Sidebar translations
         "market_context": "Market Context",
         "vix_spot": "VIX Spot",
         "key_dates": "Key Dates",
@@ -98,8 +95,6 @@ TRANSLATIONS = {
         "since_listing": "Since Listing",
         "distance_to_be": "Distance to Breakeven",
         "no_vix_data": "VIX data not available. Re-run fetcher.",
-        # Additional translations
-        "configuration": "Configuration",
         "time_progress": "Time Progress",
         "entry_label": "Entry",
         "expiry_label": "Expiry",
@@ -161,7 +156,6 @@ TRANSLATIONS = {
         "now": "现价",
         "avg": "均值",
         "be_abbr": "保本",
-        # NEW: P&L Tracking translations
         "pnl_title": "交易表现",
         "entry_date": "入场日期",
         "entry_px": "入场价",
@@ -176,7 +170,6 @@ TRANSLATIONS = {
         "flat": "持平",
         "trading": "交易日",
         "calendar": "日历日",
-        # Sidebar translations
         "market_context": "市场概况",
         "vix_spot": "VIX 现货",
         "key_dates": "关键日期",
@@ -185,8 +178,6 @@ TRANSLATIONS = {
         "since_listing": "自上市以来",
         "distance_to_be": "距离保本点",
         "no_vix_data": "VIX数据不可用，请重新运行数据获取程序。",
-        # Additional translations
-        "configuration": "配置",
         "time_progress": "时间进度",
         "entry_label": "入场",
         "expiry_label": "到期",
@@ -204,7 +195,7 @@ TRANSLATIONS = {
 
 # --- 4. SESSION STATE ---
 if 'language' not in st.session_state:
-    st.session_state.language = 'en'
+    st.session_state.language = 'zh'
 
 def t(key):
     return TRANSLATIONS[st.session_state.language].get(key, key)
@@ -1039,13 +1030,10 @@ for tab, spread_name in zip(tabs, active_spreads):
             
             # Determine colors
             if pnl_data["pnl"] > 0.01:
-                card_class = "pnl-card pnl-card-profit"
                 pnl_color = "#26a69a"
             elif pnl_data["pnl"] < -0.01:
-                card_class = "pnl-card pnl-card-loss"
                 pnl_color = "#ef5350"
             else:
-                card_class = "pnl-card"
                 pnl_color = "#9e9e9e"
             
             pnl_sign = "+" if pnl_data["pnl"] >= 0 else ""
