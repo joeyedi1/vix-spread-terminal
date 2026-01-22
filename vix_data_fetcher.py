@@ -2,6 +2,7 @@ import blpapi
 import pandas as pd
 import datetime
 import time
+import subprocess
 from pathlib import Path
 
 # --- CONFIGURATION ---
@@ -195,6 +196,33 @@ class BloombergEngine:
         if self.session:
             self.session.stop()
 
+# --- GIT AUTOMATION FUNCTION ---
+def push_to_github(file_path):
+    """
+    Commits and pushes the specific file to GitHub.
+    """
+    print(f"\n🚀 Starting Git Push for {file_path}...")
+    try:
+        # 1. Add the specific file
+        subprocess.run(["git", "add", str(file_path)], check=True)
+        
+        # 2. Commit with a timestamp
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        commit_message = f"Auto-update VIX Data: {timestamp}"
+        
+        # 'check=False' prevents crash if there are no changes to commit
+        subprocess.run(["git", "commit", "-m", commit_message], check=False)
+        
+        # 3. Push to main/master
+        result = subprocess.run(["git", "push"], capture_output=True, text=True)
+        
+        if result.returncode == 0:
+            print("✅ Successfully pushed to GitHub!")
+        else:
+            print(f"⚠️ Git Push Warning (Check connection): {result.stderr}")
+            
+    except Exception as e:
+        print(f"❌ Git Automation Failed: {e}")
 
 # --- MAIN LOGIC ---
 def main():
@@ -275,6 +303,9 @@ def main():
             print(f"   {name}: Long={latest[f'{prefix}_Long_Price']:.2f}, Short={latest[f'{prefix}_Short_Price']:.2f}, Spread={latest[f'{prefix}_Spread']:.2f}")
         
         engine.close()
+
+        # 5. Push to GitHub
+        push_to_github(CSV_PATH)
         
     except Exception as e:
         print(f"❌ Error: {e}")
