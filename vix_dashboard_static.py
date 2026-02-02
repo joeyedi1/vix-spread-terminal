@@ -870,92 +870,62 @@ mar_distance = ((mar_be - mar_futures) / mar_futures) * 100 if mar_futures and m
 # Header with VIX Futures info
 futures_available = feb_futures is not None or mar_futures is not None
 
+# Build header HTML
+header_parts = []
+header_parts.append(f'<div class="header-subtitle">{t("header_subtitle")}</div>')
+header_parts.append(f'<div class="header-title">{t("header_title")}</div>')
+
+# Build futures section
+futures_section = ""
 if futures_available:
-    # Build header info
-    header_info_parts = []
+    futures_items = []
     
-    # Show VIX Spot only if available and valid (non-zero)
-    if vix_spot_available and latest_vix_spot is not None and latest_vix_spot > 0:
-        header_info_parts.append(f"""
-        <div style="font-family: 'JetBrains Mono', monospace; text-align: center;">
-            <span style="opacity: 0.6; font-size: 10px; display: block;">VIX SPOT</span>
-            <span style="font-size: 18px; font-weight: 600;">{latest_vix_spot:.2f}</span>
-        </div>
-        """)
+    # VIX Spot (only if valid)
+    if vix_spot_available and latest_vix_spot and latest_vix_spot > 0:
+        futures_items.append(f'<div style="text-align:center;"><div style="opacity:0.6;font-size:10px;">VIX SPOT</div><div style="font-size:18px;font-weight:600;">{latest_vix_spot:.2f}</div></div>')
     
     # Feb Futures
-    if feb_futures is not None and feb_futures > 0:
-        feb_color = "#26a69a" if feb_futures_change >= 0 else "#ef5350"
-        feb_arrow = "▲" if feb_futures_change >= 0 else "▼"
-        feb_sign = "+" if feb_futures_change >= 0 else ""
-        header_info_parts.append(f"""
-        <div style="font-family: 'JetBrains Mono', monospace; text-align: center;">
-            <span style="opacity: 0.6; font-size: 10px; display: block;">FEB (UXG26)</span>
-            <span style="font-size: 18px; font-weight: 600;">{feb_futures:.2f}</span>
-            <span style="font-size: 11px; color: {feb_color};"> {feb_arrow}{feb_sign}{feb_futures_change:.2f}</span>
-        </div>
-        """)
+    if feb_futures and feb_futures > 0:
+        f_color = "#26a69a" if feb_futures_change >= 0 else "#ef5350"
+        f_arrow = "+" if feb_futures_change >= 0 else ""
+        futures_items.append(f'<div style="text-align:center;"><div style="opacity:0.6;font-size:10px;">FEB UXG26</div><div style="font-size:18px;font-weight:600;">{feb_futures:.2f}</div><div style="font-size:11px;color:{f_color};">{f_arrow}{feb_futures_change:.2f}</div></div>')
     
     # Mar Futures
-    if mar_futures is not None and mar_futures > 0:
-        mar_color = "#26a69a" if mar_futures_change >= 0 else "#ef5350"
-        mar_arrow = "▲" if mar_futures_change >= 0 else "▼"
-        mar_sign = "+" if mar_futures_change >= 0 else ""
-        header_info_parts.append(f"""
-        <div style="font-family: 'JetBrains Mono', monospace; text-align: center;">
-            <span style="opacity: 0.6; font-size: 10px; display: block;">MAR (UXH26)</span>
-            <span style="font-size: 18px; font-weight: 600;">{mar_futures:.2f}</span>
-            <span style="font-size: 11px; color: {mar_color};"> {mar_arrow}{mar_sign}{mar_futures_change:.2f}</span>
-        </div>
-        """)
+    if mar_futures and mar_futures > 0:
+        f_color = "#26a69a" if mar_futures_change >= 0 else "#ef5350"
+        f_arrow = "+" if mar_futures_change >= 0 else ""
+        futures_items.append(f'<div style="text-align:center;"><div style="opacity:0.6;font-size:10px;">MAR UXH26</div><div style="font-size:18px;font-weight:600;">{mar_futures:.2f}</div><div style="font-size:11px;color:{f_color};">{f_arrow}{mar_futures_change:.2f}</div></div>')
     
-    # Breakeven info - use futures for each spread
-    be_parts = []
-    if feb_futures is not None and feb_futures > 0 and feb_distance is not None:
-        be_color = "#ef5350" if feb_distance > 0 else "#26a69a"
-        be_parts.append(f'<span style="opacity: 0.6;">{t("feb_be_label")}:</span> <span style="color: {be_color};">{feb_be:.2f} ({feb_distance:+.1f}%)</span>')
-    if mar_futures is not None and mar_futures > 0 and mar_distance is not None:
-        be_color = "#ef5350" if mar_distance > 0 else "#26a69a"
-        be_parts.append(f'<span style="opacity: 0.6;">{t("mar_be_label")}:</span> <span style="color: {be_color};">{mar_be:.2f} ({mar_distance:+.1f}%)</span>')
-    
-    be_html = '<span style="margin: 0 12px; opacity: 0.3;">|</span>'.join(be_parts) if be_parts else ""
-    
-    # Join header parts with dividers
-    header_content = ""
-    if header_info_parts:
-        header_content = '<div style="width: 1px; height: 30px; background: rgba(128,128,128,0.3);"></div>'.join(header_info_parts)
-    
-    st.markdown(f"""
-    <div class="dashboard-header">
-        <div>
-            <div class="header-subtitle">{t('header_subtitle')}</div>
-            <div class="header-title">{t('header_title')}</div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 24px;">
-            {header_content}
-        </div>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
-            {be_html}
-        </div>
-        <div class="live-badge">
-            <div class="live-dot"></div>
-            {t('live_data')}
-        </div>
+    if futures_items:
+        futures_section = '<div style="display:flex;gap:24px;font-family:monospace;">' + ''.join(futures_items) + '</div>'
+
+# Build breakeven section
+be_section = ""
+be_items = []
+if feb_futures and feb_futures > 0 and feb_distance is not None:
+    be_color = "#ef5350" if feb_distance > 0 else "#26a69a"
+    be_items.append(f'{t("feb_be_label")}: <span style="color:{be_color};">{feb_be:.2f} ({feb_distance:+.1f}%)</span>')
+if mar_futures and mar_futures > 0 and mar_distance is not None:
+    be_color = "#ef5350" if mar_distance > 0 else "#26a69a"
+    be_items.append(f'{t("mar_be_label")}: <span style="color:{be_color};">{mar_be:.2f} ({mar_distance:+.1f}%)</span>')
+if be_items:
+    be_section = '<div style="font-family:monospace;font-size:11px;">' + ' | '.join(be_items) + '</div>'
+
+# Render header
+st.markdown(f'''
+<div class="dashboard-header">
+    <div>
+        <div class="header-subtitle">{t("header_subtitle")}</div>
+        <div class="header-title">{t("header_title")}</div>
     </div>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown(f"""
-    <div class="dashboard-header">
-        <div>
-            <div class="header-subtitle">{t('header_subtitle')}</div>
-            <div class="header-title">{t('header_title')}</div>
-        </div>
-        <div class="live-badge">
-            <div class="live-dot"></div>
-            {t('live_data')}
-        </div>
+    {futures_section}
+    {be_section}
+    <div class="live-badge">
+        <div class="live-dot"></div>
+        {t("live_data")}
     </div>
-    """, unsafe_allow_html=True)
+</div>
+''', unsafe_allow_html=True)
 
 if full_df is None or full_df.empty:
     st.error(t('no_file'))
