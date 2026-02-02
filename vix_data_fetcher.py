@@ -12,21 +12,30 @@ START_DATE = "20251001"  # Adjusted for 90-day lookback
 # Debug mode - set to True to see what Bloomberg returns
 DEBUG_MODE = False
 
-# VIX Spot Index
-VIX_SPOT_TICKER = "VIX Index"
+# --- CHANGE 1: Replace VIX Spot with VIX Futures ---
+# Each spread should reference its corresponding VIX futures contract
+# Bloomberg VIX Futures format: UX + month code + year digits + " Index"
+# Month codes: F=Jan, G=Feb, H=Mar, J=Apr, K=May, M=Jun, N=Jul, Q=Aug, U=Sep, V=Oct, X=Nov, Z=Dec
 
 SPREADS_CONFIG = {
     "Feb 2026": {
         "expiry": "02/18/26",
         "long": "VIX US 02/18/26 C20 Index",
         "short": "VIX US 02/18/26 C25 Index",
+        "futures": "UXG26 Index",  # Feb 2026 VIX Futures (G = February)
     },
     "Mar 2026": {
         "expiry": "03/18/26",
         "long": "VIX US 03/18/26 C20 Index",
         "short": "VIX US 03/18/26 C25 Index",
+        "futures": "UXH26 Index",  # Mar 2026 VIX Futures (H = March)
     },
 }
+
+# Optional: Also track VIX spot for reference (contango analysis)
+VIX_SPOT_TICKER = "VIX Index"
+INCLUDE_VIX_SPOT = True  # Set to False if you only want futures
+
 
 # --- BLOOMBERG ENGINE ---
 class BloombergEngine:
@@ -229,10 +238,23 @@ def main():
     try:
         engine = BloombergEngine()
         
-        # Collect all tickers including VIX spot
-        all_tickers = [VIX_SPOT_TICKER]  # Add VIX spot first
+        # --- CHANGE 2: Collect all tickers including VIX futures for each spread ---
+        all_tickers = []
+        
+        # Optionally include VIX spot for contango reference
+        if INCLUDE_VIX_SPOT:
+            all_tickers.append(VIX_SPOT_TICKER)
+        
+        # Add futures and options for each spread
         for conf in SPREADS_CONFIG.values():
-            all_tickers.extend([conf["long"], conf["short"]])
+            all_tickers.append(conf["futures"])  # VIX Futures
+            all_tickers.append(conf["long"])      # Long option leg
+            all_tickers.append(conf["short"])     # Short option leg
+            
+        # Remove duplicates while preserving order
+        all_tickers = list(dict.fromkeys(all_tickers))
+        
+        print(f"Tickers to fetch: {all_tickers}")
             
         # 1. Get Raw History
         raw_df = engine.get_history(all_tickers, START_DATE)
@@ -255,13 +277,23 @@ def main():
             date_df = raw_df[raw_df["Date"] == date]
             row = {"Date": date}
             
-            # Get VIX Spot
-            vix_row = date_df[date_df["Ticker"] == VIX_SPOT_TICKER]
-            vix_spot = vix_row["Price"].values[0] if not vix_row.empty else 0.0
-            row["VIX_Spot"] = vix_spot
+            # --- CHANGE 3: Get VIX Spot (optional, for contango analysis) ---
+            if INCLUDE_VIX_SPOT:
+                vix_row = date_df[date_df["Ticker"] == VIX_SPOT_TICKER]
+                vix_spot = vix_row["Price"].values[0] if not vix_row.empty else 0.0
+                row["VIX_Spot"] = vix_spot
             
             for name, conf in SPREADS_CONFIG.items():
                 prefix = name.replace(" ", "_")
+                
+                # --- CHANGE 4: Get VIX Futures price for this spread's expiry ---
+                futures_row = date_df[date_df["Ticker"] == conf["futures"]]
+                futures_price = futures_row["Price"].values[0] if not futures_row.empty else 0.0
+                row[f"{prefix}_VIX_Futures"] = futures_price
+                
+                # Calculate contango (futures - spot) if spot is included
+                if INCLUDE_VIX_SPOT and futures_price > 0 and row.get("VIX_Spot", 0) > 0:
+                    row[f"{prefix}_Contango"] = futures_price - row["VIX_Spot"]
                 
                 # Get Long Leg
                 l_row = date_df[date_df["Ticker"] == conf["long"]]
@@ -285,6 +317,12 @@ def main():
                 row[f"{prefix}_Short_Volume"] = s_vol
                 row[f"{prefix}_Spread"] = spread
                 row[f"{prefix}_Total_Volume"] = l_vol + s_vol
+                
+                # --- CHANGE 5: Calculate moneyness (distance from futures to strikes) ---
+                if futures_price > 0:
+                    # For C20/C25 spread, show how far futures is from strikes
+                    row[f"{prefix}_Futures_to_C20"] = futures_price - 20  # Negative = OTM
+                    row[f"{prefix}_Futures_to_C25"] = futures_price - 25  # Negative = OTM
 
             final_rows.append(row)
             
@@ -297,10 +335,24 @@ def main():
         print(f"\n   Latest data point:")
         latest = final_df.iloc[-1]
         print(f"   Date: {latest['Date']}")
-        print(f"   VIX Spot: {latest['VIX_Spot']:.2f}")
-        for name in SPREADS_CONFIG.keys():
+        
+        if INCLUDE_VIX_SPOT:
+            print(f"   VIX Spot: {latest['VIX_Spot']:.2f}")
+        
+        for name, conf in SPREADS_CONFIG.items():
             prefix = name.replace(" ", "_")
-            print(f"   {name}: Long={latest[f'{prefix}_Long_Price']:.2f}, Short={latest[f'{prefix}_Short_Price']:.2f}, Spread={latest[f'{prefix}_Spread']:.2f}")
+            futures_val = latest.get(f'{prefix}_VIX_Futures', 0)
+            print(f"\n   {name}:")
+            print(f"     VIX Futures ({conf['futures']}): {futures_val:.2f}")
+            if INCLUDE_VIX_SPOT and futures_val > 0:
+                contango = latest.get(f'{prefix}_Contango', 0)
+                print(f"     Contango: {contango:+.2f}")
+            print(f"     Long (C20): {latest[f'{prefix}_Long_Price']:.2f}")
+            print(f"     Short (C25): {latest[f'{prefix}_Short_Price']:.2f}")
+            print(f"     Spread: {latest[f'{prefix}_Spread']:.2f}")
+            if futures_val > 0:
+                print(f"     Futures distance to C20: {latest.get(f'{prefix}_Futures_to_C20', 0):+.2f}")
+                print(f"     Futures distance to C25: {latest.get(f'{prefix}_Futures_to_C25', 0):+.2f}")
         
         engine.close()
 
