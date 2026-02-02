@@ -899,15 +899,35 @@ if futures_available:
     if futures_items:
         futures_section = '<div style="display:flex;gap:24px;font-family:monospace;">' + ''.join(futures_items) + '</div>'
 
-# Build breakeven section
+# Build breakeven section with tooltips
 be_section = ""
 be_items = []
 if feb_futures and feb_futures > 0 and feb_distance is not None:
     be_color = "#ef5350" if feb_distance > 0 else "#26a69a"
-    be_items.append(f'{t("feb_be_label")}: <span style="color:{be_color};">{feb_be:.2f} ({feb_distance:+.1f}%)</span>')
+    # Tooltip text based on language
+    if st.session_state.language == 'en':
+        feb_tooltip_main = f"VIX futures needs to rise {feb_distance:.1f}% to reach breakeven" if feb_distance > 0 else f"VIX futures is {abs(feb_distance):.1f}% above breakeven"
+        feb_tooltip_hint = "Below breakeven - Loss zone" if feb_distance > 0 else "Above breakeven - Profit zone"
+        be_label_text = "Breakeven"
+    else:
+        feb_tooltip_main = f"VIX期货需上涨 {feb_distance:.1f}% 才能达到保本点" if feb_distance > 0 else f"VIX期货已高于保本点 {abs(feb_distance):.1f}%"
+        feb_tooltip_hint = "低于保本点 - 亏损区" if feb_distance > 0 else "高于保本点 - 盈利区"
+        be_label_text = "保本点"
+    be_items.append(f'''<span class="tooltip-container"><span style="opacity:0.6;">{t("feb_be_label")}:</span> <span style="color:{be_color};">{feb_be:.2f} ({feb_distance:+.1f}%)</span><span class="tooltip-text"><div class="tooltip-label">{be_label_text}: {feb_be:.2f}</div><div class="tooltip-value">{feb_tooltip_main}</div><div class="tooltip-hint">{feb_tooltip_hint}</div></span></span>''')
+
 if mar_futures and mar_futures > 0 and mar_distance is not None:
     be_color = "#ef5350" if mar_distance > 0 else "#26a69a"
-    be_items.append(f'{t("mar_be_label")}: <span style="color:{be_color};">{mar_be:.2f} ({mar_distance:+.1f}%)</span>')
+    # Tooltip text based on language
+    if st.session_state.language == 'en':
+        mar_tooltip_main = f"VIX futures needs to rise {mar_distance:.1f}% to reach breakeven" if mar_distance > 0 else f"VIX futures is {abs(mar_distance):.1f}% above breakeven"
+        mar_tooltip_hint = "Below breakeven - Loss zone" if mar_distance > 0 else "Above breakeven - Profit zone"
+        be_label_text = "Breakeven"
+    else:
+        mar_tooltip_main = f"VIX期货需上涨 {mar_distance:.1f}% 才能达到保本点" if mar_distance > 0 else f"VIX期货已高于保本点 {abs(mar_distance):.1f}%"
+        mar_tooltip_hint = "低于保本点 - 亏损区" if mar_distance > 0 else "高于保本点 - 盈利区"
+        be_label_text = "保本点"
+    be_items.append(f'''<span class="tooltip-container"><span style="opacity:0.6;">{t("mar_be_label")}:</span> <span style="color:{be_color};">{mar_be:.2f} ({mar_distance:+.1f}%)</span><span class="tooltip-text"><div class="tooltip-label">{be_label_text}: {mar_be:.2f}</div><div class="tooltip-value">{mar_tooltip_main}</div><div class="tooltip-hint">{mar_tooltip_hint}</div></span></span>''')
+
 if be_items:
     be_section = '<div style="font-family:monospace;font-size:11px;">' + ' | '.join(be_items) + '</div>'
 
