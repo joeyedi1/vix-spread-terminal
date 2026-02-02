@@ -880,6 +880,14 @@ futures_section = ""
 if futures_available:
     futures_items = []
     
+    # Get translated month labels
+    if st.session_state.language == 'zh':
+        feb_label = "2月"
+        mar_label = "3月"
+    else:
+        feb_label = "FEB"
+        mar_label = "MAR"
+    
     # VIX Spot (only if valid)
     if vix_spot_available and latest_vix_spot and latest_vix_spot > 0:
         futures_items.append(f'<div style="text-align:center;"><div style="opacity:0.6;font-size:10px;">VIX SPOT</div><div style="font-size:18px;font-weight:600;">{latest_vix_spot:.2f}</div></div>')
@@ -888,13 +896,13 @@ if futures_available:
     if feb_futures and feb_futures > 0:
         f_color = "#26a69a" if feb_futures_change >= 0 else "#ef5350"
         f_arrow = "+" if feb_futures_change >= 0 else ""
-        futures_items.append(f'<div style="text-align:center;"><div style="opacity:0.6;font-size:10px;">FEB UXG26</div><div style="font-size:18px;font-weight:600;">{feb_futures:.2f}</div><div style="font-size:11px;color:{f_color};">{f_arrow}{feb_futures_change:.2f}</div></div>')
+        futures_items.append(f'<div style="text-align:center;"><div style="opacity:0.6;font-size:10px;">{feb_label} UXG26</div><div style="font-size:18px;font-weight:600;">{feb_futures:.2f}</div><div style="font-size:11px;color:{f_color};">{f_arrow}{feb_futures_change:.2f}</div></div>')
     
     # Mar Futures
     if mar_futures and mar_futures > 0:
         f_color = "#26a69a" if mar_futures_change >= 0 else "#ef5350"
         f_arrow = "+" if mar_futures_change >= 0 else ""
-        futures_items.append(f'<div style="text-align:center;"><div style="opacity:0.6;font-size:10px;">MAR UXH26</div><div style="font-size:18px;font-weight:600;">{mar_futures:.2f}</div><div style="font-size:11px;color:{f_color};">{f_arrow}{mar_futures_change:.2f}</div></div>')
+        futures_items.append(f'<div style="text-align:center;"><div style="opacity:0.6;font-size:10px;">{mar_label} UXH26</div><div style="font-size:18px;font-weight:600;">{mar_futures:.2f}</div><div style="font-size:11px;color:{f_color};">{f_arrow}{mar_futures_change:.2f}</div></div>')
     
     if futures_items:
         futures_section = '<div style="display:flex;gap:24px;font-family:monospace;">' + ''.join(futures_items) + '</div>'
