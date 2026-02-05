@@ -34,7 +34,7 @@ SPREADS_CONFIG = {
 
 # Optional: Also track VIX spot for reference (contango analysis)
 VIX_SPOT_TICKER = "VIX Index"
-INCLUDE_VIX_SPOT = True  # Set to False if you only want futures
+INCLUDE_VIX_SPOT = False  # Set to False if you only want futures
 
 
 # --- BLOOMBERG ENGINE ---
