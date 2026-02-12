@@ -22,13 +22,25 @@ SPREADS_CONFIG = {
         "expiry": "02/18/26",
         "long": "VIX US 02/18/26 C20 Index",
         "short": "VIX US 02/18/26 C25 Index",
+        "long_strike": 20,
+        "short_strike": 25,
         "futures": "UXG26 Index",  # Feb 2026 VIX Futures (G = February)
     },
     "Mar 2026": {
         "expiry": "03/18/26",
         "long": "VIX US 03/18/26 C20 Index",
         "short": "VIX US 03/18/26 C25 Index",
+        "long_strike": 20,
+        "short_strike": 25,
         "futures": "UXH26 Index",  # Mar 2026 VIX Futures (H = March)
+    },
+    "Mar 2026 20-40": {
+        "expiry": "03/18/26",
+        "long": "VIX US 03/18/26 C20 Index",
+        "short": "VIX US 03/18/26 C40 Index",
+        "long_strike": 20,
+        "short_strike": 40,
+        "futures": "UXH26 Index",  # Same Mar 2026 VIX Futures
     },
 }
 
@@ -320,9 +332,10 @@ def main():
                 
                 # --- CHANGE 5: Calculate moneyness (distance from futures to strikes) ---
                 if futures_price > 0:
-                    # For C20/C25 spread, show how far futures is from strikes
-                    row[f"{prefix}_Futures_to_C20"] = futures_price - 20  # Negative = OTM
-                    row[f"{prefix}_Futures_to_C25"] = futures_price - 25  # Negative = OTM
+                    long_k = conf.get("long_strike", 20)
+                    short_k = conf.get("short_strike", 25)
+                    row[f"{prefix}_Futures_to_C{long_k}"] = futures_price - long_k
+                    row[f"{prefix}_Futures_to_C{short_k}"] = futures_price - short_k
 
             final_rows.append(row)
             
@@ -341,18 +354,20 @@ def main():
         
         for name, conf in SPREADS_CONFIG.items():
             prefix = name.replace(" ", "_")
+            long_k = conf.get("long_strike", 20)
+            short_k = conf.get("short_strike", 25)
             futures_val = latest.get(f'{prefix}_VIX_Futures', 0)
-            print(f"\n   {name}:")
+            print(f"\n   {name} (C{long_k}/C{short_k}):")
             print(f"     VIX Futures ({conf['futures']}): {futures_val:.2f}")
             if INCLUDE_VIX_SPOT and futures_val > 0:
                 contango = latest.get(f'{prefix}_Contango', 0)
                 print(f"     Contango: {contango:+.2f}")
-            print(f"     Long (C20): {latest[f'{prefix}_Long_Price']:.2f}")
-            print(f"     Short (C25): {latest[f'{prefix}_Short_Price']:.2f}")
+            print(f"     Long (C{long_k}): {latest[f'{prefix}_Long_Price']:.2f}")
+            print(f"     Short (C{short_k}): {latest[f'{prefix}_Short_Price']:.2f}")
             print(f"     Spread: {latest[f'{prefix}_Spread']:.2f}")
             if futures_val > 0:
-                print(f"     Futures distance to C20: {latest.get(f'{prefix}_Futures_to_C20', 0):+.2f}")
-                print(f"     Futures distance to C25: {latest.get(f'{prefix}_Futures_to_C25', 0):+.2f}")
+                print(f"     Futures distance to C{long_k}: {latest.get(f'{prefix}_Futures_to_C{long_k}', 0):+.2f}")
+                print(f"     Futures distance to C{short_k}: {latest.get(f'{prefix}_Futures_to_C{short_k}', 0):+.2f}")
         
         engine.close()
 

@@ -24,20 +24,32 @@ SPREADS_CONFIG = {
         "expiry_date": "2026-02-18",
         "futures_col": "Feb_2026_VIX_Futures",  # Column name in CSV
         "futures_ticker": "UXG26",  # For display
+        "long_strike": 20,
+        "short_strike": 25,
     },
     "Mar 2026": {
         "prefix": "Mar_2026", 
         "expiry_date": "2026-03-18",
         "futures_col": "Mar_2026_VIX_Futures",
         "futures_ticker": "UXH26",
+        "long_strike": 20,
+        "short_strike": 25,
+    },
+    "Mar 2026 20-40": {
+        "prefix": "Mar_2026_20-40",
+        "expiry_date": "2026-03-18",
+        "futures_col": "Mar_2026_20-40_VIX_Futures",
+        "futures_ticker": "UXH26",
+        "long_strike": 20,
+        "short_strike": 40,
     },
 }
 
 SPREADS_CONFIG_NAMES = {
-    "en": {"Feb 2026": "Feb 2026", "Mar 2026": "Mar 2026"},
-    "zh": {"Feb 2026": "2026年2月", "Mar 2026": "2026年3月"}
+    "en": {"Feb 2026": "Feb 2026", "Mar 2026": "Mar 2026", "Mar 2026 20-40": "Mar 2026 (20/40)"},
+    "zh": {"Feb 2026": "2026年2月", "Mar 2026": "2026年3月", "Mar 2026 20-40": "2026年3月 (20/40)"}
 }
-SPREAD_KEYS = ["Feb 2026", "Mar 2026"]
+SPREAD_KEYS = ["Feb 2026", "Mar 2026", "Mar 2026 20-40"]
 
 # --- 3. TRANSLATIONS ---
 TRANSLATIONS = {
@@ -65,6 +77,7 @@ TRANSLATIONS = {
         "mean": "Mean",
         "feb_be_label": "Feb BE",
         "mar_be_label": "Mar BE",
+        "mar_2040_be_label": "Mar 20/40 BE",
         "long_leg_chart": "C20 (Long)",
         "short_leg_chart": "C25 (Short)",
         "view_daily_log": "📁 View Data Source",
@@ -121,6 +134,7 @@ TRANSLATIONS = {
         "cal": "cal",
         "feb_entry": "Feb Entry",
         "mar_entry": "Mar Entry",
+        "mar_2040_entry": "Mar 20/40 Entry",
         "current_pnl": "At current futures",
         "analytics": "Analytics",
         "dist_tooltip": "Historical spread prices over selected period. Compare current price to mean for relative value.",
@@ -151,6 +165,7 @@ TRANSLATIONS = {
         "mean": "均值",
         "feb_be_label": "2月保本",
         "mar_be_label": "3月保本",
+        "mar_2040_be_label": "3月20/40保本",
         "long_leg_chart": "C20 (多头)",
         "short_leg_chart": "C25 (空头)",
         "view_daily_log": "📁 查看源数据",
@@ -207,6 +222,7 @@ TRANSLATIONS = {
         "cal": "日历",
         "feb_entry": "二月入场价",
         "mar_entry": "三月入场价",
+        "mar_2040_entry": "三月20/40入场价",
         "current_pnl": "当前期货价",
         "analytics": "分析",
         "dist_tooltip": "所选期间的历史价差价格。将当前价格与均值比较以判断相对价值。",
@@ -501,6 +517,8 @@ def calculate_valuation(series: pd.Series, current_value: float):
 # --- 7. CHART FUNCTION ---
 def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str, entry_price: float = None, entry_date: str = None):
     prefix = SPREADS_CONFIG[spread_name]["prefix"]
+    K1 = SPREADS_CONFIG[spread_name]["long_strike"]
+    K2 = SPREADS_CONFIG[spread_name]["short_strike"]
     
     if f"{prefix}_Spread" not in df.columns:
         return go.Figure()
@@ -518,8 +536,8 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str, entry_pri
     legs_label = TRANSLATIONS[lang]["individual_legs"]
     volume_label = TRANSLATIONS[lang]["volume_title"]
     mean_label = TRANSLATIONS[lang]["mean"]
-    long_leg_label = TRANSLATIONS[lang]["long_leg_chart"]
-    short_leg_label = TRANSLATIONS[lang]["short_leg_chart"]
+    long_leg_label = f"C{K1} ({'Long' if lang == 'en' else '多头'})"
+    short_leg_label = f"C{K2} ({'Short' if lang == 'en' else '空头'})"
     display_name = SPREADS_CONFIG_NAMES[lang].get(spread_name, spread_name)
 
     if has_volume:
@@ -653,15 +671,17 @@ def create_distribution_chart(df, prefix, current_val, lang):
     return fig
 
 # --- PAYOFF CALCULATOR CHART (Updated to use VIX Futures) ---
-def create_payoff_chart(entry_price, lang, current_futures=None):
+def create_payoff_chart(entry_price, lang, current_futures=None, long_strike=20, short_strike=25):
     """
     Payoff chart using VIX FUTURES as x-axis (not spot).
     VIX options settle to futures at expiration.
     """
-    K1 = 20  # Long call strike
-    K2 = 25  # Short call strike
+    K1 = long_strike   # Long call strike
+    K2 = short_strike   # Short call strike
     
-    futures_prices = list(range(10, 50, 1))
+    # Extend range to cover wider spreads
+    max_x = max(50, K2 + 15)
+    futures_prices = list(range(10, max_x, 1))
     pnl = []
     
     for f in futures_prices:
@@ -711,9 +731,10 @@ def create_payoff_chart(entry_price, lang, current_futures=None):
         hovermode="x unified"
     )
     
-    fig.add_shape(type="rect", x0=10, y0=0, x1=50, y1=15, 
+    spread_width = K2 - K1
+    fig.add_shape(type="rect", x0=10, y0=0, x1=max_x, y1=spread_width, 
                   fillcolor="rgba(38,166,154,0.1)", layer="below", line_width=0)
-    fig.add_shape(type="rect", x0=10, y0=-15, x1=50, y1=0, 
+    fig.add_shape(type="rect", x0=10, y0=-entry_price - 1, x1=max_x, y1=0, 
                   fillcolor="rgba(239,83,80,0.1)", layer="below", line_width=0)
 
     return fig
@@ -727,6 +748,8 @@ if 'feb_entry_price' not in st.session_state:
     st.session_state.feb_entry_price = 0.63
 if 'mar_entry_price' not in st.session_state:
     st.session_state.mar_entry_price = 0.91
+if 'mar_2040_entry_price' not in st.session_state:
+    st.session_state.mar_2040_entry_price = 1.45
 
 today = datetime.now().date()
 
@@ -769,6 +792,7 @@ if full_df is not None and "VIX_Spot" in full_df.columns:
 # Get futures for each spread
 feb_futures, feb_futures_prev, feb_futures_change = get_futures_data(full_df, "Feb 2026")
 mar_futures, mar_futures_prev, mar_futures_change = get_futures_data(full_df, "Mar 2026")
+mar_2040_futures, mar_2040_futures_prev, mar_2040_futures_change = get_futures_data(full_df, "Mar 2026 20-40")
 
 # Debug output (can remove later)
 # st.write(f"DEBUG: Feb Futures = {feb_futures}, Mar Futures = {mar_futures}, VIX Spot = {latest_vix_spot}")
@@ -823,6 +847,15 @@ with st.sidebar:
         )
         st.session_state.mar_entry_price = mar_entry
     
+    mar_2040_entry = st.number_input(
+        t('mar_2040_entry'),
+        min_value=0.0, max_value=20.0,
+        value=st.session_state.mar_2040_entry_price,
+        step=0.01, format="%.2f",
+        key="mar_2040_entry_input"
+    )
+    st.session_state.mar_2040_entry_price = mar_2040_entry
+    
     st.markdown("---")
     
     # Data Settings
@@ -855,20 +888,27 @@ TRADE_CONFIG = {
         "entry_price": st.session_state.mar_entry_price,
         "expiry_date": "2026-03-18",
     },
+    "Mar 2026 20-40": {
+        "entry_date": st.session_state.trade_entry_date.strftime("%Y-%m-%d"),
+        "entry_price": st.session_state.mar_2040_entry_price,
+        "expiry_date": "2026-03-18",
+    },
 }
 
 # --- UPDATED: Calculate breakeven distances using FUTURES ---
 feb_be = 20 + st.session_state.feb_entry_price
 mar_be = 20 + st.session_state.mar_entry_price
+mar_2040_be = 20 + st.session_state.mar_2040_entry_price
 
 # Use corresponding futures for each spread's breakeven calculation
 feb_distance = ((feb_be - feb_futures) / feb_futures) * 100 if feb_futures and feb_futures > 0 else None
 mar_distance = ((mar_be - mar_futures) / mar_futures) * 100 if mar_futures and mar_futures > 0 else None
+mar_2040_distance = ((mar_2040_be - mar_2040_futures) / mar_2040_futures) * 100 if mar_2040_futures and mar_2040_futures > 0 else None
 
 # --- 9. MAIN DASHBOARD ---
 
 # Header with VIX Futures info
-futures_available = feb_futures is not None or mar_futures is not None
+futures_available = feb_futures is not None or mar_futures is not None or mar_2040_futures is not None
 
 # Build header HTML
 header_parts = []
@@ -936,6 +976,18 @@ if mar_futures and mar_futures > 0 and mar_distance is not None:
         be_label_text = "保本点"
     be_items.append(f'''<span class="tooltip-container"><span style="opacity:0.6;">{t("mar_be_label")}:</span> <span style="color:{be_color};">{mar_be:.2f} ({mar_distance:+.1f}%)</span><span class="tooltip-text"><div class="tooltip-label">{be_label_text}: {mar_be:.2f}</div><div class="tooltip-value">{mar_tooltip_main}</div><div class="tooltip-hint">{mar_tooltip_hint}</div></span></span>''')
 
+if mar_2040_futures and mar_2040_futures > 0 and mar_2040_distance is not None:
+    be_color = "#ef5350" if mar_2040_distance > 0 else "#26a69a"
+    if st.session_state.language == 'en':
+        m2040_tooltip_main = f"VIX futures needs to rise {mar_2040_distance:.1f}% to reach breakeven" if mar_2040_distance > 0 else f"VIX futures is {abs(mar_2040_distance):.1f}% above breakeven"
+        m2040_tooltip_hint = "Below breakeven - Loss zone" if mar_2040_distance > 0 else "Above breakeven - Profit zone"
+        be_label_text = "Breakeven"
+    else:
+        m2040_tooltip_main = f"VIX期货需上涨 {mar_2040_distance:.1f}% 才能达到保本点" if mar_2040_distance > 0 else f"VIX期货已高于保本点 {abs(mar_2040_distance):.1f}%"
+        m2040_tooltip_hint = "低于保本点 - 亏损区" if mar_2040_distance > 0 else "高于保本点 - 盈利区"
+        be_label_text = "保本点"
+    be_items.append(f'''<span class="tooltip-container"><span style="opacity:0.6;">{t("mar_2040_be_label")}:</span> <span style="color:{be_color};">{mar_2040_be:.2f} ({mar_2040_distance:+.1f}%)</span><span class="tooltip-text"><div class="tooltip-label">{be_label_text}: {mar_2040_be:.2f}</div><div class="tooltip-value">{m2040_tooltip_main}</div><div class="tooltip-hint">{m2040_tooltip_hint}</div></span></span>''')
+
 if be_items:
     be_section = '<div style="font-family:monospace;font-size:11px;">' + ' | '.join(be_items) + '</div>'
 
@@ -979,6 +1031,11 @@ tabs = st.tabs(tab_names)
 for tab, spread_name in zip(tabs, active_spreads):
     with tab:
         prefix = SPREADS_CONFIG[spread_name]["prefix"]
+        
+        # Check if this spread's data exists in the CSV
+        if f"{prefix}_Spread" not in full_df.columns:
+            st.warning(f"No data for {spread_name} yet. Re-run the data fetcher to populate this spread.")
+            continue
         
         # Get current futures for this spread from the config
         futures_col = SPREADS_CONFIG[spread_name]["futures_col"]
@@ -1057,8 +1114,18 @@ for tab, spread_name in zip(tabs, active_spreads):
             </div>
             """, unsafe_allow_html=True)
             
-        render_metric(c2, t('long_leg'), cur_long, d_long, cur_l_vol)
-        render_metric(c3, t('short_leg'), cur_short, d_short, cur_s_vol)
+        # Dynamic leg labels based on strikes
+        K1 = SPREADS_CONFIG[spread_name]["long_strike"]
+        K2 = SPREADS_CONFIG[spread_name]["short_strike"]
+        if st.session_state.language == 'en':
+            long_label = f"Long Leg (C{K1})"
+            short_label = f"Short Leg (C{K2})"
+        else:
+            long_label = f"多头 (C{K1})"
+            short_label = f"空头 (C{K2})"
+            
+        render_metric(c2, long_label, cur_long, d_long, cur_l_vol)
+        render_metric(c3, short_label, cur_short, d_short, cur_s_vol)
         render_metric(c4, t('net_spread'), cur_spread, d_spread)
         
         # 3. VALUATION LINE
@@ -1225,26 +1292,29 @@ for tab, spread_name in zip(tabs, active_spreads):
                 
                 sim_entry = st.number_input(
                     t('entry_price'), 
-                    min_value=0.0, max_value=10.0, 
+                    min_value=0.0, max_value=25.0, 
                     value=st.session_state[sim_key], step=0.05, format="%.2f", 
                     key=f"sim_input_{prefix}"
                 )
                 st.session_state[sim_key] = sim_entry
                 
-                spread_width = 5.0
+                # Dynamic strikes from config
+                K1 = SPREADS_CONFIG[spread_name]["long_strike"]
+                K2 = SPREADS_CONFIG[spread_name]["short_strike"]
+                spread_width = float(K2 - K1)
                 max_profit = spread_width - sim_entry
                 max_loss = sim_entry
                 rr_ratio = max_profit / max_loss if max_loss > 0 else 0
-                breakeven = 20 + sim_entry
+                breakeven = K1 + sim_entry
                 
                 # --- UPDATED: Calculate P&L at current FUTURES (not spot) ---
                 if current_futures is not None:
-                    if current_futures <= 20:
+                    if current_futures <= K1:
                         pnl_at_futures = -sim_entry
-                    elif current_futures >= 25:
+                    elif current_futures >= K2:
                         pnl_at_futures = spread_width - sim_entry
                     else:
-                        pnl_at_futures = (current_futures - 20) - sim_entry
+                        pnl_at_futures = (current_futures - K1) - sim_entry
                     pnl_color = "#26a69a" if pnl_at_futures >= 0 else "#ef5350"
                     pnl_sign = "+" if pnl_at_futures >= 0 else ""
                 else:
@@ -1271,7 +1341,7 @@ for tab, spread_name in zip(tabs, active_spreads):
                     """, unsafe_allow_html=True)
                 
                 # --- UPDATED: Payoff chart uses futures price ---
-                payoff_fig = create_payoff_chart(sim_entry, st.session_state.language, current_futures)
+                payoff_fig = create_payoff_chart(sim_entry, st.session_state.language, current_futures, long_strike=K1, short_strike=K2)
                 payoff_fig.update_layout(height=220, margin=dict(t=10, b=20))
                 st.plotly_chart(payoff_fig, use_container_width=True, key=f"payoff_{prefix}")
 
