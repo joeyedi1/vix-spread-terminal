@@ -1,9 +1,12 @@
 @echo off
-:: 1. Go to your specific folder
-cd "C:\Users\Admin\Desktop\joe"
+:: 1. Go to the correct project folder
+cd /d "C:\Users\Admin\Desktop\joe\VIX dashboard"
 
-:: 2. Run the script
-call python vix_data_fetcher.py
+:: 2. Run the script and capture ALL output to log
+echo ========================================== >> fetch_log.txt
+echo Run started at %date% %time% >> fetch_log.txt
+python vix_data_fetcher.py >> fetch_log.txt 2>&1
 
-:: 3. Log the success (or failure) to a text file
-echo Run attempt at %date% %time% >> fetch_log.txt
+:: 3. Log completion
+echo Run finished at %date% %time% >> fetch_log.txt
+echo ========================================== >> fetch_log.txt
