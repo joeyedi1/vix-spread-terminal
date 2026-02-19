@@ -222,28 +222,81 @@ def push_to_github(file_path):
     """
     Commits and pushes the specific file to GitHub.
     """
+    import os
     print(f"\n🚀 Starting Git Push for {file_path}...")
+    print(f"   CWD: {os.getcwd()}")
+    print(f"   File exists: {Path(file_path).exists()}")
+    
     try:
-        # 1. Add the specific file
-        subprocess.run(["git", "add", str(file_path)], check=True)
+        # 0. Verify we're inside a git repo
+        check_repo = subprocess.run(
+            ["git", "rev-parse", "--git-dir"],
+            capture_output=True, text=True
+        )
+        if check_repo.returncode != 0:
+            print(f"❌ Not inside a git repository! stderr: {check_repo.stderr.strip()}")
+            return
+        print(f"   Git repo: {check_repo.stdout.strip()}")
         
-        # 2. Commit with a timestamp
+        # 1. Show git status before adding
+        status = subprocess.run(["git", "status", "--short"], capture_output=True, text=True)
+        print(f"   Git status: {status.stdout.strip() or '(clean)'}")
+        
+        # 2. Add the specific file
+        add_result = subprocess.run(
+            ["git", "add", str(file_path)],
+            capture_output=True, text=True
+        )
+        if add_result.returncode != 0:
+            print(f"❌ git add failed: {add_result.stderr.strip()}")
+            return
+        print("   ✓ git add OK")
+        
+        # 3. Commit with a timestamp
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         commit_message = f"Auto-update VIX Data: {timestamp}"
         
-        # 'check=False' prevents crash if there are no changes to commit
-        subprocess.run(["git", "commit", "-m", commit_message], check=False)
+        commit_result = subprocess.run(
+            ["git", "commit", "-m", commit_message],
+            capture_output=True, text=True
+        )
+        if commit_result.returncode != 0:
+            # Check if it's just "nothing to commit"
+            if "nothing to commit" in commit_result.stdout:
+                print("   ⚠️ Nothing to commit (no changes detected)")
+                return
+            else:
+                print(f"❌ git commit failed:")
+                print(f"   stdout: {commit_result.stdout.strip()}")
+                print(f"   stderr: {commit_result.stderr.strip()}")
+                return
+        print(f"   ✓ git commit OK: {commit_result.stdout.strip()}")
         
-        # 3. Push to main/master
-        result = subprocess.run(["git", "push"], capture_output=True, text=True)
+        # 4. Push to remote
+        push_result = subprocess.run(
+            ["git", "push"],
+            capture_output=True, text=True,
+            timeout=30  # Fail fast if network is down
+        )
         
-        if result.returncode == 0:
+        if push_result.returncode == 0:
             print("✅ Successfully pushed to GitHub!")
         else:
-            print(f"⚠️ Git Push Warning (Check connection): {result.stderr}")
-            
+            print(f"❌ git push failed:")
+            print(f"   stdout: {push_result.stdout.strip()}")
+            print(f"   stderr: {push_result.stderr.strip()}")
+            # Common fixes
+            if "Authentication" in push_result.stderr or "403" in push_result.stderr:
+                print("   💡 Fix: Your GitHub token may have expired. Regenerate at github.com/settings/tokens")
+            elif "Could not resolve host" in push_result.stderr:
+                print("   💡 Fix: No network connection")
+            elif "rejected" in push_result.stderr:
+                print("   💡 Fix: Remote has changes. Try 'git pull --rebase' first")
+                
+    except subprocess.TimeoutExpired:
+        print("❌ git push timed out after 30s — check your network connection")
     except Exception as e:
-        print(f"❌ Git Automation Failed: {e}")
+        print(f"❌ Git Automation Failed: {type(e).__name__}: {e}")
 
 # --- MAIN LOGIC ---
 def main():
