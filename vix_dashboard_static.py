@@ -51,6 +51,46 @@ SPREADS_CONFIG_NAMES = {
 }
 SPREAD_KEYS = ["Feb 2026", "Mar 2026", "Mar 2026 20-40"]
 
+# --- POST-MORTEM CONFIGS (one per expired spread) ---
+POST_MORTEM_CONFIG = [
+    {
+        "csv": "feb_spread_intraday.csv",
+        "label_en": "📋 Feb 2026 C20/C25 Post-Mortem (Expired)",
+        "label_zh": "📋 2026年2月 C20/C25 交易复盘（已到期）",
+        "entry_price": 0.63,
+        "entry_info": "Jan 16 | UXG26: 18.38",
+        "futures_ticker": "UXG26",
+        "long_strike": 20,
+        "short_strike": 25,
+        "spike_threshold": 1.50,
+        "key": "feb",
+    },
+    {
+        "csv": "mar_spread_intraday.csv",
+        "label_en": "📋 Mar 2026 C20/C25 Post-Mortem (Expired)",
+        "label_zh": "📋 2026年3月 C20/C25 交易复盘（已到期）",
+        "entry_price": 0.91,
+        "entry_info": "Jan 16 | UXH26",
+        "futures_ticker": "UXH26",
+        "long_strike": 20,
+        "short_strike": 25,
+        "spike_threshold": 1.82,
+        "key": "mar",
+    },
+    {
+        "csv": "mar_2040_spread_intraday.csv",
+        "label_en": "📋 Mar 2026 C20/C40 Post-Mortem (Expired)",
+        "label_zh": "📋 2026年3月 C20/C40 交易复盘（已到期）",
+        "entry_price": 1.45,
+        "entry_info": "Jan 16 | UXH26",
+        "futures_ticker": "UXH26",
+        "long_strike": 20,
+        "short_strike": 40,
+        "spike_threshold": 2.90,
+        "key": "mar2040",
+    },
+]
+
 # --- 3. TRANSLATIONS ---
 TRANSLATIONS = {
     "en": {
@@ -142,30 +182,25 @@ TRANSLATIONS = {
         "feb_be_label": "Feb BE",
         "mar_be_label": "Mar BE",
         "mar_2040_be_label": "Mar 20/40 BE",
-        # Post-mortem section
-        "pm_collapsed_label": "📋 Feb 2026 Trade Post-Mortem (Expired)",
+        # Post-mortem section (generic)
         "pm_held_to_expiry": "Held to Expiry",
         "pm_best_intraday": "Best Intraday Exit",
         "pm_entry": "Entry",
         "pm_best_close": "Best Close Exit",
         "pm_best_intraday_exit": "Best Intraday Exit",
         "pm_max_dd": "Max Drawdown (Close)",
-        "pm_spike_title": "VIX Spike Windows — Intraday Spread > $1.50",
+        "pm_spike_title": "VIX Spike Windows — Intraday Spread > {threshold}",
         "pm_close": "Close",
         "pm_widest": "Widest",
         "pm_expired_worthless": "Expired near worthless",
         "pm_spread_range": "Spread: Close vs Intraday Widest",
         "pm_close_label": "Close Spread",
-        "pm_widest_label": "Intraday Widest (C20H - C25L)",
-        "pm_entry_line": "Entry $0.63",
-        "pm_no_data": "Run feb_spread_analysis.py on Bloomberg to generate intraday data.",
+        "pm_widest_label_tpl": "Intraday Widest (C{k1}H - C{k2}L)",
+        "pm_entry_line_tpl": "Entry ${entry}",
+        "pm_data_note_tpl": "Widest = C{k1} High - C{k2} Low (theoretical max, actual fill depends on liquidity)",
         "pm_lesson_1_title": "Set Limit Orders",
-        "pm_lesson_1": "A GTC sell at $1.50 would have filled on 5 different days.",
         "pm_lesson_2_title": "Don't Trust the Close",
-        "pm_lesson_2": "Widest intraday ($2.48) was 5.4x the closing spread ($0.46) on Feb 17.",
         "pm_lesson_3_title": "VIX Mean-Reverts Fast",
-        "pm_lesson_3": "Every spike above 21 reverted below 20 within 1-2 days.",
-        "pm_data_note": "Widest = C20 High - C25 Low (theoretical max, actual fill depends on liquidity)",
     },
     "zh": {
         "page_title": "VIX价差终端",
@@ -256,30 +291,25 @@ TRANSLATIONS = {
         "feb_be_label": "2月保本",
         "mar_be_label": "3月保本",
         "mar_2040_be_label": "3月20/40保本",
-        # Post-mortem section
-        "pm_collapsed_label": "📋 2026年2月交易复盘（已到期）",
+        # Post-mortem section (generic)
         "pm_held_to_expiry": "持有至到期",
         "pm_best_intraday": "最佳盘中退出",
         "pm_entry": "入场",
         "pm_best_close": "最佳收盘退出",
         "pm_best_intraday_exit": "最佳盘中退出",
         "pm_max_dd": "最大回撤（收盘）",
-        "pm_spike_title": "VIX 飙升窗口 — 盘中价差 > $1.50",
+        "pm_spike_title": "VIX 飙升窗口 — 盘中价差 > {threshold}",
         "pm_close": "收盘",
         "pm_widest": "最宽",
         "pm_expired_worthless": "到期时几乎归零",
         "pm_spread_range": "价差：收盘 vs 盘中最宽",
         "pm_close_label": "收盘价差",
-        "pm_widest_label": "盘中最宽 (C20高 - C25低)",
-        "pm_entry_line": "入场 $0.63",
-        "pm_no_data": "请在Bloomberg终端运行 feb_spread_analysis.py 以生成盘中数据。",
+        "pm_widest_label_tpl": "盘中最宽 (C{k1}高 - C{k2}低)",
+        "pm_entry_line_tpl": "入场 ${entry}",
+        "pm_data_note_tpl": "最宽 = C{k1}最高价 - C{k2}最低价（理论最大值，实际成交取决于流动性）",
         "pm_lesson_1_title": "设置限价单",
-        "pm_lesson_1": "在$1.50的GTC卖单会在5个不同交易日成交。",
         "pm_lesson_2_title": "不要只看收盘价",
-        "pm_lesson_2": "2月17日盘中最宽价差($2.48)是收盘价差($0.46)的5.4倍。",
         "pm_lesson_3_title": "VIX快速均值回归",
-        "pm_lesson_3": "每次飙升至21以上后，1-2天内都回落至20以下。",
-        "pm_data_note": "最宽 = C20最高价 - C25最低价（理论最大值，实际成交取决于流动性）",
     }
 }
 
@@ -1076,39 +1106,65 @@ current_date_str = latest['Date'].strftime('%Y-%m-%d')
 
 st.caption(f"{t('last_updated')}: {current_date_str}")
 
-# --- FEB 2026 POST-MORTEM SECTION ---
-PM_CSV = Path("feb_spread_intraday.csv")
-if PM_CSV.exists():
-    @st.cache_data
-    def load_pm_data(path):
-        df = pd.read_csv(path)
-        df["Date"] = pd.to_datetime(df["Date"])
-        return df
+# --- POST-MORTEM SECTIONS (renders for each expired spread with CSV data) ---
+@st.cache_data
+def load_pm_data(path):
+    df = pd.read_csv(path)
+    df["Date"] = pd.to_datetime(df["Date"])
+    return df
 
-    pm_df = load_pm_data(PM_CSV)
-    pm_entry_price = 0.63
+def render_post_mortem(pm_conf):
+    """Render a post-mortem expander for one spread."""
+    csv_path = Path(pm_conf["csv"])
+    if not csv_path.exists():
+        return
 
-    with st.expander(t('pm_collapsed_label'), expanded=False):
-        lang = st.session_state.language
+    pm_df = load_pm_data(csv_path)
+    entry_price = pm_conf["entry_price"]
+    K1 = pm_conf["long_strike"]
+    K2 = pm_conf["short_strike"]
+    spike_thresh = pm_conf["spike_threshold"]
+    futures_tk = pm_conf["futures_ticker"]
+    pk = pm_conf["key"]  # unique key for streamlit widgets
+    lang = st.session_state.language
+
+    label = pm_conf["label_zh"] if lang == "zh" else pm_conf["label_en"]
+
+    with st.expander(label, expanded=False):
 
         pm_best_widest_row = pm_df.loc[pm_df["Spread_Widest"].idxmax()] if "Spread_Widest" in pm_df.columns and pm_df["Spread_Widest"].notna().any() else None
         pm_best_close_row = pm_df.loc[pm_df["Spread_Close"].idxmax()] if "Spread_Close" in pm_df.columns and pm_df["Spread_Close"].notna().any() else None
         pm_worst_close_row = pm_df.loc[pm_df["Spread_Close"].idxmin()] if "Spread_Close" in pm_df.columns and pm_df["Spread_Close"].notna().any() else None
 
+        # --- Outcome cards ---
         col_exp, col_best = st.columns(2)
         with col_exp:
-            st.markdown(f"""
-            <div style="padding:20px; border-radius:10px; border:1px solid rgba(248,81,73,0.3); background:linear-gradient(135deg, rgba(248,81,73,0.06) 0%, transparent 60%); margin-bottom:16px;">
-                <div style="font-family:monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#8b949e; margin-bottom:8px;">{t('pm_held_to_expiry')}</div>
-                <div style="font-family:monospace; font-size:28px; font-weight:700; color:#f85149;">-$0.63 (-100%)</div>
-                <div style="font-family:monospace; font-size:12px; color:#8b949e; margin-top:4px;">{t('pm_expired_worthless')}</div>
-            </div>
-            """, unsafe_allow_html=True)
+            final_spread = pm_df.iloc[-1].get("Spread_Close", None)
+            if final_spread is not None and not pd.isna(final_spread):
+                final_pnl = final_spread - entry_price
+                final_pct = (final_pnl / entry_price) * 100
+                pnl_color = "#3fb950" if final_pnl >= 0 else "#f85149"
+                pnl_sign = "+" if final_pnl >= 0 else ""
+                st.markdown(f"""
+                <div style="padding:20px; border-radius:10px; border:1px solid rgba(248,81,73,0.3); background:linear-gradient(135deg, rgba(248,81,73,0.06) 0%, transparent 60%); margin-bottom:16px;">
+                    <div style="font-family:monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#8b949e; margin-bottom:8px;">{t('pm_held_to_expiry')}</div>
+                    <div style="font-family:monospace; font-size:28px; font-weight:700; color:{pnl_color};">{pnl_sign}${final_pnl:.2f} ({pnl_sign}{final_pct:.0f}%)</div>
+                    <div style="font-family:monospace; font-size:12px; color:#8b949e; margin-top:4px;">{t('pm_close')}: ${final_spread:.2f}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown(f"""
+                <div style="padding:20px; border-radius:10px; border:1px solid rgba(248,81,73,0.3); background:linear-gradient(135deg, rgba(248,81,73,0.06) 0%, transparent 60%); margin-bottom:16px;">
+                    <div style="font-family:monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#8b949e; margin-bottom:8px;">{t('pm_held_to_expiry')}</div>
+                    <div style="font-family:monospace; font-size:28px; font-weight:700; color:#f85149;">-${entry_price:.2f} (-100%)</div>
+                    <div style="font-family:monospace; font-size:12px; color:#8b949e; margin-top:4px;">{t('pm_expired_worthless')}</div>
+                </div>
+                """, unsafe_allow_html=True)
         with col_best:
             if pm_best_widest_row is not None:
                 best_spread = pm_best_widest_row["Spread_Widest"]
-                best_pnl = best_spread - pm_entry_price
-                best_pct = (best_pnl / pm_entry_price) * 100
+                best_pnl = best_spread - entry_price
+                best_pct = (best_pnl / entry_price) * 100
                 best_date = pm_best_widest_row["Date"].strftime("%b %d")
                 st.markdown(f"""
                 <div style="padding:20px; border-radius:10px; border:1px solid rgba(63,185,80,0.3); background:linear-gradient(135deg, rgba(63,185,80,0.06) 0%, transparent 60%); margin-bottom:16px;">
@@ -1118,43 +1174,44 @@ if PM_CSV.exists():
                 </div>
                 """, unsafe_allow_html=True)
 
+        # --- Stats cards ---
         c1, c2, c3, c4 = st.columns(4)
         with c1:
             st.markdown(f"""
             <div style="background:rgba(128,128,128,0.06); border:1px solid rgba(128,128,128,0.25); border-radius:10px; padding:16px;">
                 <div style="font-family:monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#8b949e; margin-bottom:6px;">{t('pm_entry')}</div>
-                <div style="font-family:monospace; font-size:22px; font-weight:700;">$0.63</div>
-                <div style="font-family:monospace; font-size:11px; color:#8b949e; margin-top:4px;">Jan 16 | UXG26: 18.38</div>
+                <div style="font-family:monospace; font-size:22px; font-weight:700;">${entry_price:.2f}</div>
+                <div style="font-family:monospace; font-size:11px; color:#8b949e; margin-top:4px;">{pm_conf['entry_info']}</div>
             </div>
             """, unsafe_allow_html=True)
         with c2:
             if pm_best_close_row is not None:
                 bc_val = pm_best_close_row["Spread_Close"]
-                bc_pnl = bc_val - pm_entry_price
+                bc_pnl = bc_val - entry_price
                 bc_date = pm_best_close_row["Date"].strftime("%b %d")
                 st.markdown(f"""
                 <div style="background:rgba(128,128,128,0.06); border:1px solid rgba(128,128,128,0.25); border-radius:10px; padding:16px;">
                     <div style="font-family:monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#8b949e; margin-bottom:6px;">{t('pm_best_close')}</div>
                     <div style="font-family:monospace; font-size:22px; font-weight:700; color:#3fb950;">${bc_val:.2f}</div>
-                    <div style="font-family:monospace; font-size:11px; color:#8b949e; margin-top:4px;">{bc_date} | +${bc_pnl:.2f} (+{bc_pnl/pm_entry_price*100:.0f}%)</div>
+                    <div style="font-family:monospace; font-size:11px; color:#8b949e; margin-top:4px;">{bc_date} | +${bc_pnl:.2f} (+{bc_pnl/entry_price*100:.0f}%)</div>
                 </div>
                 """, unsafe_allow_html=True)
         with c3:
             if pm_best_widest_row is not None:
                 bw_val = pm_best_widest_row["Spread_Widest"]
-                bw_pnl = bw_val - pm_entry_price
+                bw_pnl = bw_val - entry_price
                 bw_date = pm_best_widest_row["Date"].strftime("%b %d")
                 st.markdown(f"""
                 <div style="background:rgba(128,128,128,0.06); border:1px solid rgba(128,128,128,0.25); border-radius:10px; padding:16px;">
                     <div style="font-family:monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#8b949e; margin-bottom:6px;">{t('pm_best_intraday_exit')}</div>
                     <div style="font-family:monospace; font-size:22px; font-weight:700; color:#58a6ff;">${bw_val:.2f}</div>
-                    <div style="font-family:monospace; font-size:11px; color:#8b949e; margin-top:4px;">{bw_date} | +${bw_pnl:.2f} (+{bw_pnl/pm_entry_price*100:.0f}%)</div>
+                    <div style="font-family:monospace; font-size:11px; color:#8b949e; margin-top:4px;">{bw_date} | +${bw_pnl:.2f} (+{bw_pnl/entry_price*100:.0f}%)</div>
                 </div>
                 """, unsafe_allow_html=True)
         with c4:
             if pm_worst_close_row is not None:
                 wc_val = pm_worst_close_row["Spread_Close"]
-                wc_pnl = wc_val - pm_entry_price
+                wc_pnl = wc_val - entry_price
                 wc_date = pm_worst_close_row["Date"].strftime("%b %d")
                 st.markdown(f"""
                 <div style="background:rgba(128,128,128,0.06); border:1px solid rgba(128,128,128,0.25); border-radius:10px; padding:16px;">
@@ -1166,34 +1223,41 @@ if PM_CSV.exists():
 
         st.markdown("")
 
+        # --- Spike windows ---
         if "Spread_Widest" in pm_df.columns:
-            spike_days = pm_df[pm_df["Spread_Widest"] > 1.50].sort_values("Spread_Widest", ascending=False)
+            spike_days = pm_df[pm_df["Spread_Widest"] > spike_thresh].sort_values("Spread_Widest", ascending=False)
             if not spike_days.empty:
-                st.markdown(f"**{t('pm_spike_title')}**")
+                spike_title = t('pm_spike_title').format(threshold=f"${spike_thresh:.2f}")
+                st.markdown(f"**{spike_title}**")
                 spike_cols = st.columns(min(len(spike_days), 5))
                 for i, (_, srow) in enumerate(spike_days.head(5).iterrows()):
                     with spike_cols[i]:
-                        s_pnl = srow["Spread_Widest"] - pm_entry_price
+                        s_pnl = srow["Spread_Widest"] - entry_price
                         f_high = srow.get("Futures_High", 0) or 0
                         f_low = srow.get("Futures_Low", 0) or 0
                         st.markdown(f"""
                         <div style="background:rgba(128,128,128,0.06); border:1px solid rgba(128,128,128,0.25); border-radius:8px; padding:14px; text-align:center;">
                             <div style="font-family:monospace; font-size:11px; color:#8b949e;">{srow['Date'].strftime('%b %d')}</div>
                             <div style="font-family:monospace; font-size:20px; font-weight:700; color:#3fb950; margin:6px 0;">${srow['Spread_Widest']:.2f}</div>
-                            <div style="font-family:monospace; font-size:11px; color:#3fb950;">+${s_pnl:.2f} (+{s_pnl/pm_entry_price*100:.0f}%)</div>
-                            <div style="font-family:monospace; font-size:10px; color:#8b949e; margin-top:4px;">UXG26: {f_low:.2f}-{f_high:.2f}</div>
+                            <div style="font-family:monospace; font-size:11px; color:#3fb950;">+${s_pnl:.2f} (+{s_pnl/entry_price*100:.0f}%)</div>
+                            <div style="font-family:monospace; font-size:10px; color:#8b949e; margin-top:4px;">{futures_tk}: {f_low:.2f}-{f_high:.2f}</div>
                         </div>
                         """, unsafe_allow_html=True)
 
         st.markdown("")
 
+        # --- Chart: Close vs Widest ---
         if "Spread_Widest" in pm_df.columns and "Spread_Close" in pm_df.columns:
             st.markdown(f"**{t('pm_spread_range')}**")
             pm_chart_df = pm_df[pm_df["Spread_Close"].notna()].copy()
             pm_fig = go.Figure()
+
+            widest_label = t('pm_widest_label_tpl').format(k1=K1, k2=K2)
+            entry_line_label = t('pm_entry_line_tpl').format(entry=f"{entry_price:.2f}")
+
             pm_fig.add_trace(go.Scatter(
                 x=pm_chart_df["Date"], y=pm_chart_df["Spread_Widest"],
-                mode='lines', name=t('pm_widest_label'),
+                mode='lines', name=widest_label,
                 line=dict(color='#58a6ff', width=1.5, dash='dash'),
                 fill='tozeroy', fillcolor='rgba(88,166,255,0.08)',
             ))
@@ -1203,8 +1267,8 @@ if PM_CSV.exists():
                 line=dict(color='#26a69a', width=2.5),
                 marker=dict(size=4),
             ))
-            pm_fig.add_hline(y=pm_entry_price, line_dash="dot", line_color="#d29922", line_width=1,
-                             annotation_text=t('pm_entry_line'), annotation_position="right",
+            pm_fig.add_hline(y=entry_price, line_dash="dot", line_color="#d29922", line_width=1,
+                             annotation_text=entry_line_label, annotation_position="right",
                              annotation_font=dict(size=10, color="#d29922"))
             pm_fig.update_layout(
                 height=350,
@@ -1217,34 +1281,11 @@ if PM_CSV.exists():
             )
             pm_fig.update_xaxes(gridcolor='rgba(128,128,128,0.2)')
             pm_fig.update_yaxes(gridcolor='rgba(128,128,128,0.2)')
-            st.plotly_chart(pm_fig, use_container_width=True, key="pm_spread_chart")
-
-        st.markdown("")
-        lc1, lc2, lc3 = st.columns(3)
-        with lc1:
-            st.markdown(f"""
-            <div style="background:rgba(128,128,128,0.06); border:1px solid rgba(128,128,128,0.25); border-radius:10px; padding:16px;">
-                <div style="font-family:monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#58a6ff; margin-bottom:8px;">1. {t('pm_lesson_1_title')}</div>
-                <div style="font-size:13px; line-height:1.6;">{t('pm_lesson_1')}</div>
-            </div>
-            """, unsafe_allow_html=True)
-        with lc2:
-            st.markdown(f"""
-            <div style="background:rgba(128,128,128,0.06); border:1px solid rgba(128,128,128,0.25); border-radius:10px; padding:16px;">
-                <div style="font-family:monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#58a6ff; margin-bottom:8px;">2. {t('pm_lesson_2_title')}</div>
-                <div style="font-size:13px; line-height:1.6;">{t('pm_lesson_2')}</div>
-            </div>
-            """, unsafe_allow_html=True)
-        with lc3:
-            st.markdown(f"""
-            <div style="background:rgba(128,128,128,0.06); border:1px solid rgba(128,128,128,0.25); border-radius:10px; padding:16px;">
-                <div style="font-family:monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#58a6ff; margin-bottom:8px;">3. {t('pm_lesson_3_title')}</div>
-                <div style="font-size:13px; line-height:1.6;">{t('pm_lesson_3')}</div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.plotly_chart(pm_fig, use_container_width=True, key=f"pm_chart_{pk}")
 
         st.markdown("")
 
+        # --- Data table ---
         if "Spread_Widest" in pm_df.columns:
             with st.expander(f"📁 {t('view_daily_log')}", expanded=False):
                 display_cols = ["Date", "Futures_Last", "Futures_High", "Futures_Low",
@@ -1256,10 +1297,15 @@ if PM_CSV.exists():
                 for col in pm_display.columns:
                     if col != "Date":
                         pm_display[col] = pd.to_numeric(pm_display[col], errors='coerce').round(2)
-                st.dataframe(pm_display, use_container_width=True)
-                st.caption(f"ℹ️ {t('pm_data_note')}")
+                st.dataframe(pm_display, use_container_width=True, key=f"pm_table_{pk}")
+                data_note = t('pm_data_note_tpl').format(k1=K1, k2=K2)
+                st.caption(f"ℹ️ {data_note}")
 
         st.markdown("---")
+
+# Render all post-mortems that have CSV data
+for _pm_conf in POST_MORTEM_CONFIG:
+    render_post_mortem(_pm_conf)
 
 # --- TABS & METRICS ---
 tab_names = [SPREADS_CONFIG_NAMES[st.session_state.language][s] for s in active_spreads]
