@@ -10,7 +10,7 @@ CSV_PATH = Path("vix_spread_data.csv")
 START_DATE = "20251001"  # Adjusted for 90-day lookback
 
 # Debug mode - set to True to see what Bloomberg returns
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 # --- CHANGE 1: Replace VIX Spot with VIX Futures ---
 # Each spread should reference its corresponding VIX futures contract
