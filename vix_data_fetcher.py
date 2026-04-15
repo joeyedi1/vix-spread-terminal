@@ -249,6 +249,58 @@ class BloombergEngine:
         
         return pd.DataFrame(records)
 
+    def get_greeks_snapshot(self, tickers: list) -> dict:
+        """
+        Fetch CURRENT Greeks via ReferenceDataRequest.
+        Historical Greeks are unreliable on Bloomberg; snapshot works.
+        Returns: {ticker: {iv, delta, gamma, vega, theta}}
+        """
+        print(f"Fetching Greek snapshot for {len(tickers)} tickers...")
+        service = self.session.getService("//blp/refdata")
+        request = service.createRequest("ReferenceDataRequest")
+
+        for tk in tickers:
+            request.append("securities", tk)
+
+        for fld in ["IVOL_MID", "IVOL_LAST", "DELTA_MID", "GAMMA_MID", "VEGA_MID", "THETA_MID"]:
+            request.append("fields", fld)
+
+        self.session.sendRequest(request)
+
+        results = {}
+        timeout = time.time() + 10
+        while time.time() < timeout:
+            event = self.session.nextEvent(500)
+            for msg in event:
+                if msg.hasElement("securityData"):
+                    sd = msg.getElement("securityData")
+                    for i in range(sd.numValues()):
+                        item = sd.getValueAsElement(i)
+                        tk = item.getElementAsString("security")
+                        if not item.hasElement("fieldData"):
+                            continue
+                        fd = item.getElement("fieldData")
+
+                        def _f(fields):
+                            for f in fields:
+                                if fd.hasElement(f):
+                                    try:
+                                        return fd.getElementAsFloat(f)
+                                    except Exception:
+                                        continue
+                            return None
+
+                        results[tk] = {
+                            "iv":    _f(["IVOL_MID", "IVOL_LAST"]),
+                            "delta": _f(["DELTA_MID"]),
+                            "gamma": _f(["GAMMA_MID"]),
+                            "vega":  _f(["VEGA_MID"]),
+                            "theta": _f(["THETA_MID"]),
+                        }
+            if event.eventType() == blpapi.Event.RESPONSE:
+                break
+        return results
+
     def close(self):
         if self.session:
             self.session.stop()
@@ -478,6 +530,42 @@ def main():
 
             final_rows.append(row)
             
+        # 3b. Snapshot current Greeks (HistoricalDataRequest doesn't return them reliably)
+        option_tickers = []
+        for conf in SPREADS_CONFIG.values():
+            option_tickers.extend([conf["long"], conf["short"]])
+        option_tickers = list(dict.fromkeys(option_tickers))
+
+        greek_snap = engine.get_greeks_snapshot(option_tickers)
+
+        # Patch the latest row with snapshot Greeks
+        last_idx = len(final_rows) - 1
+        for name, conf in SPREADS_CONFIG.items():
+            prefix = name.replace(" ", "_")
+            lg = greek_snap.get(conf["long"], {})
+            sg = greek_snap.get(conf["short"], {})
+
+            final_rows[last_idx][f"{prefix}_Long_IV"]    = lg.get("iv")
+            final_rows[last_idx][f"{prefix}_Long_Delta"] = lg.get("delta")
+            final_rows[last_idx][f"{prefix}_Long_Gamma"] = lg.get("gamma")
+            final_rows[last_idx][f"{prefix}_Long_Vega"]  = lg.get("vega")
+            final_rows[last_idx][f"{prefix}_Long_Theta"] = lg.get("theta")
+            final_rows[last_idx][f"{prefix}_Short_IV"]    = sg.get("iv")
+            final_rows[last_idx][f"{prefix}_Short_Delta"] = sg.get("delta")
+            final_rows[last_idx][f"{prefix}_Short_Gamma"] = sg.get("gamma")
+            final_rows[last_idx][f"{prefix}_Short_Vega"]  = sg.get("vega")
+            final_rows[last_idx][f"{prefix}_Short_Theta"] = sg.get("theta")
+
+            def _net(a, b):
+                return (a - b) if (a is not None and b is not None) else None
+            final_rows[last_idx][f"{prefix}_Net_Delta"] = _net(lg.get("delta"), sg.get("delta"))
+            final_rows[last_idx][f"{prefix}_Net_Gamma"] = _net(lg.get("gamma"), sg.get("gamma"))
+            final_rows[last_idx][f"{prefix}_Net_Vega"]  = _net(lg.get("vega"),  sg.get("vega"))
+            final_rows[last_idx][f"{prefix}_Net_Theta"] = _net(lg.get("theta"), sg.get("theta"))
+
+            if DEBUG_MODE:
+                print(f"  Greeks patched for {name}: long={lg}, short={sg}")
+
         # 4. Save to CSV
         final_df = pd.DataFrame(final_rows)
         final_df.to_csv(CSV_PATH, index=False)
