@@ -10,7 +10,7 @@ CSV_PATH = Path("vix_spread_data.csv")
 START_DATE = "20251001"  # Adjusted for 90-day lookback
 
 # Debug mode - set to True to see what Bloomberg returns
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 # --- CHANGE 1: Replace VIX Spot with VIX Futures ---
 # Each spread should reference its corresponding VIX futures contract
@@ -423,9 +423,12 @@ def main():
             if INCLUDE_VIX_SPOT and futures_val > 0:
                 contango = latest.get(f'{prefix}_Contango', 0)
                 print(f"     Contango: {contango:+.2f}")
-            print(f"     Long (C{long_k}): {latest[f'{prefix}_Long_Price']:.2f}")
-            print(f"     Short (C{short_k}): {latest[f'{prefix}_Short_Price']:.2f}")
-            print(f"     Spread: {latest[f'{prefix}_Spread']:.2f}")
+            long_px = latest[f'{prefix}_Long_Price']
+            short_px = latest[f'{prefix}_Short_Price']
+            spread_px = latest[f'{prefix}_Spread']
+            print(f"     Long (C{long_k}): {long_px:.2f}" if pd.notna(long_px) else f"     Long (C{long_k}): N/A")
+            print(f"     Short (C{short_k}): {short_px:.2f}" if pd.notna(short_px) else f"     Short (C{short_k}): N/A")
+            print(f"     Spread: {spread_px:.2f}" if pd.notna(spread_px) else f"     Spread: N/A")
             if futures_val > 0:
                 print(f"     Futures distance to C{long_k}: {latest.get(f'{prefix}_Futures_to_C{long_k}', 0):+.2f}")
                 print(f"     Futures distance to C{short_k}: {latest.get(f'{prefix}_Futures_to_C{short_k}', 0):+.2f}")
