@@ -1008,7 +1008,7 @@ TRADE_CONFIG = {
         "expiry_date": "2026-03-18",
     },
     "May 2026": {
-        "entry_date": st.session_state.trade_entry_date.strftime("%Y-%m-%d"),
+        "entry_date": "2026-04-15",
         "entry_price": st.session_state.may_entry_price,
         "expiry_date": "2026-05-19",
     },
