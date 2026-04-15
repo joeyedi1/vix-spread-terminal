@@ -45,7 +45,7 @@ SPREADS_CONFIG = {
     },
     "May 2026": {
         "prefix": "May_2026",
-        "expiry_date": "2026-05-20",
+        "expiry_date": "2026-05-19",
         "futures_col": "May_2026_VIX_Futures",
         "futures_ticker": "UXK26",
         "long_strike": 25,
@@ -1010,7 +1010,7 @@ TRADE_CONFIG = {
     "May 2026": {
         "entry_date": st.session_state.trade_entry_date.strftime("%Y-%m-%d"),
         "entry_price": st.session_state.may_entry_price,
-        "expiry_date": "2026-05-20",
+        "expiry_date": "2026-05-19",
     },
 }
 
