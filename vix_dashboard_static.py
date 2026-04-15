@@ -192,6 +192,23 @@ TRANSLATIONS = {
         "mar_be_label": "Mar BE",
         "mar_2040_be_label": "Mar 20/40 BE",
         "may_be_label": "May 25/35 BE",
+        # Greeks & term structure
+        "greeks_title": "Greeks",
+        "greeks_tooltip": "Spread-level Greeks (long minus short). Net Vega is positive when long strike is closer to futures than short strike. Net Theta is usually negative (time decay).",
+        "net_delta": "Net Δ",
+        "net_gamma": "Net Γ",
+        "net_vega": "Net Vega",
+        "net_theta": "Net Θ",
+        "iv_label": "IV",
+        "iv_long_short": "Long / Short IV",
+        "term_structure_title": "VIX Term Structure",
+        "term_structure_tooltip": "Generic VIX futures curve (UX1=front month). Upward slope = contango (spot<futures); downward = backwardation (stress).",
+        "contango_state": "Contango",
+        "backwardation_state": "Backwardation",
+        "flat_state": "Flat",
+        "curve_slope": "UX1→UX8",
+        "vvix_label": "VVIX",
+        "vvix_tooltip": "Vol-of-VIX. Above ~110 = VIX options rich (expensive to buy); below ~85 = cheap.",
         # Post-mortem section (generic)
         "pm_held_to_expiry": "Held to Expiry",
         "pm_best_intraday": "Best Intraday Exit",
@@ -303,6 +320,23 @@ TRANSLATIONS = {
         "mar_be_label": "3月保本",
         "mar_2040_be_label": "3月20/40保本",
         "may_be_label": "5月25/35保本",
+        # Greeks & term structure
+        "greeks_title": "希腊字母",
+        "greeks_tooltip": "价差整体希腊字母（多头减空头）。Net Vega 在多头执行价更接近期货时为正；Net Theta 通常为负（时间衰减）。",
+        "net_delta": "净 Δ",
+        "net_gamma": "净 Γ",
+        "net_vega": "净 Vega",
+        "net_theta": "净 Θ",
+        "iv_label": "隐含波动率",
+        "iv_long_short": "多头 / 空头 隐波",
+        "term_structure_title": "VIX 期限结构",
+        "term_structure_tooltip": "VIX 通用期货曲线 (UX1 = 近月)。向上倾斜 = 升水 (现货<期货)；向下 = 贴水 (市场压力)。",
+        "contango_state": "升水",
+        "backwardation_state": "贴水",
+        "flat_state": "平坦",
+        "curve_slope": "UX1→UX8",
+        "vvix_label": "VVIX",
+        "vvix_tooltip": "VIX 的波动率。>110 = VIX 期权偏贵；<85 = 偏便宜。",
         # Post-mortem section (generic)
         "pm_held_to_expiry": "持有至到期",
         "pm_best_intraday": "最佳盘中退出",
@@ -1174,6 +1208,109 @@ current_date_str = latest['Date'].strftime('%Y-%m-%d')
 
 st.caption(f"{t('last_updated')}: {current_date_str}")
 
+# --- VIX TERM STRUCTURE + VVIX ---
+ts_cols = [f"UX{i}" for i in range(1, 9) if f"UX{i}" in full_df.columns]
+if ts_cols:
+    latest_ts = {c: float(latest[c]) for c in ts_cols if pd.notna(latest[c]) and latest[c] > 0}
+    prev_ts = {c: float(prev[c]) for c in ts_cols if pd.notna(prev[c]) and prev[c] > 0}
+
+    if latest_ts:
+        # Slope from UX1 to last available contract
+        ux1 = latest_ts.get("UX1")
+        last_key = list(latest_ts.keys())[-1]
+        slope = latest_ts[last_key] - ux1 if ux1 else 0
+        if slope > 0.10:
+            state = t('contango_state'); state_color = "#26a69a"
+        elif slope < -0.10:
+            state = t('backwardation_state'); state_color = "#ef5350"
+        else:
+            state = t('flat_state'); state_color = "#9e9e9e"
+
+        col_ts, col_vvix = st.columns([3, 1])
+
+        with col_ts:
+            st.markdown(f"""
+            <span class="tooltip-container">
+                <span style="font-weight:600; cursor:help;">📈 {t('term_structure_title')} ⓘ</span>
+                <span class="tooltip-text" style="width:280px;">
+                    <div class="tooltip-label">{t('term_structure_title')}</div>
+                    <div style="font-size:11px; line-height:1.6;">{t('term_structure_tooltip')}</div>
+                </span>
+            </span>
+            <span style="margin-left:14px; font-family:monospace; font-size:12px;">
+                {t('curve_slope')}: <span style="color:{state_color}; font-weight:600;">{slope:+.2f} ({state})</span>
+            </span>
+            """, unsafe_allow_html=True)
+
+            ts_fig = go.Figure()
+            x_labels = list(latest_ts.keys())
+            y_latest = [latest_ts[c] for c in x_labels]
+            y_prev = [prev_ts.get(c, latest_ts[c]) for c in x_labels]
+
+            ts_fig.add_trace(go.Scatter(
+                x=x_labels, y=y_prev,
+                mode='lines+markers', name='Prev',
+                line=dict(color='rgba(158,158,158,0.5)', width=1.5, dash='dot'),
+                marker=dict(size=6),
+                hovertemplate='%{x}: %{y:.2f}<extra>Prev</extra>'
+            ))
+            ts_fig.add_trace(go.Scatter(
+                x=x_labels, y=y_latest,
+                mode='lines+markers+text', name='Current',
+                line=dict(color=state_color, width=2.5),
+                marker=dict(size=9),
+                text=[f"{v:.2f}" for v in y_latest],
+                textposition="top center",
+                textfont=dict(size=10),
+                hovertemplate='%{x}: %{y:.2f}<extra>Current</extra>'
+            ))
+            ts_fig.update_layout(
+                height=260,
+                plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(family="JetBrains Mono, Noto Sans SC, monospace", size=11),
+                margin=dict(l=40, r=20, t=30, b=30),
+                showlegend=True,
+                legend=dict(orientation="h", yanchor="bottom", y=1.0, xanchor="right", x=1, bgcolor='rgba(0,0,0,0)'),
+                hovermode='x unified'
+            )
+            ts_fig.update_xaxes(gridcolor='rgba(128,128,128,0.15)', showgrid=True)
+            ts_fig.update_yaxes(gridcolor='rgba(128,128,128,0.15)', showgrid=True)
+            st.plotly_chart(ts_fig, use_container_width=True, key="term_structure_chart")
+
+        with col_vvix:
+            vvix_val = float(latest["VVIX"]) if ("VVIX" in full_df.columns and pd.notna(latest.get("VVIX")) and latest["VVIX"] > 0) else None
+            prev_vvix = float(prev["VVIX"]) if ("VVIX" in full_df.columns and pd.notna(prev.get("VVIX")) and prev["VVIX"] > 0) else None
+
+            if vvix_val:
+                d_vvix = (vvix_val - prev_vvix) if prev_vvix else 0
+                # Color: elevated (rich) if >110, cheap if <85
+                if vvix_val >= 110:
+                    vvix_color = "#ef5350"; vvix_tag = "RICH" if st.session_state.language == 'en' else "偏贵"
+                elif vvix_val <= 85:
+                    vvix_color = "#26a69a"; vvix_tag = "CHEAP" if st.session_state.language == 'en' else "偏便宜"
+                else:
+                    vvix_color = "#ffa726"; vvix_tag = "NORMAL" if st.session_state.language == 'en' else "正常"
+                d_color = "#26a69a" if d_vvix >= 0 else "#ef5350"
+                d_arrow = "▲" if d_vvix >= 0 else "▼"
+                d_sign = "+" if d_vvix >= 0 else ""
+
+                st.markdown(f"""
+                <span class="tooltip-container">
+                    <span style="font-weight:600; cursor:help;">🌪 {t('vvix_label')} ⓘ</span>
+                    <span class="tooltip-text" style="width:240px;">
+                        <div class="tooltip-label">{t('vvix_label')}</div>
+                        <div style="font-size:11px; line-height:1.6;">{t('vvix_tooltip')}</div>
+                    </span>
+                </span>
+                <div class="metric-card" style="padding:18px; margin-top:6px;">
+                    <div style="font-family:'JetBrains Mono', monospace; font-size:30px; font-weight:700; color:{vvix_color};">{vvix_val:.2f}</div>
+                    <div style="font-family:monospace; font-size:12px; color:{d_color}; margin-top:4px;">{d_arrow} {d_sign}{d_vvix:.2f}</div>
+                    <div style="font-family:monospace; font-size:10px; letter-spacing:1px; opacity:0.7; margin-top:6px; color:{vvix_color};">{vvix_tag}</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+st.markdown("---")
+
 # --- POST-MORTEM SECTIONS (renders for each expired spread with CSV data) ---
 @st.cache_data
 def load_pm_data(path):
@@ -1505,7 +1642,87 @@ for tab, spread_name in zip(tabs, active_spreads):
             </span>
         </div>
         """, unsafe_allow_html=True)
-        
+
+        # --- GREEKS SECTION (spread-level net Greeks + leg IVs) ---
+        def _latest_greek(col):
+            if col not in full_df.columns:
+                return None
+            v = latest.get(col)
+            if v is None or pd.isna(v):
+                return None
+            try:
+                fv = float(v)
+            except (TypeError, ValueError):
+                return None
+            return fv if fv != 0 else None
+
+        net_delta = _latest_greek(f"{prefix}_Net_Delta")
+        net_gamma = _latest_greek(f"{prefix}_Net_Gamma")
+        net_vega  = _latest_greek(f"{prefix}_Net_Vega")
+        net_theta = _latest_greek(f"{prefix}_Net_Theta")
+        long_iv   = _latest_greek(f"{prefix}_Long_IV")
+        short_iv  = _latest_greek(f"{prefix}_Short_IV")
+
+        if any(g is not None for g in (net_delta, net_gamma, net_vega, net_theta, long_iv, short_iv)):
+            st.markdown(f"""
+            <div style="margin-top:8px; margin-bottom:6px;">
+                <span class="tooltip-container">
+                    <span style="font-weight:600; cursor:help; font-size:13px;">🔢 {t('greeks_title')} ⓘ</span>
+                    <span class="tooltip-text" style="width:280px;">
+                        <div class="tooltip-label">{t('greeks_title')}</div>
+                        <div style="font-size:11px; line-height:1.6;">{t('greeks_tooltip')}</div>
+                    </span>
+                </span>
+            </div>
+            """, unsafe_allow_html=True)
+
+            g1, g2, g3, g4, g5 = st.columns(5)
+
+            def _render_greek(col, label, val, fmt="{:+.3f}", good_sign=None):
+                if val is None:
+                    col.markdown(f"""
+                    <div class="metric-card" style="padding:14px;">
+                        <div class="metric-label">{label}</div>
+                        <div style="font-family:'JetBrains Mono', monospace; font-size:20px; opacity:0.4;">—</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    return
+                if good_sign is None:
+                    color = "#ffffff"
+                elif good_sign == "pos":
+                    color = "#26a69a" if val >= 0 else "#ef5350"
+                elif good_sign == "neg":
+                    color = "#26a69a" if val <= 0 else "#ef5350"
+                col.markdown(f"""
+                <div class="metric-card" style="padding:14px;">
+                    <div class="metric-label">{label}</div>
+                    <div style="font-family:'JetBrains Mono', monospace; font-size:20px; font-weight:700; color:{color};">{fmt.format(val)}</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            _render_greek(g1, t('net_delta'), net_delta, "{:+.3f}", "pos")
+            _render_greek(g2, t('net_gamma'), net_gamma, "{:+.4f}")
+            _render_greek(g3, t('net_vega'),  net_vega,  "{:+.3f}", "pos")
+            _render_greek(g4, t('net_theta'), net_theta, "{:+.3f}", None)
+
+            # IV cell shows both legs
+            if long_iv is not None or short_iv is not None:
+                li = f"{long_iv:.1f}" if long_iv is not None else "—"
+                si = f"{short_iv:.1f}" if short_iv is not None else "—"
+                g5.markdown(f"""
+                <div class="metric-card" style="padding:14px;">
+                    <div class="metric-label">{t('iv_long_short')}</div>
+                    <div style="font-family:'JetBrains Mono', monospace; font-size:20px; font-weight:700;">{li} / {si}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                g5.markdown(f"""
+                <div class="metric-card" style="padding:14px;">
+                    <div class="metric-label">{t('iv_long_short')}</div>
+                    <div style="font-family:'JetBrains Mono', monospace; font-size:20px; opacity:0.4;">—</div>
+                </div>
+                """, unsafe_allow_html=True)
+
         # --- P&L TRACKING SECTION ---
         trade_conf = TRADE_CONFIG.get(spread_name)
         if trade_conf:

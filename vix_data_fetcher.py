@@ -56,6 +56,13 @@ SPREADS_CONFIG = {
 VIX_SPOT_TICKER = "VIX Index"
 INCLUDE_VIX_SPOT = False  # Set to False if you only want futures
 
+# --- VIX TERM STRUCTURE (UX1 = front-month rolling, UX8 = 8th month) ---
+# Generic futures give a clean contango/backwardation view regardless of month.
+TERM_STRUCTURE_TICKERS = [f"UX{i} Index" for i in range(1, 9)]
+
+# --- VVIX: vol-of-VIX. Rich VVIX -> VIX options expensive ---
+VVIX_TICKER = "VVIX Index"
+
 
 # --- BLOOMBERG ENGINE ---
 class BloombergEngine:
@@ -96,6 +103,13 @@ class BloombergEngine:
         request.append("fields", "PX_SETTLE")
         request.append("fields", "VOLUME")        # Try VOLUME instead of PX_VOLUME
         request.append("fields", "PX_VOLUME")     # Keep as backup
+
+        # --- GREEKS (only populated for option tickers; futures/indices return nothing) ---
+        request.append("fields", "IVOL_MID")      # Implied vol (mid)
+        request.append("fields", "DELTA_MID")     # Delta
+        request.append("fields", "GAMMA_MID")     # Gamma
+        request.append("fields", "VEGA_MID")      # Vega (per 1% vol)
+        request.append("fields", "THETA_MID")     # Theta (per day)
         
         request.set("startDate", start_date)
         request.set("endDate", datetime.datetime.now().strftime("%Y%m%d"))
@@ -208,12 +222,26 @@ class BloombergEngine:
                                 if vol > 0:
                                     volume = vol
                             
+                            # --- GREEKS (may be absent for non-options) ---
+                            def _g(fld):
+                                if point.hasElement(fld):
+                                    try:
+                                        return point.getElementAsFloat(fld)
+                                    except Exception:
+                                        return None
+                                return None
+
                             records.append({
                                 "Date": pd.Timestamp(raw_date).strftime("%Y-%m-%d"),
                                 "Ticker": ticker,
                                 "Price": price,
                                 "PriceSource": price_source,
-                                "Volume": volume
+                                "Volume": volume,
+                                "IV": _g("IVOL_MID"),
+                                "Delta": _g("DELTA_MID"),
+                                "Gamma": _g("GAMMA_MID"),
+                                "Vega": _g("VEGA_MID"),
+                                "Theta": _g("THETA_MID"),
                             })
                             
             if event.eventType() == blpapi.Event.RESPONSE:
@@ -323,7 +351,11 @@ def main():
             all_tickers.append(conf["futures"])  # VIX Futures
             all_tickers.append(conf["long"])      # Long option leg
             all_tickers.append(conf["short"])     # Short option leg
-            
+
+        # Add VIX term structure (UX1..UX8) and VVIX
+        all_tickers.extend(TERM_STRUCTURE_TICKERS)
+        all_tickers.append(VVIX_TICKER)
+
         # Remove duplicates while preserving order
         all_tickers = list(dict.fromkeys(all_tickers))
         
@@ -355,7 +387,16 @@ def main():
                 vix_row = date_df[date_df["Ticker"] == VIX_SPOT_TICKER]
                 vix_spot = vix_row["Price"].values[0] if not vix_row.empty else 0.0
                 row["VIX_Spot"] = vix_spot
-            
+
+            # --- VIX TERM STRUCTURE (UX1..UX8) ---
+            for i, tk in enumerate(TERM_STRUCTURE_TICKERS, start=1):
+                ts_row = date_df[date_df["Ticker"] == tk]
+                row[f"UX{i}"] = ts_row["Price"].values[0] if not ts_row.empty else 0.0
+
+            # --- VVIX ---
+            vvix_row = date_df[date_df["Ticker"] == VVIX_TICKER]
+            row["VVIX"] = vvix_row["Price"].values[0] if not vvix_row.empty else 0.0
+
             for name, conf in SPREADS_CONFIG.items():
                 prefix = name.replace(" ", "_")
                 
@@ -390,7 +431,44 @@ def main():
                 row[f"{prefix}_Short_Volume"] = s_vol
                 row[f"{prefix}_Spread"] = spread
                 row[f"{prefix}_Total_Volume"] = l_vol + s_vol
-                
+
+                # --- GREEKS per leg ---
+                def _leg_greek(leg_row, field):
+                    if leg_row.empty:
+                        return None
+                    val = leg_row[field].values[0]
+                    return None if pd.isna(val) else float(val)
+
+                long_iv    = _leg_greek(l_row, "IV")
+                long_dlt   = _leg_greek(l_row, "Delta")
+                long_gma   = _leg_greek(l_row, "Gamma")
+                long_vga   = _leg_greek(l_row, "Vega")
+                long_tht   = _leg_greek(l_row, "Theta")
+                short_iv   = _leg_greek(s_row, "IV")
+                short_dlt  = _leg_greek(s_row, "Delta")
+                short_gma  = _leg_greek(s_row, "Gamma")
+                short_vga  = _leg_greek(s_row, "Vega")
+                short_tht  = _leg_greek(s_row, "Theta")
+
+                row[f"{prefix}_Long_IV"]     = long_iv
+                row[f"{prefix}_Long_Delta"]  = long_dlt
+                row[f"{prefix}_Long_Gamma"]  = long_gma
+                row[f"{prefix}_Long_Vega"]   = long_vga
+                row[f"{prefix}_Long_Theta"]  = long_tht
+                row[f"{prefix}_Short_IV"]    = short_iv
+                row[f"{prefix}_Short_Delta"] = short_dlt
+                row[f"{prefix}_Short_Gamma"] = short_gma
+                row[f"{prefix}_Short_Vega"]  = short_vga
+                row[f"{prefix}_Short_Theta"] = short_tht
+
+                # --- AGGREGATED NET GREEKS (long - short) ---
+                def _net(a, b):
+                    return (a - b) if (a is not None and b is not None) else None
+                row[f"{prefix}_Net_Delta"] = _net(long_dlt, short_dlt)
+                row[f"{prefix}_Net_Gamma"] = _net(long_gma, short_gma)
+                row[f"{prefix}_Net_Vega"]  = _net(long_vga, short_vga)
+                row[f"{prefix}_Net_Theta"] = _net(long_tht, short_tht)
+
                 # --- CHANGE 5: Calculate moneyness (distance from futures to strikes) ---
                 if futures_price > 0:
                     long_k = conf.get("long_strike", 20)
