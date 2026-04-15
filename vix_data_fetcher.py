@@ -42,6 +42,14 @@ SPREADS_CONFIG = {
         "short_strike": 40,
         "futures": "UXH26 Index",  # Same Mar 2026 VIX Futures
     },
+    "May 2026": {
+        "expiry": "05/20/26",
+        "long": "VIX US 05/20/26 C25 Index",
+        "short": "VIX US 05/20/26 C35 Index",
+        "long_strike": 25,
+        "short_strike": 35,
+        "futures": "UXK26 Index",  # May 2026 VIX Futures (K = May)
+    },
 }
 
 # Optional: Also track VIX spot for reference (contango analysis)

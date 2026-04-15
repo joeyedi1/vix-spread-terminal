@@ -1384,3 +1384,1357 @@ Processing data...
 ✅ Successfully pushed to GitHub!
 Run finished at Wed 03/18/2026  5:15:19.83 
 ========================================== 
+========================================== 
+Run started at Thu 03/19/2026  5:15:01.87 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main f011e37] Auto-update VIX Data: 2026-03-19 05:15:14
+ 1 file changed, 1 insertion(+)
+✅ Successfully pushed to GitHub!
+Run finished at Thu 03/19/2026  5:15:16.39 
+========================================== 
+========================================== 
+Run started at Fri 03/20/2026  5:15:01.79 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Fri 03/20/2026  5:15:15.45 
+========================================== 
+========================================== 
+Run started at Sat 03/21/2026  5:15:01.96 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Sat 03/21/2026  5:15:15.83 
+========================================== 
+========================================== 
+Run started at Sun 03/22/2026  5:15:01.59 
+
+22MAR2026_05:15:34.498 54020:60472 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+22MAR2026_05:15:34.500 54020:60472 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+22MAR2026_05:15:54.301 54020:60472 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+22MAR2026_05:15:54.301 54020:60472 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+22MAR2026_05:16:13.692 54020:60472 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+22MAR2026_05:16:13.692 54020:60472 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+22MAR2026_05:16:13.692 54020:60472 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+22MAR2026_05:16:13.693 54020:54184 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 304, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 56, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 65, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Sun 03/22/2026  5:16:13.75 
+========================================== 
+========================================== 
+Run started at Mon 03/23/2026  5:15:02.10 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Mon 03/23/2026  5:15:21.42 
+========================================== 
+========================================== 
+Run started at Tue 03/24/2026  5:15:01.87 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Tue 03/24/2026  5:15:16.95 
+========================================== 
+========================================== 
+Run started at Wed 03/25/2026  5:15:02.03 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Wed 03/25/2026  5:15:25.24 
+========================================== 
+========================================== 
+Run started at Thu 03/26/2026  5:15:02.42 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Thu 03/26/2026  5:15:21.12 
+========================================== 
+========================================== 
+Run started at Fri 03/27/2026  5:15:02.18 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Fri 03/27/2026  5:15:17.10 
+========================================== 
+========================================== 
+Run started at Sat 03/28/2026  5:15:02.22 
+
+28MAR2026_05:15:34.602 69240:61628 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+28MAR2026_05:15:34.603 69240:61628 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+28MAR2026_05:15:54.296 69240:61628 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+28MAR2026_05:15:54.296 69240:61628 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+28MAR2026_05:16:13.545 69240:61628 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+28MAR2026_05:16:13.545 69240:61628 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+28MAR2026_05:16:13.545 69240:61628 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+28MAR2026_05:16:13.547 69240:77952 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 304, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 56, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 65, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Sat 03/28/2026  5:16:13.62 
+========================================== 
+========================================== 
+Run started at Sun 03/29/2026  5:15:02.16 
+
+29MAR2026_05:15:30.004 98224:85864 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+29MAR2026_05:15:30.005 98224:85864 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+29MAR2026_05:15:49.461 98224:85864 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+29MAR2026_05:15:49.461 98224:85864 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+29MAR2026_05:16:09.000 98224:85864 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+29MAR2026_05:16:09.000 98224:85864 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+29MAR2026_05:16:09.000 98224:85864 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+29MAR2026_05:16:09.001 98224:95768 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 304, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 56, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 65, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Sun 03/29/2026  5:16:09.06 
+========================================== 
+========================================== 
+Run started at Mon 03/30/2026  5:15:02.34 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Mon 03/30/2026  5:15:15.70 
+========================================== 
+========================================== 
+Run started at Tue 03/31/2026  5:15:02.01 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Tue 03/31/2026  5:15:17.24 
+========================================== 
+========================================== 
+Run started at Wed 04/01/2026  5:15:02.05 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Wed 04/01/2026  5:15:14.65 
+========================================== 
+========================================== 
+Run started at Thu 04/02/2026  5:15:01.78 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Thu 04/02/2026  5:15:13.54 
+========================================== 
+========================================== 
+Run started at Fri 04/03/2026  5:15:01.95 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Fri 04/03/2026  5:15:13.47 
+========================================== 
+========================================== 
+Run started at Sat 04/04/2026  5:15:01.92 
+
+04APR2026_05:15:32.857 131520:106020 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+04APR2026_05:15:32.858 131520:106020 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+04APR2026_05:15:52.352 131520:106020 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+04APR2026_05:15:52.352 131520:106020 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+04APR2026_05:16:11.582 131520:106020 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+04APR2026_05:16:11.582 131520:106020 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+04APR2026_05:16:11.582 131520:106020 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+04APR2026_05:16:11.584 131520:93840 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 304, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 56, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 65, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Sat 04/04/2026  5:16:11.66 
+========================================== 
+========================================== 
+Run started at Sun 04/05/2026  5:15:02.64 
+
+05APR2026_05:15:33.991 133748:137168 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+05APR2026_05:15:33.992 133748:137168 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+05APR2026_05:15:53.644 133748:137168 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+05APR2026_05:15:53.644 133748:137168 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+05APR2026_05:16:12.837 133748:137168 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+05APR2026_05:16:12.837 133748:137168 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+05APR2026_05:16:12.837 133748:137168 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+05APR2026_05:16:12.839 133748:132024 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 304, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 56, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 65, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Sun 04/05/2026  5:16:12.93 
+========================================== 
+========================================== 
+Run started at Mon 04/06/2026  5:15:02.10 
+
+06APR2026_05:15:33.248 110908:127420 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+06APR2026_05:15:33.249 110908:127420 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+06APR2026_05:15:53.193 110908:127420 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+06APR2026_05:15:53.193 110908:127420 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+06APR2026_05:16:12.454 110908:127420 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+06APR2026_05:16:12.454 110908:127420 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+06APR2026_05:16:12.456 110908:127420 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+06APR2026_05:16:12.457 110908:122184 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 304, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 56, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 65, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Mon 04/06/2026  5:16:12.56 
+========================================== 
+========================================== 
+Run started at Tue 04/07/2026  5:15:02.25 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Tue 04/07/2026  5:15:16.26 
+========================================== 
+========================================== 
+Run started at Wed 04/08/2026  5:15:02.50 
+
+08APR2026_05:15:27.512 14524:131412 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+08APR2026_05:15:27.513 14524:131412 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+08APR2026_05:15:46.687 14524:131412 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+08APR2026_05:15:46.688 14524:131412 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+08APR2026_05:16:06.625 14524:131412 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+08APR2026_05:16:06.625 14524:131412 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+08APR2026_05:16:06.625 14524:131412 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+08APR2026_05:16:06.627 14524:112272 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 304, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 56, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 65, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Wed 04/08/2026  5:16:06.71 
+========================================== 
+========================================== 
+Run started at Thu 04/09/2026  5:15:02.88 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Thu 04/09/2026  5:15:15.85 
+========================================== 
+========================================== 
+Run started at Fri 04/10/2026  5:15:02.30 
+
+10APR2026_05:15:19.752 162312:155004 WARN blpapi_subscriptionmanager.cpp:7242 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+10APR2026_05:15:20.051 162312:155004 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+10APR2026_05:15:20.051 162312:155004 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+10APR2026_05:15:20.051 162312:155004 WARN blpapi_subscriptionmanager.cpp:7242 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+10APR2026_05:15:20.397 162312:155004 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+10APR2026_05:15:20.397 162312:155004 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+10APR2026_05:15:20.397 162312:155004 WARN blpapi_subscriptionmanager.cpp:7242 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+10APR2026_05:15:20.753 162312:155004 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+10APR2026_05:15:20.753 162312:155004 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.subscriptionmanager Could not find a service for serviceCode: 90. 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Fri 04/10/2026  5:15:23.55 
+========================================== 
+========================================== 
+Run started at Sat 04/11/2026  5:15:02.25 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Sat 04/11/2026  5:15:05.38 
+========================================== 
+========================================== 
+Run started at Sun 04/12/2026  5:15:02.35 
+
+12APR2026_05:15:31.392 169148:168244 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+12APR2026_05:15:31.393 169148:168244 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+12APR2026_05:15:50.583 169148:168244 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+12APR2026_05:15:50.583 169148:168244 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+12APR2026_05:16:10.012 169148:168244 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+12APR2026_05:16:10.012 169148:168244 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+12APR2026_05:16:10.012 169148:168244 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+12APR2026_05:16:10.013 169148:169676 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 304, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 56, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 65, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Sun 04/12/2026  5:16:10.07 
+========================================== 
+========================================== 
+Run started at Mon 04/13/2026  5:15:03.16 
+
+13APR2026_05:15:32.311 156868:151020 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+13APR2026_05:15:32.312 156868:151020 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+13APR2026_05:15:52.201 156868:151020 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+13APR2026_05:15:52.202 156868:151020 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+13APR2026_05:16:11.601 156868:151020 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+13APR2026_05:16:11.601 156868:151020 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+13APR2026_05:16:11.601 156868:151020 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+13APR2026_05:16:11.603 156868:181080 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 304, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 56, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 65, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Mon 04/13/2026  5:16:11.70 
+========================================== 
+========================================== 
+Run started at Tue 04/14/2026  5:15:02.32 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Tue 04/14/2026  5:15:19.05 
+========================================== 
+========================================== 
+Run started at Wed 04/15/2026  5:15:01.95 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index']
+Fetching history for 7 tickers from 20251001...
+Processing data...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 116
+
+   Latest data point:
+   Date: 2026-03-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C25: -1.84
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 23.16
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: nan
+     Futures distance to C20: +3.16
+     Futures distance to C40: -16.84
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Wed 04/15/2026  5:15:06.02 
+========================================== 

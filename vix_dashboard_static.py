@@ -43,13 +43,21 @@ SPREADS_CONFIG = {
         "long_strike": 20,
         "short_strike": 40,
     },
+    "May 2026": {
+        "prefix": "May_2026",
+        "expiry_date": "2026-05-20",
+        "futures_col": "May_2026_VIX_Futures",
+        "futures_ticker": "UXK26",
+        "long_strike": 25,
+        "short_strike": 35,
+    },
 }
 
 SPREADS_CONFIG_NAMES = {
-    "en": {"Feb 2026": "Feb 2026", "Mar 2026": "Mar 2026", "Mar 2026 20-40": "Mar 2026 (20/40)"},
-    "zh": {"Feb 2026": "2026年2月", "Mar 2026": "2026年3月", "Mar 2026 20-40": "2026年3月 (20/40)"}
+    "en": {"Feb 2026": "Feb 2026", "Mar 2026": "Mar 2026", "Mar 2026 20-40": "Mar 2026 (20/40)", "May 2026": "May 2026 (25/35)"},
+    "zh": {"Feb 2026": "2026年2月", "Mar 2026": "2026年3月", "Mar 2026 20-40": "2026年3月 (20/40)", "May 2026": "2026年5月 (25/35)"}
 }
-SPREAD_KEYS = ["Feb 2026", "Mar 2026", "Mar 2026 20-40"]
+SPREAD_KEYS = ["Feb 2026", "Mar 2026", "Mar 2026 20-40", "May 2026"]
 
 # --- POST-MORTEM CONFIGS (one per expired spread) ---
 POST_MORTEM_CONFIG = [
@@ -174,6 +182,7 @@ TRANSLATIONS = {
         "feb_entry": "Feb Entry",
         "mar_entry": "Mar Entry",
         "mar_2040_entry": "Mar 20/40 Entry",
+        "may_entry": "May 25/35 Entry",
         "current_pnl": "At current futures",
         "analytics": "Analytics",
         "dist_tooltip": "Historical spread prices over selected period. Compare current price to mean for relative value.",
@@ -182,6 +191,7 @@ TRANSLATIONS = {
         "feb_be_label": "Feb BE",
         "mar_be_label": "Mar BE",
         "mar_2040_be_label": "Mar 20/40 BE",
+        "may_be_label": "May 25/35 BE",
         # Post-mortem section (generic)
         "pm_held_to_expiry": "Held to Expiry",
         "pm_best_intraday": "Best Intraday Exit",
@@ -283,6 +293,7 @@ TRANSLATIONS = {
         "feb_entry": "二月入场价",
         "mar_entry": "三月入场价",
         "mar_2040_entry": "三月20/40入场价",
+        "may_entry": "五月25/35入场价",
         "current_pnl": "当前期货价",
         "analytics": "分析",
         "dist_tooltip": "所选期间的历史价差价格。将当前价格与均值比较以判断相对价值。",
@@ -291,6 +302,7 @@ TRANSLATIONS = {
         "feb_be_label": "2月保本",
         "mar_be_label": "3月保本",
         "mar_2040_be_label": "3月20/40保本",
+        "may_be_label": "5月25/35保本",
         # Post-mortem section (generic)
         "pm_held_to_expiry": "持有至到期",
         "pm_best_intraday": "最佳盘中退出",
@@ -832,6 +844,8 @@ if 'mar_entry_price' not in st.session_state:
     st.session_state.mar_entry_price = 0.91
 if 'mar_2040_entry_price' not in st.session_state:
     st.session_state.mar_2040_entry_price = 1.45
+if 'may_entry_price' not in st.session_state:
+    st.session_state.may_entry_price = 1.50
 
 today = datetime.now().date()
 
@@ -875,6 +889,7 @@ if full_df is not None and "VIX_Spot" in full_df.columns:
 feb_futures, feb_futures_prev, feb_futures_change = get_futures_data(full_df, "Feb 2026")
 mar_futures, mar_futures_prev, mar_futures_change = get_futures_data(full_df, "Mar 2026")
 mar_2040_futures, mar_2040_futures_prev, mar_2040_futures_change = get_futures_data(full_df, "Mar 2026 20-40")
+may_futures, may_futures_prev, may_futures_change = get_futures_data(full_df, "May 2026")
 
 # Debug output (can remove later)
 # st.write(f"DEBUG: Feb Futures = {feb_futures}, Mar Futures = {mar_futures}, VIX Spot = {latest_vix_spot}")
@@ -937,7 +952,16 @@ with st.sidebar:
         key="mar_2040_entry_input"
     )
     st.session_state.mar_2040_entry_price = mar_2040_entry
-    
+
+    may_entry = st.number_input(
+        t('may_entry'),
+        min_value=0.0, max_value=20.0,
+        value=st.session_state.may_entry_price,
+        step=0.01, format="%.2f",
+        key="may_entry_input"
+    )
+    st.session_state.may_entry_price = may_entry
+
     st.markdown("---")
     
     # Data Settings
@@ -975,22 +999,29 @@ TRADE_CONFIG = {
         "entry_price": st.session_state.mar_2040_entry_price,
         "expiry_date": "2026-03-18",
     },
+    "May 2026": {
+        "entry_date": st.session_state.trade_entry_date.strftime("%Y-%m-%d"),
+        "entry_price": st.session_state.may_entry_price,
+        "expiry_date": "2026-05-20",
+    },
 }
 
 # --- UPDATED: Calculate breakeven distances using FUTURES ---
 feb_be = 20 + st.session_state.feb_entry_price
 mar_be = 20 + st.session_state.mar_entry_price
 mar_2040_be = 20 + st.session_state.mar_2040_entry_price
+may_be = 25 + st.session_state.may_entry_price
 
 # Use corresponding futures for each spread's breakeven calculation
 feb_distance = ((feb_be - feb_futures) / feb_futures) * 100 if feb_futures and feb_futures > 0 else None
 mar_distance = ((mar_be - mar_futures) / mar_futures) * 100 if mar_futures and mar_futures > 0 else None
 mar_2040_distance = ((mar_2040_be - mar_2040_futures) / mar_2040_futures) * 100 if mar_2040_futures and mar_2040_futures > 0 else None
+may_distance = ((may_be - may_futures) / may_futures) * 100 if may_futures and may_futures > 0 else None
 
 # --- 9. MAIN DASHBOARD ---
 
 # Header with VIX Futures info
-futures_available = feb_futures is not None or mar_futures is not None or mar_2040_futures is not None
+futures_available = feb_futures is not None or mar_futures is not None or mar_2040_futures is not None or may_futures is not None
 
 # Build header HTML
 header_parts = []
@@ -1006,9 +1037,11 @@ if futures_available:
     if st.session_state.language == 'zh':
         feb_label = "2月"
         mar_label = "3月"
+        may_label = "5月"
     else:
         feb_label = "FEB"
         mar_label = "MAR"
+        may_label = "MAY"
     
     # VIX Spot (only if valid)
     if vix_spot_available and latest_vix_spot and latest_vix_spot > 0:
@@ -1025,7 +1058,13 @@ if futures_available:
         f_color = "#26a69a" if mar_futures_change >= 0 else "#ef5350"
         f_arrow = "+" if mar_futures_change >= 0 else ""
         futures_items.append(f'<div style="text-align:center;"><div style="opacity:0.6;font-size:10px;">{mar_label} UXH26</div><div style="font-size:18px;font-weight:600;">{mar_futures:.2f}</div><div style="font-size:11px;color:{f_color};">{f_arrow}{mar_futures_change:.2f}</div></div>')
-    
+
+    # May Futures
+    if may_futures and may_futures > 0:
+        f_color = "#26a69a" if may_futures_change >= 0 else "#ef5350"
+        f_arrow = "+" if may_futures_change >= 0 else ""
+        futures_items.append(f'<div style="text-align:center;"><div style="opacity:0.6;font-size:10px;">{may_label} UXK26</div><div style="font-size:18px;font-weight:600;">{may_futures:.2f}</div><div style="font-size:11px;color:{f_color};">{f_arrow}{may_futures_change:.2f}</div></div>')
+
     if futures_items:
         futures_section = '<div style="display:flex;gap:24px;font-family:monospace;">' + ''.join(futures_items) + '</div>'
 
@@ -1069,6 +1108,18 @@ if mar_2040_futures and mar_2040_futures > 0 and mar_2040_distance is not None:
         m2040_tooltip_hint = "低于保本点 - 亏损区" if mar_2040_distance > 0 else "高于保本点 - 盈利区"
         be_label_text = "保本点"
     be_items.append(f'''<span class="tooltip-container"><span style="opacity:0.6;">{t("mar_2040_be_label")}:</span> <span style="color:{be_color};">{mar_2040_be:.2f} ({mar_2040_distance:+.1f}%)</span><span class="tooltip-text"><div class="tooltip-label">{be_label_text}: {mar_2040_be:.2f}</div><div class="tooltip-value">{m2040_tooltip_main}</div><div class="tooltip-hint">{m2040_tooltip_hint}</div></span></span>''')
+
+if may_futures and may_futures > 0 and may_distance is not None:
+    be_color = "#ef5350" if may_distance > 0 else "#26a69a"
+    if st.session_state.language == 'en':
+        may_tooltip_main = f"VIX futures needs to rise {may_distance:.1f}% to reach breakeven" if may_distance > 0 else f"VIX futures is {abs(may_distance):.1f}% above breakeven"
+        may_tooltip_hint = "Below breakeven - Loss zone" if may_distance > 0 else "Above breakeven - Profit zone"
+        be_label_text = "Breakeven"
+    else:
+        may_tooltip_main = f"VIX期货需上涨 {may_distance:.1f}% 才能达到保本点" if may_distance > 0 else f"VIX期货已高于保本点 {abs(may_distance):.1f}%"
+        may_tooltip_hint = "低于保本点 - 亏损区" if may_distance > 0 else "高于保本点 - 盈利区"
+        be_label_text = "保本点"
+    be_items.append(f'''<span class="tooltip-container"><span style="opacity:0.6;">{t("may_be_label")}:</span> <span style="color:{be_color};">{may_be:.2f} ({may_distance:+.1f}%)</span><span class="tooltip-text"><div class="tooltip-label">{be_label_text}: {may_be:.2f}</div><div class="tooltip-value">{may_tooltip_main}</div><div class="tooltip-hint">{may_tooltip_hint}</div></span></span>''')
 
 if be_items:
     be_section = '<div style="font-family:monospace;font-size:11px;">' + ' | '.join(be_items) + '</div>'
