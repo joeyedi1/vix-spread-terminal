@@ -202,13 +202,13 @@ TRANSLATIONS = {
         "iv_label": "IV",
         "iv_long_short": "Long / Short IV",
         "term_structure_title": "VIX Term Structure",
-        "term_structure_tooltip": "Generic VIX futures curve (UX1=front month). Upward slope = contango (spot<futures); downward = backwardation (stress).",
+        "term_structure_tooltip": "<b>What it is:</b> VIX futures curve from front month (UX1) to 8 months out (UX8). Your spreads settle to these futures, not spot VIX.<br><br><b>Why it matters:</b><br>• <b>Contango</b> (upward slope): market calm, expects higher vol later. Long VIX call spreads face <i>negative roll</i> — the contract you own rolls DOWN the curve toward lower spot as time passes. Headwind for bulls.<br>• <b>Backwardation</b> (downward slope): stress regime. Front vol > back vol. Long VIX calls have <i>tailwind</i> — best environment for your bullish spreads to print.<br>• <b>Flat</b>: transition regime, often precedes a move.<br><br><b>How to use:</b> Enter long call spreads when curve flattens or inverts. Avoid fresh long entries in steep contango (front way below back) — you're paying carry.",
         "contango_state": "Contango",
         "backwardation_state": "Backwardation",
         "flat_state": "Flat",
         "curve_slope": "UX1→UX8",
         "vvix_label": "VVIX",
-        "vvix_tooltip": "Vol-of-VIX. Above ~110 = VIX options rich (expensive to buy); below ~85 = cheap.",
+        "vvix_tooltip": "<b>What it is:</b> Vol-of-VIX. Measures 30-day implied volatility of VIX itself — the market's expectation of how much VIX will move.<br><br><b>Why it matters:</b> VVIX is the IV Rank for your asset class. It tells you whether VIX options are rich or cheap <i>right now</i>, independent of where VIX is.<br>• <b>VVIX ≥ 110 (RICH):</b> VIX options expensive. Bad time to BUY call spreads (you're paying up for vol that may compress). Consider selling premium instead.<br>• <b>VVIX 85–110 (NORMAL):</b> Neutral premium. Trade the setup, not the vol.<br>• <b>VVIX ≤ 85 (CHEAP):</b> VIX options underpriced. Best entries for long call spreads — you're getting convex payoff at a discount.<br><br><b>How to use:</b> Combine with term structure. Ideal long entry = cheap VVIX + flattening curve.",
         # Post-mortem section (generic)
         "pm_held_to_expiry": "Held to Expiry",
         "pm_best_intraday": "Best Intraday Exit",
@@ -330,13 +330,13 @@ TRANSLATIONS = {
         "iv_label": "隐含波动率",
         "iv_long_short": "多头 / 空头 隐波",
         "term_structure_title": "VIX 期限结构",
-        "term_structure_tooltip": "VIX 通用期货曲线 (UX1 = 近月)。向上倾斜 = 升水 (现货<期货)；向下 = 贴水 (市场压力)。",
+        "term_structure_tooltip": "<b>含义：</b>VIX 期货曲线，从近月 (UX1) 到 8 个月远月 (UX8)。你的价差以这些期货结算，而非 VIX 现货。<br><br><b>为什么重要：</b><br>• <b>升水</b>（向上倾斜）：市场平稳，预期未来波动率上升。持有 VIX 看涨价差面临<i>负 Roll</i>——你持有的合约随时间沿曲线向下滚动，趋于更低现货价。多头逆风。<br>• <b>贴水</b>（向下倾斜）：压力格局。近月波动率 > 远月。VIX 看涨价差有<i>顺风</i>——看涨价差最佳盈利环境。<br>• <b>平坦</b>：过渡格局，常在大行情前出现。<br><br><b>如何使用：</b>曲线变平或倒挂时进场做多看涨价差。避免在陡峭升水（近月远低于远月）中开新多头——你在付出 carry。",
         "contango_state": "升水",
         "backwardation_state": "贴水",
         "flat_state": "平坦",
         "curve_slope": "UX1→UX8",
         "vvix_label": "VVIX",
-        "vvix_tooltip": "VIX 的波动率。>110 = VIX 期权偏贵；<85 = 偏便宜。",
+        "vvix_tooltip": "<b>含义：</b>VIX 的波动率。衡量 VIX 自身 30 天隐含波动率——市场预期 VIX 会如何波动。<br><br><b>为什么重要：</b>VVIX 相当于 VIX 期权的 IV Rank。无论 VIX 在什么位置，它告诉你 VIX 期权<i>当下</i>是贵还是便宜。<br>• <b>VVIX ≥ 110（偏贵）：</b>VIX 期权昂贵。不宜买入看涨价差（可能在高点接盘，随后波动率压缩）。可考虑卖方策略。<br>• <b>VVIX 85–110（正常）：</b>溢价中性，以交易逻辑为主，不看波动率。<br>• <b>VVIX ≤ 85（偏便宜）：</b>VIX 期权被低估。做多看涨价差的最佳时机——折扣价获取凸性收益。<br><br><b>如何使用：</b>结合期限结构。理想做多入场 = VVIX 低 + 曲线趋平。",
         # Post-mortem section (generic)
         "pm_held_to_expiry": "持有至到期",
         "pm_best_intraday": "最佳盘中退出",
@@ -1232,9 +1232,9 @@ if ts_cols:
             st.markdown(f"""
             <span class="tooltip-container">
                 <span style="font-weight:600; cursor:help;">📈 {t('term_structure_title')} ⓘ</span>
-                <span class="tooltip-text" style="width:280px;">
+                <span class="tooltip-text" style="width:420px;">
                     <div class="tooltip-label">{t('term_structure_title')}</div>
-                    <div style="font-size:11px; line-height:1.6;">{t('term_structure_tooltip')}</div>
+                    <div style="font-size:11px; line-height:1.7;">{t('term_structure_tooltip')}</div>
                 </span>
             </span>
             <span style="margin-left:14px; font-family:monospace; font-size:12px;">
@@ -1297,9 +1297,9 @@ if ts_cols:
                 st.markdown(f"""
                 <span class="tooltip-container">
                     <span style="font-weight:600; cursor:help;">🌪 {t('vvix_label')} ⓘ</span>
-                    <span class="tooltip-text" style="width:240px;">
+                    <span class="tooltip-text" style="width:400px; left:auto; right:0; transform:none;">
                         <div class="tooltip-label">{t('vvix_label')}</div>
-                        <div style="font-size:11px; line-height:1.6;">{t('vvix_tooltip')}</div>
+                        <div style="font-size:11px; line-height:1.7;">{t('vvix_tooltip')}</div>
                     </span>
                 </span>
                 <div class="metric-card" style="padding:18px; margin-top:6px;">
