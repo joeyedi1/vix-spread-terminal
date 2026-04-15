@@ -565,10 +565,19 @@ def load_data(csv_path):
         spread_cols = [col for col in df.columns if col.endswith("_Spread")]
         for col in spread_cols:
             df.loc[df[col] == 0, col] = pd.NA
-        
+
+        # Sanity filter: A bullish call spread must be within [0, K2 - K1].
+        # Values outside this range come from stale Bloomberg quotes on
+        # illiquid legs and distort z-score / percentile / histograms.
+        for conf in SPREADS_CONFIG.values():
+            col = f"{conf['prefix']}_Spread"
+            if col in df.columns:
+                width = conf["short_strike"] - conf["long_strike"]
+                df.loc[(df[col] < 0) | (df[col] > width), col] = pd.NA
+
         if spread_cols:
             df = df.dropna(subset=spread_cols, how='all')
-        
+
         return df
     except Exception as e:
         st.error(f"Error loading data: {e}")
@@ -845,7 +854,7 @@ if 'mar_entry_price' not in st.session_state:
 if 'mar_2040_entry_price' not in st.session_state:
     st.session_state.mar_2040_entry_price = 1.45
 if 'may_entry_price' not in st.session_state:
-    st.session_state.may_entry_price = 1.50
+    st.session_state.may_entry_price = 0.61
 
 today = datetime.now().date()
 
