@@ -982,6 +982,14 @@ with st.sidebar:
 
 active_spreads = SPREAD_KEYS.copy()
 
+# Filter out spreads whose columns aren't in the CSV yet (e.g., newly added spreads
+# before the fetcher has been re-run).
+if full_df is not None:
+    active_spreads = [
+        s for s in active_spreads
+        if f"{SPREADS_CONFIG[s]['prefix']}_Spread" in full_df.columns
+    ]
+
 # Build TRADE_CONFIG
 TRADE_CONFIG = {
     "Feb 2026": {
