@@ -209,6 +209,11 @@ TRANSLATIONS = {
         "curve_slope": "UX1→UX8",
         "vvix_label": "VVIX",
         "vvix_tooltip": "<b>What it is:</b> Vol-of-VIX. Measures 30-day implied volatility of VIX itself — the market's expectation of how much VIX will move.<br><br><b>Why it matters:</b> VVIX is the IV Rank for your asset class. It tells you whether VIX options are rich or cheap <i>right now</i>, independent of where VIX is.<br>• <b>VVIX ≥ 110 (RICH):</b> VIX options expensive. Bad time to BUY call spreads (you're paying up for vol that may compress). Consider selling premium instead.<br>• <b>VVIX 85–110 (NORMAL):</b> Neutral premium. Trade the setup, not the vol.<br>• <b>VVIX ≤ 85 (CHEAP):</b> VIX options underpriced. Best entries for long call spreads — you're getting convex payoff at a discount.<br><br><b>How to use:</b> Combine with term structure. Ideal long entry = cheap VVIX + flattening curve.",
+        "profit_zone": "Profit Zone",
+        "loss_zone": "Loss Zone",
+        "max_profit_cap": "Max Profit",
+        "cone_1sigma": "±1σ (IV)",
+        "cone_2sigma": "±2σ (IV)",
         # Post-mortem section (generic)
         "pm_held_to_expiry": "Held to Expiry",
         "pm_best_intraday": "Best Intraday Exit",
@@ -337,6 +342,11 @@ TRANSLATIONS = {
         "curve_slope": "UX1→UX8",
         "vvix_label": "VVIX",
         "vvix_tooltip": "<b>含义：</b>VIX 的波动率。衡量 VIX 自身 30 天隐含波动率——市场预期 VIX 会如何波动。<br><br><b>为什么重要：</b>VVIX 相当于 VIX 期权的 IV Rank。无论 VIX 在什么位置，它告诉你 VIX 期权<i>当下</i>是贵还是便宜。<br>• <b>VVIX ≥ 110（偏贵）：</b>VIX 期权昂贵。不宜买入看涨价差（可能在高点接盘，随后波动率压缩）。可考虑卖方策略。<br>• <b>VVIX 85–110（正常）：</b>溢价中性，以交易逻辑为主，不看波动率。<br>• <b>VVIX ≤ 85（偏便宜）：</b>VIX 期权被低估。做多看涨价差的最佳时机——折扣价获取凸性收益。<br><br><b>如何使用：</b>结合期限结构。理想做多入场 = VVIX 低 + 曲线趋平。",
+        "profit_zone": "盈利区",
+        "loss_zone": "亏损区",
+        "max_profit_cap": "最大利润",
+        "cone_1sigma": "±1σ (隐波)",
+        "cone_2sigma": "±2σ (隐波)",
         # Post-mortem section (generic)
         "pm_held_to_expiry": "持有至到期",
         "pm_best_intraday": "最佳盘中退出",
@@ -652,11 +662,15 @@ def calculate_valuation(series: pd.Series, current_value: float):
     return z_score, percentile
 
 # --- 7. CHART FUNCTION ---
-def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str, entry_price: float = None, entry_date: str = None):
+def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str,
+                        entry_price: float = None, entry_date: str = None,
+                        current_futures: float = None, long_iv: float = None,
+                        short_iv: float = None, expiry_date: str = None):
     prefix = SPREADS_CONFIG[spread_name]["prefix"]
     K1 = SPREADS_CONFIG[spread_name]["long_strike"]
     K2 = SPREADS_CONFIG[spread_name]["short_strike"]
-    
+    spread_width = K2 - K1
+
     if f"{prefix}_Spread" not in df.columns:
         return go.Figure()
 
@@ -666,7 +680,7 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str, entry_pri
     plot_df["Short"] = df[f"{prefix}_Short_Price"].values
     plot_df["Volume"] = df[f"{prefix}_Total_Volume"].values
     plot_df = plot_df.apply(pd.to_numeric, errors='coerce')
-    
+
     has_volume = plot_df["Volume"].sum() > 0
 
     spread_label = TRANSLATIONS[lang]["spread_title"]
@@ -694,7 +708,99 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str, entry_pri
             subplot_titles=(f"{display_name} {spread_label}", legs_label)
         )
 
-    # 1. Spread Trace
+    # --- P&L ZONE SHADING (row 1) ---
+    # Green: profit zone (entry -> max spread width)
+    # Red:   loss zone (0 -> entry)
+    if entry_price is not None:
+        fig.add_hrect(
+            y0=entry_price, y1=spread_width,
+            fillcolor="rgba(38,166,154,0.07)", line_width=0,
+            layer="below", row=1, col=1
+        )
+        fig.add_hrect(
+            y0=0, y1=entry_price,
+            fillcolor="rgba(239,83,80,0.07)", line_width=0,
+            layer="below", row=1, col=1
+        )
+
+    # Max profit cap line (at spread width)
+    cap_label = TRANSLATIONS[lang]["max_profit_cap"]
+    fig.add_hline(
+        y=spread_width, line_dash="dashdot", line_color="rgba(38,166,154,0.55)",
+        line_width=1,
+        annotation_text=f"{cap_label}: {spread_width:.0f}",
+        annotation_position="right",
+        annotation_font=dict(size=10, color="#26a69a"),
+        row=1, col=1
+    )
+
+    # --- VOLATILITY CONE (forward projection from today to expiry) ---
+    # Uses avg(long_iv, short_iv) as σ on the underlying VIX futures,
+    # projects futures ± 1σ/2σ log-normally, maps to intrinsic spread value.
+    cone_rendered = False
+    if (current_futures is not None and current_futures > 0 and
+        expiry_date is not None and
+        ((long_iv is not None and long_iv > 0) or (short_iv is not None and short_iv > 0))):
+        try:
+            ivs = [v for v in (long_iv, short_iv) if v is not None and v > 0]
+            avg_iv = (sum(ivs) / len(ivs)) / 100.0  # Bloomberg returns IV in %
+
+            today_dt = plot_df.index[-1] if len(plot_df.index) else pd.Timestamp.now().normalize()
+            expiry_dt = pd.to_datetime(expiry_date)
+
+            if expiry_dt > today_dt and avg_iv > 0:
+                fwd_days = pd.date_range(today_dt, expiry_dt, freq='B')
+                if len(fwd_days) >= 2:
+                    t_years = np.array([(d - today_dt).days / 365.0 for d in fwd_days])
+                    sigma_t = avg_iv * np.sqrt(np.maximum(t_years, 1e-6))
+
+                    f_up2 = current_futures * np.exp(2 * sigma_t)
+                    f_up1 = current_futures * np.exp(1 * sigma_t)
+                    f_dn1 = current_futures * np.exp(-1 * sigma_t)
+                    f_dn2 = current_futures * np.exp(-2 * sigma_t)
+
+                    def _intrinsic(f):
+                        return np.maximum(f - K1, 0) - np.maximum(f - K2, 0)
+
+                    s_up2 = _intrinsic(f_up2)
+                    s_up1 = _intrinsic(f_up1)
+                    s_dn1 = _intrinsic(f_dn1)
+                    s_dn2 = _intrinsic(f_dn2)
+
+                    cone_2s_label = TRANSLATIONS[lang]["cone_2sigma"]
+                    cone_1s_label = TRANSLATIONS[lang]["cone_1sigma"]
+
+                    # ±2σ outer band
+                    fig.add_trace(go.Scatter(
+                        x=fwd_days, y=s_up2,
+                        mode='lines', line=dict(color='rgba(66,165,245,0.25)', width=0),
+                        showlegend=False, hoverinfo='skip'
+                    ), row=1, col=1)
+                    fig.add_trace(go.Scatter(
+                        x=fwd_days, y=s_dn2,
+                        mode='lines', line=dict(color='rgba(66,165,245,0.25)', width=0),
+                        fill='tonexty', fillcolor='rgba(66,165,245,0.08)',
+                        name=cone_2s_label, hoverinfo='skip'
+                    ), row=1, col=1)
+
+                    # ±1σ inner band (darker)
+                    fig.add_trace(go.Scatter(
+                        x=fwd_days, y=s_up1,
+                        mode='lines', line=dict(color='rgba(66,165,245,0.4)', width=0),
+                        showlegend=False, hoverinfo='skip'
+                    ), row=1, col=1)
+                    fig.add_trace(go.Scatter(
+                        x=fwd_days, y=s_dn1,
+                        mode='lines', line=dict(color='rgba(66,165,245,0.4)', width=0),
+                        fill='tonexty', fillcolor='rgba(66,165,245,0.18)',
+                        name=cone_1s_label, hoverinfo='skip'
+                    ), row=1, col=1)
+
+                    cone_rendered = True
+        except Exception:
+            cone_rendered = False
+
+    # 1. Spread Trace (drawn on top of shading/cone)
     fig.add_trace(go.Scatter(
         x=plot_df.index, y=plot_df["Spread"],
         mode='lines', name=spread_label,
@@ -715,15 +821,15 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str, entry_pri
     if entry_price is not None:
         entry_label = "Entry" if lang == "en" else "入场"
         fig.add_hline(
-            y=entry_price, 
-            line_dash="dot", 
+            y=entry_price,
+            line_dash="dot",
             line_color="#ffa726",
             annotation_text=f"{entry_label}: {entry_price:.2f}",
             annotation_position="right",
             annotation_font=dict(size=10, color="#ffa726"),
             row=1, col=1
         )
-    
+
     # Entry Date Vertical Line
     if entry_date is not None:
         entry_dt = pd.to_datetime(entry_date)
@@ -732,6 +838,21 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str, entry_pri
             line_dash="dot",
             line_color="#ffa726",
             line_width=1,
+            row=1, col=1
+        )
+
+    # Expiry vertical line (only if we projected a cone or have expiry)
+    if cone_rendered and expiry_date is not None:
+        expiry_dt = pd.to_datetime(expiry_date)
+        expiry_lbl = "Expiry" if lang == "en" else "到期"
+        fig.add_vline(
+            x=expiry_dt,
+            line_dash="dot",
+            line_color="rgba(158,158,158,0.7)",
+            line_width=1,
+            annotation_text=expiry_lbl,
+            annotation_position="top",
+            annotation_font=dict(size=9, color="#9e9e9e"),
             row=1, col=1
         )
 
@@ -1812,7 +1933,14 @@ for tab, spread_name in zip(tabs, active_spreads):
         # 4. CHART
         chart_entry_price = trade_conf["entry_price"] if trade_conf else None
         chart_entry_date = trade_conf["entry_date"] if trade_conf else None
-        fig = create_spread_chart(df_chart, spread_name, st.session_state.language, chart_entry_price, chart_entry_date)
+        chart_expiry = SPREADS_CONFIG[spread_name]["expiry_date"]
+        fig = create_spread_chart(
+            df_chart, spread_name, st.session_state.language,
+            chart_entry_price, chart_entry_date,
+            current_futures=current_futures,
+            long_iv=long_iv, short_iv=short_iv,
+            expiry_date=chart_expiry,
+        )
         st.plotly_chart(fig, use_container_width=True, key=f"main_chart_{prefix}")
 
         # --- ANALYTICS SECTION ---
