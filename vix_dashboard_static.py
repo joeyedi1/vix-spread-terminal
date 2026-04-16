@@ -1852,11 +1852,14 @@ for tab, spread_name in zip(tabs, active_spreads):
         # --- P&L TRACKING SECTION ---
         trade_conf = TRADE_CONFIG.get(spread_name)
         if trade_conf:
+            # DTE / Days Held are calendar-live (tick down even if CSV is stale).
+            # Current price stays tied to the latest CSV row (data-driven).
+            live_today_str = datetime.now().strftime("%Y-%m-%d")
             pnl_data = calculate_pnl(
                 entry_price=trade_conf["entry_price"],
                 current_price=cur_spread,
                 entry_date=trade_conf["entry_date"],
-                current_date=current_date_str,
+                current_date=live_today_str,
                 expiry_date=trade_conf["expiry_date"]
             )
             
