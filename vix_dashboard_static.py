@@ -843,17 +843,22 @@ def create_spread_chart(df: pd.DataFrame, spread_name: str, lang: str,
 
     # Expiry vertical line (only if we projected a cone or have expiry)
     if cone_rendered and expiry_date is not None:
-        expiry_dt = pd.to_datetime(expiry_date)
         expiry_lbl = "Expiry" if lang == "en" else "到期"
-        fig.add_vline(
-            x=expiry_dt,
-            line_dash="dot",
-            line_color="rgba(158,158,158,0.7)",
-            line_width=1,
-            annotation_text=expiry_lbl,
-            annotation_position="top",
-            annotation_font=dict(size=9, color="#9e9e9e"),
-            row=1, col=1
+        # Plotly's annotation midpoint math chokes on pandas Timestamps when
+        # using add_vline + annotation — use add_shape + add_annotation instead.
+        fig.add_shape(
+            type="line",
+            x0=expiry_date, x1=expiry_date,
+            y0=0, y1=1, yref="y domain",
+            line=dict(color="rgba(158,158,158,0.7)", width=1, dash="dot"),
+            row=1, col=1,
+        )
+        fig.add_annotation(
+            x=expiry_date, y=1.0, yref="y domain",
+            text=expiry_lbl, showarrow=False,
+            font=dict(size=9, color="#9e9e9e"),
+            yshift=6,
+            row=1, col=1,
         )
 
     # 2. Legs Traces
