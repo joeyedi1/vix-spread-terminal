@@ -111,6 +111,7 @@ class BloombergEngine:
         request.append("fields", "PX_SETTLE")
         request.append("fields", "VOLUME")        # Try VOLUME instead of PX_VOLUME
         request.append("fields", "PX_VOLUME")     # Keep as backup
+        request.append("fields", "OPEN_INT")      # Open interest (standing contracts; better liquidity gauge than daily volume)
 
         # --- GREEKS (only populated for option tickers; futures/indices return nothing) ---
         request.append("fields", "IVOL_MID")      # Implied vol (mid)
@@ -229,7 +230,14 @@ class BloombergEngine:
                                 vol = point.getElementAsFloat("PX_VOLUME")
                                 if vol > 0:
                                     volume = vol
-                            
+
+                            # --- OPEN INTEREST ---
+                            oi = 0.0
+                            if point.hasElement("OPEN_INT"):
+                                oi_val = point.getElementAsFloat("OPEN_INT")
+                                if oi_val > 0:
+                                    oi = oi_val
+
                             # --- GREEKS (may be absent for non-options) ---
                             def _g(fld):
                                 if point.hasElement(fld):
@@ -245,6 +253,7 @@ class BloombergEngine:
                                 "Price": price,
                                 "PriceSource": price_source,
                                 "Volume": volume,
+                                "OI": oi,
                                 "IV": _g("IVOL_MID"),
                                 "Delta": _g("DELTA_MID"),
                                 "Gamma": _g("GAMMA_MID"),
@@ -473,24 +482,29 @@ def main():
                 l_row = date_df[date_df["Ticker"] == conf["long"]]
                 l_price = l_row["Price"].values[0] if not l_row.empty else 0.0
                 l_vol = l_row["Volume"].values[0] if not l_row.empty else 0.0
-                
+                l_oi = l_row["OI"].values[0] if not l_row.empty else 0.0
+
                 # Get Short Leg
                 s_row = date_df[date_df["Ticker"] == conf["short"]]
                 s_price = s_row["Price"].values[0] if not s_row.empty else 0.0
                 s_vol = s_row["Volume"].values[0] if not s_row.empty else 0.0
-                
+                s_oi = s_row["OI"].values[0] if not s_row.empty else 0.0
+
                 # Calculate Spread
                 if not l_row.empty and not s_row.empty and l_price > 0 and s_price > 0:
                     spread = l_price - s_price
                 else:
                     spread = None
-                
+
                 row[f"{prefix}_Long_Price"] = l_price
                 row[f"{prefix}_Short_Price"] = s_price
                 row[f"{prefix}_Long_Volume"] = l_vol
                 row[f"{prefix}_Short_Volume"] = s_vol
+                row[f"{prefix}_Long_OI"] = l_oi
+                row[f"{prefix}_Short_OI"] = s_oi
                 row[f"{prefix}_Spread"] = spread
                 row[f"{prefix}_Total_Volume"] = l_vol + s_vol
+                row[f"{prefix}_Total_OI"] = l_oi + s_oi
 
                 # --- GREEKS per leg ---
                 def _leg_greek(leg_row, field):

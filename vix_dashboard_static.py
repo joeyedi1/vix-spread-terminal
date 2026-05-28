@@ -127,6 +127,7 @@ TRANSLATIONS = {
         "short_leg": "Short Leg (C25)",
         "net_spread": "Net Spread",
         "volume": "Vol",
+        "oi_label": "OI",
         "spread_title": "Spread",
         "individual_legs": "Individual Legs",
         "volume_title": "Volume",
@@ -262,6 +263,7 @@ TRANSLATIONS = {
         "short_leg": "空头 (C25)",
         "net_spread": "净价差",
         "volume": "成交量",
+        "oi_label": "持仓量",
         "spread_title": "价差",
         "individual_legs": "单腿价格",
         "volume_title": "成交量",
@@ -1727,7 +1729,9 @@ for tab, spread_name in zip(tabs, active_spreads):
         cur_spread = get_val(latest, f"{prefix}_Spread")
         cur_l_vol = get_val(latest, f"{prefix}_Long_Volume")
         cur_s_vol = get_val(latest, f"{prefix}_Short_Volume")
-        
+        cur_l_oi = get_val(latest, f"{prefix}_Long_OI")
+        cur_s_oi = get_val(latest, f"{prefix}_Short_OI")
+
         prev_long = get_val(prev, f"{prefix}_Long_Price")
         prev_short = get_val(prev, f"{prefix}_Short_Price")
         prev_spread = get_val(prev, f"{prefix}_Spread")
@@ -1743,11 +1747,11 @@ for tab, spread_name in zip(tabs, active_spreads):
         # 2. RENDER METRICS (4 COLUMNS - added futures)
         c1, c2, c3, c4 = st.columns(4)
         
-        def render_metric(col, label, val, delta, vol=None, is_futures=False):
+        def render_metric(col, label, val, delta, vol=None, is_futures=False, oi=None):
             delta_cls = "positive" if delta > 0 else "negative" if delta < 0 else "neutral"
             sign = "+" if delta > 0 else ""
             arrow = "▲" if delta > 0 else "▼" if delta < 0 else "−"
-            
+
             html = [
                 f'<div class="metric-card">',
                 f'<div class="metric-label">{label}</div>',
@@ -1755,7 +1759,10 @@ for tab, spread_name in zip(tabs, active_spreads):
                 f'<div class="metric-delta delta-{delta_cls}">{arrow} {sign}{delta:.2f}</div>'
             ]
             if vol is not None:
-                html.append(f'<div class="volume-text">{t("volume")}: {int(vol):,}</div>')
+                liq = f'{t("volume")}: {int(vol):,}'
+                if oi is not None and oi > 0:
+                    liq += f' &nbsp;|&nbsp; {t("oi_label")}: {int(oi):,}'
+                html.append(f'<div class="volume-text">{liq}</div>')
             else:
                 html.append('<div class="volume-text">&nbsp;</div>')
             html.append('</div>')
@@ -1784,8 +1791,8 @@ for tab, spread_name in zip(tabs, active_spreads):
             long_label = f"多头 (C{K1})"
             short_label = f"空头 (C{K2})"
             
-        render_metric(c2, long_label, cur_long, d_long, cur_l_vol)
-        render_metric(c3, short_label, cur_short, d_short, cur_s_vol)
+        render_metric(c2, long_label, cur_long, d_long, cur_l_vol, oi=cur_l_oi)
+        render_metric(c3, short_label, cur_short, d_short, cur_s_vol, oi=cur_s_oi)
         render_metric(c4, t('net_spread'), cur_spread, d_spread)
         
         # 3. VALUATION LINE
