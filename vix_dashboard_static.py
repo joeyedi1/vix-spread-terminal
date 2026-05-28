@@ -1028,7 +1028,7 @@ if 'mar_2040_entry_price' not in st.session_state:
 if 'may_entry_price' not in st.session_state:
     st.session_state.may_entry_price = 0.61
 if 'jun_entry_price' not in st.session_state:
-    st.session_state.jun_entry_price = 0.70
+    st.session_state.jun_entry_price = 0.34
 
 today = datetime.now().date()
 
@@ -1206,7 +1206,7 @@ TRADE_CONFIG = {
         "expiry_date": "2026-05-19",
     },
     "Jun 2026": {
-        "entry_date": st.session_state.trade_entry_date.strftime("%Y-%m-%d"),
+        "entry_date": "2026-05-28",
         "entry_price": st.session_state.jun_entry_price,
         "expiry_date": "2026-06-17",
     },

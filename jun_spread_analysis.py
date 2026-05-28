@@ -18,11 +18,11 @@ from pathlib import Path
 
 # --- CONFIG ---
 OUTPUT_CSV = Path("jun_spread_intraday.csv")
-START_DATE = "20260116"  # UPDATE to actual June entry date (YYYYMMDD)
+START_DATE = "20260528"  # June entry date
 END_DATE = "20260617"    # Jun expiry date
 
-# Entry price (UPDATE to actual fill once entered)
-ENTRY_C20_C25 = 0.70
+# Entry price
+ENTRY_C20_C25 = 0.34
 
 TICKERS = {
     "C20": "VIX US 06/17/26 C20 Index",
