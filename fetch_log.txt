@@ -2792,3 +2792,2105 @@ Fetching Greek snapshot for 7 tickers...
 ✅ Successfully pushed to GitHub!
 Run finished at Thu 04/16/2026  5:15:15.68 
 ========================================== 
+========================================== 
+Run started at Fri 04/17/2026  5:15:02.58 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 136
+
+   Latest data point:
+   Date: 2026-04-16
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 20.45
+     Long (C25): 1.25
+     Short (C35): 0.63
+     Spread: 0.62
+     Futures distance to C25: -4.55
+     Futures distance to C35: -14.55
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 8450004] Auto-update VIX Data: 2026-04-17 05:15:26
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Fri 04/17/2026  5:15:28.98 
+========================================== 
+========================================== 
+Run started at Sat 04/18/2026  5:15:02.62 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 137
+
+   Latest data point:
+   Date: 2026-04-17
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 20.40
+     Long (C25): 1.12
+     Short (C35): 0.55
+     Spread: 0.57
+     Futures distance to C25: -4.60
+     Futures distance to C35: -14.60
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 525a9de] Auto-update VIX Data: 2026-04-18 05:15:27
+ 1 file changed, 137 insertions(+), 136 deletions(-)
+✅ Successfully pushed to GitHub!
+Run finished at Sat 04/18/2026  5:15:29.77 
+========================================== 
+========================================== 
+Run started at Sun 04/19/2026  5:15:02.01 
+
+19APR2026_05:15:27.972 22228:33892 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+19APR2026_05:15:27.974 22228:33892 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+19APR2026_05:15:47.160 22228:33892 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+19APR2026_05:15:47.160 22228:33892 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+19APR2026_05:16:06.895 22228:33892 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+19APR2026_05:16:06.895 22228:33892 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+19APR2026_05:16:06.895 22228:33892 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+19APR2026_05:16:06.897 22228:38944 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 392, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 71, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 80, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Sun 04/19/2026  5:16:06.98 
+========================================== 
+========================================== 
+Run started at Mon 04/20/2026  5:15:02.36 
+
+20APR2026_05:15:29.641 45068:36956 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+20APR2026_05:15:29.642 45068:36956 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+20APR2026_05:15:49.110 45068:36956 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+20APR2026_05:15:49.110 45068:36956 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+20APR2026_05:16:09.122 45068:36956 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+20APR2026_05:16:09.123 45068:36956 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+20APR2026_05:16:09.123 45068:36956 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+20APR2026_05:16:09.125 45068:45400 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 392, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 71, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 80, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Mon 04/20/2026  5:16:09.18 
+========================================== 
+========================================== 
+Run started at Tue 04/21/2026  5:15:01.85 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 138
+
+   Latest data point:
+   Date: 2026-04-20
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 20.45
+     Long (C25): 1.14
+     Short (C35): 0.56
+     Spread: 0.58
+     Futures distance to C25: -4.55
+     Futures distance to C35: -14.55
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 3fe6cab] Auto-update VIX Data: 2026-04-21 05:15:19
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Tue 04/21/2026  5:15:22.05 
+========================================== 
+========================================== 
+Run started at Wed 04/22/2026  5:15:02.35 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 139
+
+   Latest data point:
+   Date: 2026-04-21
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 20.79
+     Long (C25): 1.24
+     Short (C35): 0.64
+     Spread: 0.60
+     Futures distance to C25: -4.21
+     Futures distance to C35: -14.21
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 70b6c84] Auto-update VIX Data: 2026-04-22 05:15:22
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Wed 04/22/2026  5:15:24.42 
+========================================== 
+========================================== 
+Run started at Thu 04/23/2026  5:15:02.26 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 140
+
+   Latest data point:
+   Date: 2026-04-22
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 20.60
+     Long (C25): 1.15
+     Short (C35): 0.54
+     Spread: 0.61
+     Futures distance to C25: -4.40
+     Futures distance to C35: -14.40
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 0953fb9] Auto-update VIX Data: 2026-04-23 05:15:20
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Thu 04/23/2026  5:15:23.57 
+========================================== 
+========================================== 
+Run started at Fri 04/24/2026  5:15:02.17 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 141
+
+   Latest data point:
+   Date: 2026-04-23
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 20.80
+     Long (C25): 1.15
+     Short (C35): 0.50
+     Spread: 0.65
+     Futures distance to C25: -4.20
+     Futures distance to C35: -14.20
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main e786d22] Auto-update VIX Data: 2026-04-24 05:15:21
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+✅ Successfully pushed to GitHub!
+Run finished at Fri 04/24/2026  5:15:23.57 
+========================================== 
+========================================== 
+Run started at Sat 04/25/2026  5:15:02.16 
+
+25APR2026_05:15:19.231 5920:58176 WARN blpapi_subscriptionmanager.cpp:7242 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+25APR2026_05:15:19.549 5920:58176 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+25APR2026_05:15:19.549 5920:58176 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+25APR2026_05:15:19.549 5920:58176 WARN blpapi_subscriptionmanager.cpp:7242 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+25APR2026_05:15:19.909 5920:58176 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+25APR2026_05:15:19.909 5920:58176 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+25APR2026_05:15:19.910 5920:58176 WARN blpapi_subscriptionmanager.cpp:7242 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+25APR2026_05:15:20.262 5920:58176 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.clusterservicehandler.subscriptionmanager Could not find a service for serviceCode: 90. 
+
+25APR2026_05:15:20.262 5920:58176 WARN blpapi_subscriptionmanager.cpp:7299 blpapi.session.{1}.subscriptionmanager Could not find a service for serviceCode: 90. 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 142
+
+   Latest data point:
+   Date: 2026-04-24
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 20.80
+     Long (C25): 1.10
+     Short (C35): 0.45
+     Spread: 0.65
+     Futures distance to C25: -4.20
+     Futures distance to C35: -14.20
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 10e49fc] Auto-update VIX Data: 2026-04-25 05:15:30
+ 1 file changed, 110 insertions(+), 109 deletions(-)
+✅ Successfully pushed to GitHub!
+Run finished at Sat 04/25/2026  5:15:32.70 
+========================================== 
+========================================== 
+Run started at Sun 04/26/2026  5:15:02.06 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 142
+
+   Latest data point:
+   Date: 2026-04-24
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 20.80
+     Long (C25): 1.10
+     Short (C35): 0.45
+     Spread: 0.65
+     Futures distance to C25: -4.20
+     Futures distance to C35: -14.20
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Sun 04/26/2026  5:15:20.13 
+========================================== 
+========================================== 
+Run started at Mon 04/27/2026  5:15:02.11 
+
+27APR2026_05:15:30.147 65412:66060 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+27APR2026_05:15:30.148 65412:66060 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+27APR2026_05:15:49.844 65412:66060 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+27APR2026_05:15:49.844 65412:66060 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+27APR2026_05:16:09.304 65412:66060 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+27APR2026_05:16:09.304 65412:66060 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+27APR2026_05:16:09.304 65412:66060 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+27APR2026_05:16:09.306 65412:62972 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 392, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 71, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 80, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Mon 04/27/2026  5:16:09.39 
+========================================== 
+========================================== 
+Run started at Tue 04/28/2026  5:15:02.09 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 143
+
+   Latest data point:
+   Date: 2026-04-27
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 20.05
+     Long (C25): 0.83
+     Short (C35): 0.34
+     Spread: 0.49
+     Futures distance to C25: -4.95
+     Futures distance to C35: -14.95
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main b4ecc78] Auto-update VIX Data: 2026-04-28 05:15:26
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Tue 04/28/2026  5:15:29.25 
+========================================== 
+========================================== 
+Run started at Wed 04/29/2026  5:15:02.03 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 144
+
+   Latest data point:
+   Date: 2026-04-28
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.70
+     Long (C25): 0.68
+     Short (C35): 0.25
+     Spread: 0.43
+     Futures distance to C25: -5.30
+     Futures distance to C35: -15.30
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 2f15aee] Auto-update VIX Data: 2026-04-29 05:15:22
+ 1 file changed, 112 insertions(+), 111 deletions(-)
+✅ Successfully pushed to GitHub!
+Run finished at Wed 04/29/2026  5:15:26.23 
+========================================== 
+========================================== 
+Run started at Thu 04/30/2026  5:15:02.23 
+
+30APR2026_05:15:28.258 67336:83044 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+30APR2026_05:15:28.260 67336:83044 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+30APR2026_05:15:47.855 67336:83044 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+30APR2026_05:15:47.855 67336:83044 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+30APR2026_05:16:07.533 67336:83044 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+30APR2026_05:16:07.533 67336:83044 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+30APR2026_05:16:07.533 67336:83044 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+30APR2026_05:16:07.534 67336:62132 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 392, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 71, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 80, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Thu 04/30/2026  5:16:07.61 
+========================================== 
+========================================== 
+Run started at Fri 05/01/2026  5:15:01.97 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 146
+
+   Latest data point:
+   Date: 2026-04-30
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.40
+     Long (C25): 0.64
+     Short (C35): 0.27
+     Spread: 0.37
+     Futures distance to C25: -5.60
+     Futures distance to C35: -15.60
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main e0e8f14] Auto-update VIX Data: 2026-05-01 05:15:25
+ 1 file changed, 146 insertions(+), 144 deletions(-)
+✅ Successfully pushed to GitHub!
+Run finished at Fri 05/01/2026  5:15:27.94 
+========================================== 
+========================================== 
+Run started at Sat 05/02/2026  5:15:02.53 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 147
+
+   Latest data point:
+   Date: 2026-05-01
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.76
+     Long (C25): 0.69
+     Short (C35): 0.26
+     Spread: 0.43
+     Futures distance to C25: -5.24
+     Futures distance to C35: -15.24
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 9cd12e6] Auto-update VIX Data: 2026-05-02 05:15:27
+ 1 file changed, 95 insertions(+), 94 deletions(-)
+✅ Successfully pushed to GitHub!
+Run finished at Sat 05/02/2026  5:15:30.54 
+========================================== 
+========================================== 
+Run started at Sun 05/03/2026  5:15:02.08 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 147
+
+   Latest data point:
+   Date: 2026-05-01
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.76
+     Long (C25): 0.69
+     Short (C35): 0.26
+     Spread: 0.43
+     Futures distance to C25: -5.24
+     Futures distance to C35: -15.24
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 12c1467] Auto-update VIX Data: 2026-05-03 05:15:24
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Sun 05/03/2026  5:15:26.73 
+========================================== 
+========================================== 
+Run started at Mon 05/04/2026  5:15:02.90 
+
+04MAY2026_05:15:29.650 58164:103816 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+04MAY2026_05:15:29.651 58164:103816 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+04MAY2026_05:15:49.527 58164:103816 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+04MAY2026_05:15:49.527 58164:103816 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+04MAY2026_05:16:08.611 58164:103816 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+04MAY2026_05:16:08.611 58164:103816 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+04MAY2026_05:16:08.611 58164:103816 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+04MAY2026_05:16:08.613 58164:57828 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 392, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 71, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 80, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Mon 05/04/2026  5:16:08.68 
+========================================== 
+========================================== 
+Run started at Tue 05/05/2026  5:15:02.92 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 148
+
+   Latest data point:
+   Date: 2026-05-04
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 20.00
+     Long (C25): 0.73
+     Short (C35): 0.26
+     Spread: 0.47
+     Futures distance to C25: -5.00
+     Futures distance to C35: -15.00
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main f1b7da7] Auto-update VIX Data: 2026-05-05 05:15:25
+ 1 file changed, 96 insertions(+), 95 deletions(-)
+✅ Successfully pushed to GitHub!
+Run finished at Tue 05/05/2026  5:15:27.84 
+========================================== 
+========================================== 
+Run started at Wed 05/06/2026  5:15:03.48 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 149
+
+   Latest data point:
+   Date: 2026-05-05
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.55
+     Long (C25): 0.58
+     Short (C35): 0.21
+     Spread: 0.37
+     Futures distance to C25: -5.45
+     Futures distance to C35: -15.45
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main b9a335a] Auto-update VIX Data: 2026-05-06 05:15:16
+ 1 file changed, 97 insertions(+), 96 deletions(-)
+✅ Successfully pushed to GitHub!
+Run finished at Wed 05/06/2026  5:15:19.05 
+========================================== 
+========================================== 
+Run started at Thu 05/07/2026  5:15:02.88 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 150
+
+   Latest data point:
+   Date: 2026-05-06
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.25
+     Long (C25): 0.46
+     Short (C35): 0.16
+     Spread: 0.30
+     Futures distance to C25: -5.75
+     Futures distance to C35: -15.75
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 9a9a10e] Auto-update VIX Data: 2026-05-07 05:15:21
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Thu 05/07/2026  5:15:23.76 
+========================================== 
+========================================== 
+Run started at Fri 05/08/2026  5:15:02.55 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 151
+
+   Latest data point:
+   Date: 2026-05-07
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.30
+     Long (C25): 0.40
+     Short (C35): 0.18
+     Spread: 0.22
+     Futures distance to C25: -5.70
+     Futures distance to C35: -15.70
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 4a26ba1] Auto-update VIX Data: 2026-05-08 05:15:19
+ 1 file changed, 151 insertions(+), 150 deletions(-)
+✅ Successfully pushed to GitHub!
+Run finished at Fri 05/08/2026  5:15:22.72 
+========================================== 
+========================================== 
+Run started at Sat 05/09/2026  5:15:03.09 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 152
+
+   Latest data point:
+   Date: 2026-05-08
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.10
+     Long (C25): 0.42
+     Short (C35): 0.16
+     Spread: 0.26
+     Futures distance to C25: -5.90
+     Futures distance to C35: -15.90
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main df1f6d7] Auto-update VIX Data: 2026-05-09 05:15:25
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Sat 05/09/2026  5:15:27.83 
+========================================== 
+========================================== 
+Run started at Sun 05/10/2026  5:15:02.84 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 152
+
+   Latest data point:
+   Date: 2026-05-08
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.10
+     Long (C25): 0.42
+     Short (C35): 0.16
+     Spread: 0.26
+     Futures distance to C25: -5.90
+     Futures distance to C35: -15.90
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+   ✓ git add OK
+❌ git commit failed:
+   stdout: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   fetch_log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   stderr: 
+Run finished at Sun 05/10/2026  5:15:21.97 
+========================================== 
+========================================== 
+Run started at Mon 05/11/2026  5:15:02.46 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 153
+
+   Latest data point:
+   Date: 2026-05-11
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.10
+     Long (C25): 0.00
+     Short (C35): 0.00
+     Spread: N/A
+     Futures distance to C25: -5.90
+     Futures distance to C35: -15.90
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 9f1f6cc] Auto-update VIX Data: 2026-05-11 05:15:21
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Mon 05/11/2026  5:15:24.07 
+========================================== 
+========================================== 
+Run started at Tue 05/12/2026  5:15:02.18 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 153
+
+   Latest data point:
+   Date: 2026-05-11
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.45
+     Long (C25): 0.35
+     Short (C35): 0.13
+     Spread: 0.22
+     Futures distance to C25: -5.55
+     Futures distance to C35: -15.55
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 3584ff6] Auto-update VIX Data: 2026-05-12 05:15:17
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Tue 05/12/2026  5:15:20.46 
+========================================== 
+========================================== 
+Run started at Wed 05/13/2026  5:15:02.22 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 154
+
+   Latest data point:
+   Date: 2026-05-12
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.05
+     Long (C25): 0.28
+     Short (C35): 0.12
+     Spread: 0.16
+     Futures distance to C25: -5.95
+     Futures distance to C35: -15.95
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main a409b54] Auto-update VIX Data: 2026-05-13 05:15:22
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Wed 05/13/2026  5:15:26.00 
+========================================== 
+========================================== 
+Run started at Thu 05/14/2026  5:15:02.19 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 155
+
+   Latest data point:
+   Date: 2026-05-13
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 18.90
+     Long (C25): 0.23
+     Short (C35): 0.10
+     Spread: 0.13
+     Futures distance to C25: -6.10
+     Futures distance to C35: -16.10
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 713de1f] Auto-update VIX Data: 2026-05-14 05:15:17
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Thu 05/14/2026  5:15:20.11 
+========================================== 
+========================================== 
+Run started at Fri 05/15/2026  5:15:02.27 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 156
+
+   Latest data point:
+   Date: 2026-05-14
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 18.40
+     Long (C25): 0.13
+     Short (C35): 0.08
+     Spread: 0.05
+     Futures distance to C25: -6.60
+     Futures distance to C35: -16.60
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 34e2cf1] Auto-update VIX Data: 2026-05-15 05:15:19
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Fri 05/15/2026  5:15:22.00 
+========================================== 
+========================================== 
+Run started at Sat 05/16/2026  5:15:02.28 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 157
+
+   Latest data point:
+   Date: 2026-05-15
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 19.23
+     Long (C25): 0.20
+     Short (C35): 0.10
+     Spread: 0.10
+     Futures distance to C25: -5.77
+     Futures distance to C35: -15.77
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 2565c3c] Auto-update VIX Data: 2026-05-16 05:15:21
+ 1 file changed, 124 insertions(+), 123 deletions(-)
+✅ Successfully pushed to GitHub!
+Run finished at Sat 05/16/2026  5:15:24.29 
+========================================== 
+========================================== 
+Run started at Sun 05/17/2026  5:15:02.50 
+
+17MAY2026_05:15:32.654 87324:38832 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+17MAY2026_05:15:32.655 87324:38832 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+17MAY2026_05:15:52.579 87324:38832 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+17MAY2026_05:15:52.579 87324:38832 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+17MAY2026_05:16:12.525 87324:38832 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+17MAY2026_05:16:12.525 87324:38832 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+17MAY2026_05:16:12.525 87324:38832 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+17MAY2026_05:16:12.526 87324:37912 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 392, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 71, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 80, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Sun 05/17/2026  5:16:12.63 
+========================================== 
+========================================== 
+Run started at Mon 05/18/2026  5:15:02.42 
+
+18MAY2026_05:15:34.114 9308:90292 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+18MAY2026_05:15:34.116 9308:90292 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+18MAY2026_05:15:53.286 9308:90292 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+18MAY2026_05:15:53.286 9308:90292 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+18MAY2026_05:16:12.420 9308:90292 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+18MAY2026_05:16:12.420 9308:90292 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+18MAY2026_05:16:12.420 9308:90292 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+18MAY2026_05:16:12.422 9308:39916 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 392, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 71, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 80, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Mon 05/18/2026  5:16:12.54 
+========================================== 
+========================================== 
+Run started at Tue 05/19/2026  5:15:02.28 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 158
+
+   Latest data point:
+   Date: 2026-05-18
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 17.70
+     Long (C25): 0.03
+     Short (C35): 0.01
+     Spread: 0.02
+     Futures distance to C25: -7.30
+     Futures distance to C35: -17.30
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 2f8a84e] Auto-update VIX Data: 2026-05-19 05:15:22
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Tue 05/19/2026  5:15:24.79 
+========================================== 
+========================================== 
+Run started at Wed 05/20/2026  5:15:02.39 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 159
+
+   Latest data point:
+   Date: 2026-05-19
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 17.60
+     Long (C25): 0.00
+     Short (C35): 0.00
+     Spread: N/A
+     Futures distance to C25: -7.40
+     Futures distance to C35: -17.40
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 4443192] Auto-update VIX Data: 2026-05-20 05:15:19
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Wed 05/20/2026  5:15:22.64 
+========================================== 
+========================================== 
+Run started at Thu 05/21/2026  5:15:02.11 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 160
+
+   Latest data point:
+   Date: 2026-05-20
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 0.00
+     Long (C25): 0.00
+     Short (C35): 0.00
+     Spread: N/A
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main a22a3b1] Auto-update VIX Data: 2026-05-21 05:15:18
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Thu 05/21/2026  5:15:21.22 
+========================================== 
+========================================== 
+Run started at Fri 05/22/2026  5:15:02.32 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 161
+
+   Latest data point:
+   Date: 2026-05-21
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 0.00
+     Long (C25): 0.00
+     Short (C35): 0.00
+     Spread: N/A
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main b834ecf] Auto-update VIX Data: 2026-05-22 05:15:22
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Fri 05/22/2026  5:15:25.25 
+========================================== 
+========================================== 
+Run started at Sat 05/23/2026  5:15:02.42 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 162
+
+   Latest data point:
+   Date: 2026-05-22
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 0.00
+     Long (C25): 0.00
+     Short (C35): 0.00
+     Spread: N/A
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 49779fc] Auto-update VIX Data: 2026-05-23 05:15:27
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Sat 05/23/2026  5:15:30.78 
+========================================== 
+========================================== 
+Run started at Sun 05/24/2026  5:15:02.19 
+
+24MAY2026_05:15:33.589 16100:3492 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+24MAY2026_05:15:33.590 16100:3492 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+24MAY2026_05:15:53.423 16100:3492 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+24MAY2026_05:15:53.423 16100:3492 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+24MAY2026_05:16:12.951 16100:3492 WARN apicm_apiconnector.cpp:385 ApiConnector::socketConnectorCallback localhost: Failed to connect to 127.0.0.1:8194, status=1, error 8 connect event failed 
+
+24MAY2026_05:16:12.952 16100:3492 WARN blpapi_platformtransporttcp.cpp:140 blpapi.session.{1}.transporttcp<0><localhost:8194> 127.0.0.1, session pool state=Failed 
+
+24MAY2026_05:16:12.952 16100:3492 WARN blpapi_platformcontroller.cpp:764 blpapi.session.{1}.platformcontroller Platform failed 3 consecutive times, stopped trying to reconnect. { PlatformId=0 }  
+
+24MAY2026_05:16:12.953 16100:16004 ERROR blpapi_sessionimpl.cpp:2895 blpapi.session.{1} Failed to start session. { ErrorInfo=[ source = "ApiConnector" code = 8 category = "IO_ERROR" errorMessage = "connect event failed" subcategory = NULL ] RequestId=NULL }  
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 392, in main
+    engine = BloombergEngine()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 71, in __init__
+    self._connect()
+  File "C:\Users\Admin\Desktop\joe\VIX dashboard\vix_data_fetcher.py", line 80, in _connect
+    raise ConnectionError("Failed to start Bloomberg session")
+ConnectionError: Failed to start Bloomberg session
+Connecting to Bloomberg Terminal...
+❌ Error: Failed to start Bloomberg session
+Run finished at Sun 05/24/2026  5:16:13.05 
+========================================== 
+========================================== 
+Run started at Mon 05/25/2026  5:15:02.07 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 163
+
+   Latest data point:
+   Date: 2026-05-25
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 0.00
+     Long (C25): 0.00
+     Short (C35): 0.00
+     Spread: N/A
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main f719892] Auto-update VIX Data: 2026-05-25 05:15:26
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Mon 05/25/2026  5:15:28.57 
+========================================== 
+========================================== 
+Run started at Tue 05/26/2026  5:15:02.90 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 163
+
+   Latest data point:
+   Date: 2026-05-25
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 0.00
+     Long (C25): 0.00
+     Short (C35): 0.00
+     Spread: N/A
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 3583d0c] Auto-update VIX Data: 2026-05-26 05:15:23
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Tue 05/26/2026  5:15:26.06 
+========================================== 
+========================================== 
+Run started at Wed 05/27/2026  5:15:02.95 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 164
+
+   Latest data point:
+   Date: 2026-05-26
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 0.00
+     Long (C25): 0.00
+     Short (C35): 0.00
+     Spread: N/A
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 74ed885] Auto-update VIX Data: 2026-05-27 05:15:21
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Wed 05/27/2026  5:15:24.60 
+========================================== 
+========================================== 
+Run started at Thu 05/28/2026  5:15:01.90 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 19 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 7 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 165
+
+   Latest data point:
+   Date: 2026-05-27
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 0.00
+     Long (C25): 0.00
+     Short (C35): 0.00
+     Spread: N/A
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main 6c906b6] Auto-update VIX Data: 2026-05-28 05:15:29
+ 1 file changed, 1 insertion(+)
+✅ Successfully pushed to GitHub!
+Run finished at Thu 05/28/2026  5:15:32.70 
+========================================== 
