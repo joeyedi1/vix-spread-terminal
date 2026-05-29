@@ -6,7 +6,7 @@ import subprocess
 from pathlib import Path
 
 # --- CONFIGURATION ---
-CSV_PATH = Path("vix_spread_data.csv")
+CSV_PATH = Path("data/vix_spread_data.csv")
 START_DATE = "20251001"  # Adjusted for 90-day lookback
 
 # Debug mode - set to True to see what Bloomberg returns

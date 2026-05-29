@@ -92,13 +92,28 @@ The dashboard will open in your browser at `http://localhost:8501`
 
 ```
 vix-spread-terminal/
-├── vix_data_fetcher.py      # Bloomberg data fetcher
-├── vix_dashboard_static.py  # Main Streamlit dashboard
-├── vix_dashboard_test.py    # Testing dashboard version
-├── vix_dashboard.py         # Alternative dashboard version
-├── vix_spread_data.csv      # Generated data file (after running fetcher)
-├── requirements.txt         # Python dependencies
-└── README.md               # This file
+├── vix_data_fetcher.py          # Bloomberg data fetcher (main)
+├── vix_dashboard_static.py      # Main Streamlit dashboard
+├── auto_run.bat                 # Scheduled fetch + auto-commit script
+├── requirements.txt             # Python dependencies
+├── README.md                    # This file
+├── data/                        # Generated CSV/XLSX data files
+│   ├── vix_spread_data.csv      # Main data file (after running fetcher)
+│   ├── feb_spread_intraday.csv
+│   ├── mar_spread_intraday.csv
+│   └── mar_2040_spread_intraday.csv
+├── logs/                        # Runtime logs
+│   └── fetch_log.txt            # auto_run.bat output log
+├── analysis/                    # One-off spread analysis generators
+│   ├── feb_spread_analysis.py
+│   ├── mar_spread_analysis.py
+│   └── jun_spread_analysis.py
+├── tests/                       # Test / debug dashboards
+│   ├── vix_dashboard_test.py
+│   └── dash_test.py
+└── archive/                     # Retired versions
+    ├── vix_dashboard.py         # Alternative (xlsx-based) dashboard
+    └── vix_spread_daily_log.xlsx
 ```
 
 ## ⚙️ Configuration

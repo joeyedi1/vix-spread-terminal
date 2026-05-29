@@ -4894,3 +4894,63 @@ Fetching Greek snapshot for 7 tickers...
 ✅ Successfully pushed to GitHub!
 Run finished at Thu 05/28/2026  5:15:32.70 
 ========================================== 
+========================================== 
+Run started at Fri 05/29/2026  5:15:01.94 
+Connecting to Bloomberg Terminal...
+Connected.
+
+Tickers to fetch: ['UXG26 Index', 'VIX US 02/18/26 C20 Index', 'VIX US 02/18/26 C25 Index', 'UXH26 Index', 'VIX US 03/18/26 C20 Index', 'VIX US 03/18/26 C25 Index', 'VIX US 03/18/26 C40 Index', 'UXK26 Index', 'VIX US 05/19/26 C25 Index', 'VIX US 05/19/26 C35 Index', 'UXM26 Index', 'VIX US 06/17/26 C20 Index', 'VIX US 06/17/26 C25 Index', 'UX1 Index', 'UX2 Index', 'UX3 Index', 'UX4 Index', 'UX5 Index', 'UX6 Index', 'UX7 Index', 'UX8 Index', 'VVIX Index']
+Fetching history for 22 tickers from 20251001...
+Processing data...
+Fetching Greek snapshot for 9 tickers...
+
+✅ Success! Data saved to vix_spread_data.csv
+   Total Days: 165
+
+   Latest data point:
+   Date: 2026-05-28
+
+   Feb 2026 (C20/C25):
+     VIX Futures (UXG26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 (C20/C25):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C25): 0.00
+     Spread: N/A
+
+   Mar 2026 20-40 (C20/C40):
+     VIX Futures (UXH26 Index): 0.00
+     Long (C20): 0.00
+     Short (C40): 0.00
+     Spread: N/A
+
+   May 2026 (C25/C35):
+     VIX Futures (UXK26 Index): 0.00
+     Long (C25): 0.00
+     Short (C35): 0.00
+     Spread: N/A
+
+   Jun 2026 (C20/C25):
+     VIX Futures (UXM26 Index): 17.91
+     Long (C20): 0.83
+     Short (C25): 0.40
+     Spread: 0.43
+     Futures distance to C20: -2.09
+     Futures distance to C25: -7.09
+
+🚀 Starting Git Push for vix_spread_data.csv...
+   CWD: C:\Users\Admin\Desktop\joe\VIX dashboard
+   File exists: True
+   Git repo: .git
+   Git status: M fetch_log.txt
+ M vix_spread_data.csv
+   ✓ git add OK
+   ✓ git commit OK: [main ae86287] Auto-update VIX Data: 2026-05-29 05:15:20
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+✅ Successfully pushed to GitHub!
+Run finished at Fri 05/29/2026  5:15:22.81 
+========================================== 

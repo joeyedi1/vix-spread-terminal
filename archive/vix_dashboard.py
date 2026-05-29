@@ -145,7 +145,7 @@ SPREADS_CONFIG = {
     },
 }
 
-DAILY_LOG_PATH = Path("vix_spread_daily_log.xlsx")
+DAILY_LOG_PATH = Path("archive/vix_spread_daily_log.xlsx")
 
 # --- 4. SESSION STATE FOR LANGUAGE ---
 if 'language' not in st.session_state:

@@ -17,7 +17,7 @@ import datetime
 from pathlib import Path
 
 # --- CONFIG ---
-OUTPUT_CSV = Path("jun_spread_intraday.csv")
+OUTPUT_CSV = Path("data/jun_spread_intraday.csv")
 START_DATE = "20260528"  # June entry date
 END_DATE = "20260617"    # Jun expiry date
 

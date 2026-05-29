@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 # --- 2. CONFIGURATION ---
-CSV_PATH = Path("vix_spread_data.csv")
+CSV_PATH = Path("data/vix_spread_data.csv")
 
 # --- UPDATED: Added futures ticker reference for each spread ---
 SPREADS_CONFIG = {
@@ -1077,7 +1077,7 @@ current_date_str = latest['Date'].strftime('%Y-%m-%d')
 st.caption(f"{t('last_updated')}: {current_date_str}")
 
 # --- FEB 2026 POST-MORTEM SECTION ---
-PM_CSV = Path("feb_spread_intraday.csv")
+PM_CSV = Path("data/feb_spread_intraday.csv")
 if PM_CSV.exists():
     @st.cache_data
     def load_pm_data(path):

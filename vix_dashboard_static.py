@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 # --- 2. CONFIGURATION ---
-CSV_PATH = Path("vix_spread_data.csv")
+CSV_PATH = Path("data/vix_spread_data.csv")
 
 # --- UPDATED: Added futures ticker reference for each spread ---
 SPREADS_CONFIG = {
@@ -70,7 +70,7 @@ SPREAD_KEYS = ["Feb 2026", "Mar 2026", "Mar 2026 20-40", "May 2026", "Jun 2026"]
 # --- POST-MORTEM CONFIGS (one per expired spread) ---
 POST_MORTEM_CONFIG = [
     {
-        "csv": "feb_spread_intraday.csv",
+        "csv": "data/feb_spread_intraday.csv",
         "label_en": "📋 Feb 2026 C20/C25 Post-Mortem (Expired)",
         "label_zh": "📋 2026年2月 C20/C25 交易复盘（已到期）",
         "entry_price": 0.63,
@@ -82,7 +82,7 @@ POST_MORTEM_CONFIG = [
         "key": "feb",
     },
     {
-        "csv": "mar_spread_intraday.csv",
+        "csv": "data/mar_spread_intraday.csv",
         "label_en": "📋 Mar 2026 C20/C25 Post-Mortem (Expired)",
         "label_zh": "📋 2026年3月 C20/C25 交易复盘（已到期）",
         "entry_price": 0.91,
@@ -94,7 +94,7 @@ POST_MORTEM_CONFIG = [
         "key": "mar",
     },
     {
-        "csv": "mar_2040_spread_intraday.csv",
+        "csv": "data/mar_2040_spread_intraday.csv",
         "label_en": "📋 Mar 2026 C20/C40 Post-Mortem (Expired)",
         "label_zh": "📋 2026年3月 C20/C40 交易复盘（已到期）",
         "entry_price": 1.45,
